@@ -1,39 +1,57 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Header from "../components/Header"
+import Notification from "../components/Notification"
 
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [message, setMessage] = useState('')
+    const [notificationMessage, setNotificationMessage] = useState('')
+    const [showNotification, setShowNotification] = useState(false)
+    const [notificationType, setNotificationType] = useState('error')
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (showNotification) {
+            const timer = setTimeout(() => {
+                setShowNotification(false)
+            }, 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [showNotification])
+
+    const handleNotification = (message, type) => {
+        setNotificationMessage(message)
+        setNotificationType(type)
+        setShowNotification(true)
+    }
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-          const response = await axios.post('http://localhost:5000/api/login', { username, password });
+          const response = await axios.post('http://localhost:5000/api/login', { username, password })
           if (response.data.success) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('role', response.data.role);
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('role', response.data.role)
             if (response.data.role === 'admin') {
-              navigate('/admin');
+              navigate('/admin')
             } else {
-              navigate('/user');
+              navigate('/user')
             }
           } else {
-            setMessage(response.data.message);
+            handleNotification(response.data.message, 'error')
           }
         } catch (error) {
-          console.error('Error during login:', error);
-          setMessage('Error en el servidor');
+          console.error('Error during login:', error)
+          handleNotification('Error en el servidor', 'error')
         }
       }
 
     return (
         <>
             <Header />
-
+            <Notification showNotification={showNotification} message={notificationMessage} type={notificationType}/>
             <main>
                 <form
                     onSubmit={handleSubmit} 
@@ -71,7 +89,7 @@ const Login = () => {
                                 peer-placeholder-shown:translate-y-0 
                                 peer-focus:scale-90 peer-focus:-translate-y-6"
                             >
-                                Nombre de usuario
+                                Correo electrónico
                             </label>
                     </div>
 

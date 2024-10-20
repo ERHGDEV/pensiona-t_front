@@ -31,8 +31,6 @@ const Header = () => {
 
     return (
         <header className="flex justify-between p-4">
-
-            
                 {isLoggedIn ? (
                     <>
                         <h1 className='text-2xl font-bold'>Pensiona-T</h1>
@@ -63,9 +61,6 @@ const Header = () => {
                         </Link>
                     </>
                 )}
-            
-
-
         </header>
     )
 }

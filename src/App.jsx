@@ -16,7 +16,6 @@ function App() {
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/user" element={<UserPanel />} />
         <Route path="*" element={<Navigate to="/" />} />
-
       </Routes>
     </Router>
   )
