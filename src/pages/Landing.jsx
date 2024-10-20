@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Header from '../components/Header'
 
 const Landing = () => {
@@ -6,7 +7,7 @@ const Landing = () => {
         <>
             <Header />
 
-            <div className="pt-12 sm:pt-24 flex flex-col items-center 
+            <main className="pt-12 sm:pt-16 flex flex-col items-center 
                 justify-center px-4 sm:px-6 lg:px-8">
                 
                 <header className="text-center max-w-2xl">
@@ -18,7 +19,10 @@ const Landing = () => {
                     </p>
                 </header>
 
-                <div className="relative mt-12 w-full max-w-2xl">
+                <Link to="/login" 
+                    className='mt-4 bg-white hover:bg-sky-200 text-sky-950 font-bold py-2 px-4 rounded'>Inicia sesión</Link>
+
+                <div className="relative mt-8 w-full max-w-2xl">
                     <img
                     src="/calc.webp"
                     alt="Preview"
@@ -50,7 +54,7 @@ const Landing = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     )
 }
