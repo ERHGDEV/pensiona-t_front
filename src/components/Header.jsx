@@ -5,11 +5,12 @@ const Header = () => {
     const navigate = useNavigate()
     const isLoggedIn = !!localStorage.getItem('token')
     const userRole = localStorage.getItem('role')
+    const username = localStorage.getItem('username')
 
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.post('http://localhost:5000/api/logout', {}, {
+            const response = await axios.post('http://localhost:5000/api/logout', {username}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -18,6 +19,7 @@ const Header = () => {
             if (response.data.success) {
                 localStorage.removeItem('token')
                 localStorage.removeItem('role')
+                localStorage.removeItem('username')
                 navigate('/login')
             } else {
                 console.error('Error during logout:', response.data.message)

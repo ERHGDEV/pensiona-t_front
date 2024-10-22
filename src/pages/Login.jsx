@@ -7,10 +7,13 @@ import Notification from "../components/Notification"
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+
+    const navigate = useNavigate()
+
+    //Estados, useEfect y función para mostrar notificaciones
     const [notificationMessage, setNotificationMessage] = useState('')
     const [showNotification, setShowNotification] = useState(false)
     const [notificationType, setNotificationType] = useState('error')
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (showNotification) {
@@ -26,6 +29,7 @@ const Login = () => {
         setNotificationType(type)
         setShowNotification(true)
     }
+    // Pendiente revisar como extraer esta logica a un hook? a algo que pueda reutilizar
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -34,6 +38,7 @@ const Login = () => {
           if (response.data.success) {
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('role', response.data.role)
+            localStorage.setItem('username', response.data.username)
             if (response.data.role === 'admin') {
               navigate('/admin')
             } else {
