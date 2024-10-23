@@ -49,7 +49,7 @@ const AddUserForm = ({ onUserAdded }) => {
 
     return (
         <>
-            <h2 className="text-2xl font-bold mb-4">Añadir Usuario</h2>
+            <h2 className="text-2xl text-gray-800 font-bold mb-4">Añadir Usuario</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">Nombre</label>
@@ -60,11 +60,11 @@ const AddUserForm = ({ onUserAdded }) => {
                         value={newUser.firstname}
                         onChange={handleChange}
                         required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
                     />
                 </div>
                 <div>
-                    <label htmlFor="lastname" className="block text-sm font-medium text-gray-700">Apellidos</label>
+                    <label htmlFor="lastname" className="block text-sm font-medium text-gray-700">Apellido</label>
                     <input
                         type="text"
                         id="lastname"
@@ -72,7 +72,7 @@ const AddUserForm = ({ onUserAdded }) => {
                         value={newUser.lastname}
                         onChange={handleChange}
                         required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
                     />
                 </div>
                 <div>
@@ -84,7 +84,7 @@ const AddUserForm = ({ onUserAdded }) => {
                         value={newUser.username}
                         onChange={handleChange}
                         required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
                     />
                 </div>
                 <div>
@@ -96,7 +96,7 @@ const AddUserForm = ({ onUserAdded }) => {
                         value={newUser.password}
                         onChange={handleChange}
                         required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
                     />
                 </div>
                 <div>
@@ -106,7 +106,7 @@ const AddUserForm = ({ onUserAdded }) => {
                         name="role"
                         value={newUser.role}
                         onChange={handleChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
                     >
                         <option value="user">Usuario</option>
                         <option value="admin">Administrador</option>
@@ -114,7 +114,7 @@ const AddUserForm = ({ onUserAdded }) => {
                 </div>
                 <button
                     type="submit"
-                    className="bg-indigo-600 text-white rounded-md p-2 w-full"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
                 >
                     Añadir Usuario
                 </button>

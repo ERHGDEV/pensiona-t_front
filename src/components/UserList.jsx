@@ -59,12 +59,12 @@ const UserList = ({ users, onUserUpdated }) => {
                     <tr className="bg-gray-300 text-gray-600 uppercase text-sm leading-normal">
                     <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Nombre</th>
                     <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Apellido</th>                    
-                    <th className="py-3 px-6 text-left" style={{ width: '25%' }}>Username</th>
+                    <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Username</th>
                     <th className="py-3 px-6 text-left" style={{ width: '5%' }}>Role</th>
                     <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Logged In</th>
                     <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Vigencia</th>
                     <th className="py-3 px-6 text-left" style={{ width: '5%' }}>Estatus</th>
-                    <th className="py-3 px-6 text-left" style={{ width: '5%' }}>Acciones</th>
+                    <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Acciones</th>
                     </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light bg-gray-100">
@@ -86,7 +86,7 @@ const UserList = ({ users, onUserUpdated }) => {
                         </td>
                         <td className="py-3 px-6 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
                         <td className="py-3 px-6 text-left">{user.status}</td>
-                        <td className="py-3 px-6 text-left">
+                        <td className="py-3 px-6 text-left whitespace-nowrap">
                         <button
                             onClick={() => handleEditClick(user)}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
