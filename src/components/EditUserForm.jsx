@@ -28,7 +28,7 @@ const EditUserForm = ({ user, onClose, onUserUpdated }) => {
             const localDate = parseISO(editedUser.expiration)
             const utcDate = set(localDate, localDate.getTimezoneOffset())
 
-            const response = await axios.put(`http://localhost:5000/api/admin/users/${user._id}`, 
+            const response = await axios.put(`https://pensiona-t-back.vercel.app/api/admin/users/${user._id}`, 
                 {
                     ...editedUser,
                     expiration: utcDate.toISOString()
@@ -56,7 +56,7 @@ const EditUserForm = ({ user, onClose, onUserUpdated }) => {
 
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.delete(`http://localhost:5000/api/admin/users/${user._id}`, {
+            const response = await axios.delete(`https://pensiona-t-back.vercel.app/api/admin/users/${user._id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
 

@@ -19,7 +19,7 @@ const AdminPanel = () => {
     const fetchUsers = async () => {
       try { 
         const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:5000/api/admin', {
+        const response = await axios.get('https://pensiona-t-back.vercel.app/api/admin', {
           headers: { Authorization: `Bearer ${token}` }
         })
         setUsers(response.data)
@@ -33,7 +33,7 @@ const AdminPanel = () => {
     const fetchValues = async () => {
       try {
         const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:5000/api/admin/values', {
+        const response = await axios.get('https://pensiona-t-back.vercel.app/api/admin/values', {
           headers: { Authorization: `Bearer ${token}` }
         })
         setSalarioMinimo(response.data.salarioMinimo)
@@ -89,7 +89,7 @@ const AdminPanel = () => {
       e.preventDefault()
       try {
         const token = localStorage.getItem('token')
-        await axios.put('http://localhost:5000/api/admin/values', 
+        await axios.put('https://pensiona-t-back.vercel.app/api/admin/values', 
           editValues,
           { headers: { Authorization: `Bearer ${token}` } }
         )

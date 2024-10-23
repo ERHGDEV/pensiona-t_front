@@ -10,7 +10,7 @@ const Header = () => {
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.post('http://localhost:5000/api/logout', {username}, {
+            const response = await axios.post('https://pensiona-t-back.vercel.app/api/logout', {username}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

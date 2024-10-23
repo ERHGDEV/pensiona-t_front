@@ -24,7 +24,7 @@ const UserList = ({ users, onUserUpdated }) => {
     const handleLogoutUser = async (userId) => {
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.post(`http://localhost:5000/api/admin/users/logout/${userId}`, {}, {
+            const response = await axios.post(`https://pensiona-t-back.vercel.app/api/admin/users/logout/${userId}`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             })
 

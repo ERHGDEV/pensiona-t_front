@@ -23,7 +23,7 @@ const AddUserForm = ({ onUserAdded }) => {
 
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.post('http://localhost:5000/api/admin/users', newUser, {
+            const response = await axios.post('https://pensiona-t-back.vercel.app/api/admin/users', newUser, {
                 headers: { Authorization: `Bearer ${token}` }
             })
 

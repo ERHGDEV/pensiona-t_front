@@ -34,7 +34,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-          const response = await axios.post('http://localhost:5000/api/login', { username, password })
+          const response = await axios.post('https://pensiona-t-back.vercel.app/api/login', { username, password })
           if (response.data.success) {
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('role', response.data.role)
@@ -140,6 +140,14 @@ const Login = () => {
                     text-md w-full px-5 py-2.5 text-center mt-5"
                 >
                     Entrar
+                </button>
+
+                <button
+                    className="text-gray-500 
+                    hover:text-white hover:bg-sky-950 font-medium 
+                    text-md w-full px-5 py-2.5 text-center rounded-lg mt-5"
+                >
+                    Registrarme
                 </button>
             </form>
             </main>
