@@ -142,13 +142,13 @@ const Login = () => {
                     Entrar
                 </button>
 
-                <button
+{/*                 <button
                     className="text-gray-500 
                     hover:text-white hover:bg-sky-950 font-medium 
                     text-md w-full px-5 py-2.5 text-center rounded-lg mt-5"
                 >
                     Registrarme
-                </button>
+                </button> */}
             </form>
             </main>
         </>
