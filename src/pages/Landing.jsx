@@ -20,7 +20,7 @@ const Landing = () => {
                 </header>
 
                 <Link to="/login" 
-                    className='mt-4 bg-white hover:bg-sky-200 text-sky-950 font-bold py-2 px-4 rounded'>Inicia sesión</Link>
+                    className='mt-4 bg-white hover:bg-sky-200 text-sky-950 font-bold py-2 px-4 rounded text-nowrap'>Inicia sesión</Link>
 
                 <div className="relative mt-8 max-w-2xl">
                     <img
