@@ -5,6 +5,7 @@ import Landing from './pages/Landing'
 import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import UserPanel from './pages/UserPanel'
+import NotFound from './pages/NotFound';
 
 function App() {
 
@@ -15,7 +16,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/user" element={<UserPanel />} />
-        <Route path="*" element={<Navigate to="/" />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )
