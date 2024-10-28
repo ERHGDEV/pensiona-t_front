@@ -3,7 +3,7 @@ import EditUserForm from './EditUserForm'
 import axios from 'axios'
 import { parseISO, format } from 'date-fns'
 
-const UserList = ({ users, onUserUpdated }) => {
+const UserList = ({ users, onUserUpdated, handleNotification }) => {
     const [search, setSearch] = useState('')
     const [editingUser, setEditingUser] = useState(null)
 
@@ -30,11 +30,13 @@ const UserList = ({ users, onUserUpdated }) => {
 
             if (response.data.success) {
                 onUserUpdated()
+                handleNotification('Sesión del usuario cerrada exitosamente', 'success')
             } else {
-                console.error('Error al cerrar sesión del usuario', response.data.message)
+                handleNotification('Error al cerrar sesión del usuario', 'error')
             }
         } catch (error) {
             console.error('Error al cerrar sesión del usuario', error)
+            handleNotification('Error al cerrar sesión del usuario', 'error')
         }
     }
 
@@ -55,58 +57,59 @@ const UserList = ({ users, onUserUpdated }) => {
             />
             <div className="overflow-x-auto">
                 <table className="min-w-full">
-                <thead>
-                    <tr className="bg-gray-300 text-gray-600 uppercase text-sm leading-normal">
-                    <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Nombre</th>
-                    <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Apellido</th>                    
-                    <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Username</th>
-                    <th className="py-3 px-6 text-left" style={{ width: '5%' }}>Role</th>
-                    <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Logged In</th>
-                    <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Vigencia</th>
-                    <th className="py-3 px-6 text-left" style={{ width: '5%' }}>Estatus</th>
-                    <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody className="text-gray-600 text-sm font-light bg-gray-100">
-                    {filteredUsers.map((user) => (
-                    <tr key={user.username} className="border-b border-gray-200 hover:bg-gray-100">
-                        <td className="py-3 px-6 text-left whitespace-nowrap">{user.firstname}</td>
-                        <td className="py-3 px-6 text-left whitespace-nowrap">{user.lastname}</td>
-                        <td className="py-3 px-6 text-left whitespace-nowrap">{user.username}</td>
-                        <td className="py-3 px-6 text-left">{user.role}</td>
-                        <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {user.isLoggedIn ? (
-                            <button
-                            onClick={() => handleLogoutUser(user._id)}
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                            >
-                            Cerrar sesión
-                            </button>
-                        ) : 'No'}
-                        </td>
-                        <td className="py-3 px-6 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
-                        <td className="py-3 px-6 text-left">{user.status}</td>
-                        <td className="py-3 px-6 text-left whitespace-nowrap">
-                        <button
-                            onClick={() => handleEditClick(user)}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Editar
-                        </button>
-                        </td>
-                    </tr>
-                    ))}
-                </tbody>
+                    <thead>
+                        <tr className="bg-gray-300 text-gray-600 uppercase text-sm leading-normal">
+                            <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Nombre</th>
+                            <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Apellido</th>                    
+                            <th className="py-3 px-6 text-left" style={{ width: '20%' }}>Username</th>
+                            <th className="py-3 px-6 text-left" style={{ width: '5%' }}>Role</th>
+                            <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Logged In</th>
+                            <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Vigencia</th>
+                            <th className="py-3 px-6 text-left" style={{ width: '5%' }}>Estatus</th>
+                            <th className="py-3 px-6 text-left" style={{ width: '10%' }}>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-gray-600 text-sm font-light bg-gray-100">
+                        {filteredUsers.map((user) => (
+                            <tr key={user.username} className="border-b border-gray-200 hover:bg-gray-100">
+                                <td className="py-3 px-6 text-left whitespace-nowrap">{user.firstname}</td>
+                                <td className="py-3 px-6 text-left whitespace-nowrap">{user.lastname}</td>
+                                <td className="py-3 px-6 text-left whitespace-nowrap">{user.username}</td>
+                                <td className="py-3 px-6 text-left">{user.role}</td>
+                                <td className="py-3 px-6 text-left whitespace-nowrap">
+                                    {user.isLoggedIn ? (
+                                        <button
+                                            onClick={() => handleLogoutUser(user._id)}
+                                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                        >
+                                            Cerrar sesión
+                                        </button>
+                                    ) : 'No'}
+                                </td>
+                                <td className="py-3 px-6 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
+                                <td className="py-3 px-6 text-left">{user.status}</td>
+                                <td className="py-3 px-6 text-left whitespace-nowrap">
+                                    <button
+                                        onClick={() => handleEditClick(user)}
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    >
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             </div>
             {editingUser && (
                 <EditUserForm
-                user={editingUser}
-                onClose={handleEditclose}
-                onUserUpdated={onUserUpdated}
+                    user={editingUser}
+                    onClose={handleEditclose}
+                    onUserUpdated={onUserUpdated}
+                    handleNotification={handleNotification}
                 />
             )}
-            </div> 
+        </div> 
     )
 }
 

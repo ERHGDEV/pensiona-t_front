@@ -3,10 +3,15 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Header from "../components/Header"
 import Notification from "../components/Notification"
+import RegisterForm from "../components/RegisterForm"
+import RecoveryForm from "../components/RecoveryForm"
 
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [isRegisteredOpen, setIsRegisteredOpen] = useState(false)
+    const [isRecoveryOpen, setIsRecoveryOpen] = useState(false)
+    const [isPreRegisterModalOpen, setIsPreRegisterModalOpen] = useState(false)
 
     const navigate = useNavigate()
 
@@ -29,7 +34,6 @@ const Login = () => {
         setNotificationType(type)
         setShowNotification(true)
     }
-    // Pendiente revisar como extraer esta logica a un hook? a algo que pueda reutilizar
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -51,7 +55,25 @@ const Login = () => {
           console.error('Error during login:', error)
           handleNotification('Error en el servidor', 'error')
         }
-      }
+    }
+
+    const handleUserRegistered = () => {
+        setIsRegisteredOpen(false)
+    }
+
+    const handlePasswordRecovered = () => {
+        setIsRecoveryOpen(false)
+        handleNotification('Contraseña actualizada exitosamente', 'success')
+    }
+
+    const handlePreRegisterClick = () => {
+        setIsPreRegisterModalOpen(true)
+    }
+
+    const handlePreRegisterAccept = () => {
+        setIsPreRegisterModalOpen(false)
+        setIsRegisteredOpen(true)
+    }
 
     return (
         <>
@@ -141,15 +163,93 @@ const Login = () => {
                 >
                     Entrar
                 </button>
+            </form>
 
-{/*                 <button
-                    className="text-gray-500 
-                    hover:text-white hover:bg-sky-950 font-medium 
+            {isPreRegisterModalOpen && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="pre-register-modal">
+                    <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                        <div className="mt-3 text-center">
+                            <h3 className="text-lg leading-6 font-medium text-gray-900">Información de Registro</h3>
+                            <div className="mt-2 px-7 py-3">
+                                <p className="text-sm text-gray-500">
+                                    El registro incluye una prueba gratuita de 7 días naturales
+                                </p>
+                            </div>
+                            <div className="items-center px-4 py-3">
+                                <button
+                                    id="ok-btn"
+                                    className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                    onClick={handlePreRegisterAccept}
+                                >
+                                    Aceptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isRegisteredOpen && (
+            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
+              <div className="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-gray-100">
+                <div>
+                  <div>
+                    <RegisterForm onUserRegistered={handleUserRegistered} handleNotification={handleNotification}/>
+                  </div>
+                  <div className="items-center py-3">
+                    <button
+                      id="ok-btn"
+                      className="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => setIsRegisteredOpen(false)}
+                    >
+                      Cerrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+            {isRecoveryOpen && (
+            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="recovery-modal">
+              <div className="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-gray-100">
+                <div>
+                  <div>
+                    <RecoveryForm onPasswordRecovered={handlePasswordRecovered} handleNotification={handleNotification}/>
+                  </div>
+                  <div className="items-center py-3">
+                    <button
+                      id="close-recovery-btn"
+                      className="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => setIsRecoveryOpen(false)}
+                    >
+                      Cerrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+            <div className="max-w-sm mx-auto">
+                <button
+                    onClick={handlePreRegisterClick}
+                    className="text-gray-200 bg-sky-800
+                    hover:text-white hover:bg-sky-900 font-medium 
                     text-md w-full px-5 py-2.5 text-center rounded-lg mt-5"
                 >
                     Registrarme
-                </button> */}
-            </form>
+                </button>
+                <button
+                    onClick={() => setIsRecoveryOpen(true)}
+                    className="text-gray-200 bg-sky-800
+                    hover:text-white hover:bg-sky-900 font-medium 
+                    text-md w-full px-5 py-2.5 text-center rounded-lg mt-3"
+                >
+                    Recuperar Contraseña
+                </button>
+            </div>
+
             </main>
         </>
     )

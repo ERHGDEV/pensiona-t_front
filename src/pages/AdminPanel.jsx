@@ -4,10 +4,10 @@ import axios from "axios"
 import Header from "../components/Header"
 import UserList from "../components/UserList"
 import AddUserForm from "../components/AddUserForm"
+import Notification from "../components/Notification"
 
 const AdminPanel = () => {
     const [loading, setLoading] = useState(true)
-    const [message, setMessage] = useState('')
     const [users, setUsers] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [salarioMinimo, setSalarioMinimo] = useState('')
@@ -15,6 +15,11 @@ const AdminPanel = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [editValues, setEditValues] = useState({ salarioMinimo: '', uma: '' })
     const navigate = useNavigate()
+
+    // New state for notifications
+    const [notificationMessage, setNotificationMessage] = useState('')
+    const [showNotification, setShowNotification] = useState(false)
+    const [notificationType, setNotificationType] = useState('error')
   
     const fetchUsers = async () => {
       try { 
@@ -23,10 +28,10 @@ const AdminPanel = () => {
           headers: { Authorization: `Bearer ${token}` }
         })
         setUsers(response.data)
-        setMessage('')
+        handleNotification('', 'success') // Clear any existing notifications
       } catch (error) {
         console.error('Error fetching users:', error)
-        setMessage('Error al obtener la lista de usuarios')
+        handleNotification('Error al obtener la lista de usuarios', 'error')
       }
     }
   
@@ -41,7 +46,7 @@ const AdminPanel = () => {
         setEditValues({ salarioMinimo: response.data.salarioMinimo, uma: response.data.uma })
       } catch (error) {
         console.error('Error fetching values:', error)
-        setMessage('Error al obtener los valores de salario mínimo y UMA')
+        handleNotification('Error al obtener los valores de salario mínimo y UMA', 'error')
       }
     }
   
@@ -59,10 +64,10 @@ const AdminPanel = () => {
         } catch (error) {
           console.error('Error verifying admin:', error)
           if (error.response && error.response.status === 403) {
-            setMessage('No tienes permisos de administrador')
+            handleNotification('No tienes permisos de administrador', 'error')
             navigate('/login')
           } else {
-            setMessage('Error al verificar permisos de administrador')
+            handleNotification('Error al verificar permisos de administrador', 'error')
           }
         } finally {
           setLoading(false)
@@ -70,14 +75,31 @@ const AdminPanel = () => {
       }
       verifyAdmin()
     }, [navigate])
+
+    useEffect(() => {
+      if (showNotification) {
+        const timer = setTimeout(() => {
+          setShowNotification(false)
+        }, 3000)
+        return () => clearTimeout(timer)
+      }
+    }, [showNotification])
   
+    const handleNotification = (message, type) => {
+      setNotificationMessage(message)
+      setNotificationType(type)
+      setShowNotification(true)
+    }
+
     const handleUserAdded = () => {
       fetchUsers()
       setIsModalOpen(false)
+      handleNotification('Usuario agregado exitosamente', 'success')
     }
   
     const handleUserUpdated = () => {
       fetchUsers()
+      handleNotification('Usuario actualizado exitosamente', 'success')
     }
   
     const handleEditInputChange = (e) => {
@@ -93,12 +115,12 @@ const AdminPanel = () => {
           editValues,
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        setMessage('Valores actualizados correctamente')
+        handleNotification('Valores actualizados correctamente', 'success')
         setIsEditModalOpen(false)
         fetchValues()
       } catch (error) {
         console.error('Error updating values:', error)
-        setMessage('Error al actualizar los valores')
+        handleNotification('Error al actualizar los valores', 'error')
       }
     }
   
@@ -109,16 +131,15 @@ const AdminPanel = () => {
     return (
       <div className="min-h-screen">
         <Header />
+        <Notification
+          showNotification={showNotification}
+          message={notificationMessage}
+          type={notificationType}
+        />
         <main className="mx-auto px-4 py-8">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Panel de Administrador</h1>
           </div>
-
-          {message && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-              <span className="block sm:inline">{message}</span>
-            </div>
-          )}
 
           <div className="rounded pt-6 pb-8">
             <div className="flex justify-between items-center mb-4">
@@ -167,14 +188,14 @@ const AdminPanel = () => {
             </button>
           </section>
 
-          <UserList users={users} onUserUpdated={handleUserUpdated} />
+          <UserList users={users} onUserUpdated={handleUserUpdated} handleNotification={handleNotification} />
 
           {isModalOpen && (
             <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
               <div className="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-gray-100">
                 <div>
                   <div>
-                    <AddUserForm onUserAdded={handleUserAdded} />
+                    <AddUserForm onUserAdded={handleUserAdded} handleNotification={handleNotification} />
                   </div>
                   <div className="items-center py-3">
                     <button
