@@ -273,3 +273,5 @@ const AdminPanel = () => {
   }
 
 export default AdminPanel
+
+//Revisar notificaciones, no se muestran correctamente

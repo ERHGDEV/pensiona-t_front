@@ -214,6 +214,11 @@ const UserPanel = () => {
         UMA = valuesResponse.data.uma
 
         const { salarioPromedio, semanasCotizadas, edad, estadoCivil, hijos } = formData
+
+        if (isNaN(salarioPromedio) || salarioPromedio < SALARIO_MINIMO * 30 || salarioPromedio > UMA * 25 * 30) {
+            return
+        }
+
         const calculatedResults = calcularPension(
           parseFloat(salarioPromedio),
           parseInt(semanasCotizadas),
@@ -519,3 +524,5 @@ const UserPanel = () => {
 }
 
 export default UserPanel
+
+//revisar validación del input de salario promedio, al primer intento de cálculo no valida correctamente el salario mínimo y máximo
