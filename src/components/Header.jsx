@@ -4,7 +4,7 @@ import AuthService from '../services/authService'
 
 const Header = () => {
     const navigate = useNavigate()
-    const isLoggedIn = AuthService.isLoggedIn() 
+    const isLoggedIn = AuthService.isAuthenticated() 
     const userRole = AuthService.getUserRole() 
     const username = AuthService.getUsername() 
 

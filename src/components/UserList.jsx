@@ -39,7 +39,7 @@ const UserList = ({ users, onUserUpdated, handleNotification }) => {
     const formatDate = (dateString) => format(parseISO(dateString), 'dd/MM/yyyy');
 
     return (
-        <div className="rounded-lg shadow-md p-4 bg-gray-800">
+        <div className="rounded-lg">
             <h2 className="text-2xl text-gray-100 font-bold mb-4">Usuarios</h2>
             <input
                 type="text"
@@ -49,9 +49,9 @@ const UserList = ({ users, onUserUpdated, handleNotification }) => {
                 onChange={(e) => setSearch(e.target.value)}
             />
             <div className="overflow-x-auto">
-                <table className="min-w-full bg-gray-700">
+                <table className="min-w-full bg-gray-100">
                     <thead>
-                        <tr className="bg-gray-300 text-gray-800 uppercase text-sm leading-normal">
+                        <tr className="bg-sky-900 text-gray-100 uppercase text-sm leading-normal">
                             <th className="py-3 px-6 text-left">Nombre</th>
                             <th className="py-3 px-6 text-left">Apellido</th>
                             <th className="py-3 px-6 text-left">Username</th>
@@ -62,9 +62,9 @@ const UserList = ({ users, onUserUpdated, handleNotification }) => {
                             <th className="py-3 px-6 text-left">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody className="text-gray-200 text-sm font-light">
+                    <tbody className="text-sky-950 text-sm font-light">
                         {filteredUsers.map((user) => (
-                            <tr key={user.username} className="border-b border-gray-500 hover:bg-gray-600">
+                            <tr key={user.username} className="border-b border-gray-500 hover:bg-gray-300">
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{user.firstname}</td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{user.lastname}</td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{user.username}</td>

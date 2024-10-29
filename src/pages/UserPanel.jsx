@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import axios from "axios"
+import axiosInstance from "../services/axiosConfig"
 import Header from "../components/Header"
 import Notification from "../components/Notification"
 import { SEMANAS_MINIMAS, SEMANAS_MAXIMAS, EDAD_MINIMA, EDAD_MAXIMA, TABULADOR } from "../constants/calculateData"
@@ -24,48 +24,57 @@ const UserPanel = () => {
   const [remainingDays, setRemainingDays] = useState(null)
   const navigate = useNavigate()
 
-  // New state for Notification component
   const [notificationMessage, setNotificationMessage] = useState('')
   const [showNotification, setShowNotification] = useState(false)
   const [notificationType, setNotificationType] = useState('error')
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      try {
-        const token = localStorage.getItem("token")
-        if (!token) {
-          navigate("/login")
-          return
-        }
-        const response = await axios.get("https://pensiona-t-back.vercel.app/api/user", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        if (!response.data.isLoggedIn) {
-          localStorage.removeItem("token")
-          localStorage.removeItem("role")
-          navigate("/login")
-          return
-        }
-        handleNotification(`Bienvenido, ${response.data.username}`, 'success')
-        
-        const expirationDate = new Date(response.data.expiration)
-        const today = new Date()
-        const timeDiff = expirationDate.getTime() - today.getTime()
-        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
-        setRemainingDays(daysDiff)
-        
-      } catch (error) {
-        console.error('Error: ', error)
-        handleNotification(error.message || "Ocurrió un error al verificar tu sesión", 'error')
-        navigate("/login")
-      } finally {
-        setLoading(false)
+  const getValues = async () => {
+    try {
+      const valuesResponse = await axiosInstance.get("/values")
+      if (!valuesResponse.data.salarioMinimo || !valuesResponse.data.uma) {
+        throw new Error('No se pudieron obtener los valores actualizados de salario mínimo y UMA')
       }
+      SALARIO_MINIMO = valuesResponse.data.salarioMinimo
+      UMA = valuesResponse.data.uma
+    } catch (error) {
+      console.error('Error:', error)
+      handleNotification(error.message || 'Error al obtener los valores actualizados', 'error')
     }
+  }
+
+  const verifyUser = async () => {
+    try {
+      const response = await axiosInstance.get("/user")
+
+      if (!response.data.isLoggedIn) {
+        localStorage.removeItem("token")
+        localStorage.removeItem("role")
+        navigate("/login")
+        return
+      }
+      handleNotification(`Bienvenido, ${response.data.username}`, 'success')
+      
+      const expirationDate = new Date(response.data.expiration)
+      const today = new Date()
+      const timeDiff = expirationDate.getTime() - today.getTime()
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
+      setRemainingDays(daysDiff)
+      
+    } catch (error) {
+      console.error('Error: ', error)
+      handleNotification(error.message || "Ocurrió un error al verificar tu sesión", 'error')
+      navigate("/login")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
     verifyUser()
+    getValues()
   }, [navigate])
+
+
 
   useEffect(() => {
     if (showNotification) {
@@ -134,9 +143,6 @@ const UserPanel = () => {
     const salarioEnVSM = salarioDiario / SALARIO_MINIMO
   
     const rango = TABULADOR.find(r => salarioEnVSM >= r.min && salarioEnVSM <= r.max)
-    if (!rango) {
-      throw new Error(`No se encontró un rango válido para el salario: ${salarioEnVSM} VSM`)
-    }
     
     const cuantiaBasica = (rango.cuantiaBasica / 100) * salarioMensual
     const semanasExcedentes = Math.max(0, semanasCotizadas - SEMANAS_MINIMAS)
@@ -196,12 +202,7 @@ const UserPanel = () => {
     e.preventDefault()
     if (validateInputs()) {
       try {
-        const valuesResponse = await axios.get('https://pensiona-t-back.vercel.app/api/values')
-        if (!valuesResponse.data.salarioMinimo || !valuesResponse.data.uma) {
-          throw new Error('No se pudieron obtener los valores actualizados de salario mínimo y UMA')
-        }
-        SALARIO_MINIMO = valuesResponse.data.salarioMinimo
-        UMA = valuesResponse.data.uma
+        getValues()
 
         const { salarioPromedio, semanasCotizadas, edad, estadoCivil, hijos } = formData
         const calculatedResults = calcularPension(
@@ -395,5 +396,3 @@ const UserPanel = () => {
 }
 
 export default UserPanel
-
-//revisar validación del input de salario promedio, al primer intento de cálculo no valida correctamente el salario mínimo y máximo

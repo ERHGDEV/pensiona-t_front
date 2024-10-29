@@ -26,10 +26,6 @@ class AuthService {
     return !!this.getToken()
   }
 
-  isLoggedIn() {
-    return this.isAuthenticated()
-  }
-
   getUserRole() {
     const token = this.getToken()
     if (!token) return null
