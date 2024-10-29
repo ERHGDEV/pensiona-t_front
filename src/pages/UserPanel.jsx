@@ -4,6 +4,7 @@ import axios from "axios"
 import { jsPDF } from "jspdf"
 import "jspdf-autotable"
 import Header from "../components/Header"
+import Notification from "../components/Notification"
 
 let SALARIO_MINIMO
 let UMA
@@ -39,7 +40,6 @@ const tabulador = [
 
 const UserPanel = () => {
   const [loading, setLoading] = useState(true)
-  const [message, setMessage] = useState("")
   const [showForm, setShowForm] = useState(true)
   const [formData, setFormData] = useState({
     salarioPromedio: "",
@@ -52,6 +52,11 @@ const UserPanel = () => {
   const [errors, setErrors] = useState({})
   const [remainingDays, setRemainingDays] = useState(null)
   const navigate = useNavigate()
+
+  // New state for Notification component
+  const [notificationMessage, setNotificationMessage] = useState('')
+  const [showNotification, setShowNotification] = useState(false)
+  const [notificationType, setNotificationType] = useState('error')
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -72,7 +77,7 @@ const UserPanel = () => {
           navigate("/login")
           return
         }
-        setMessage(`Bienvenido, ${response.data.username}`)
+        handleNotification(`Bienvenido, ${response.data.username}`, 'success')
         
         // Calculate remaining days
         const expirationDate = new Date(response.data.expiration)
@@ -83,7 +88,7 @@ const UserPanel = () => {
         
       } catch (error) {
         console.error('Error: ', error)
-        setMessage(error.message || "Ocurrió un error al verificar tu sesión")
+        handleNotification(error.message || "Ocurrió un error al verificar tu sesión", 'error')
         navigate("/login")
       } finally {
         setLoading(false)
@@ -91,6 +96,21 @@ const UserPanel = () => {
     }
     verifyUser()
   }, [navigate])
+
+  useEffect(() => {
+    if (showNotification) {
+      const timer = setTimeout(() => {
+        setShowNotification(false)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [showNotification])
+
+  const handleNotification = (message, type) => {
+    setNotificationMessage(message)
+    setNotificationType(type)
+    setShowNotification(true)
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -214,11 +234,6 @@ const UserPanel = () => {
         UMA = valuesResponse.data.uma
 
         const { salarioPromedio, semanasCotizadas, edad, estadoCivil, hijos } = formData
-
-        if (isNaN(salarioPromedio) || salarioPromedio < SALARIO_MINIMO * 30 || salarioPromedio > UMA * 25 * 30) {
-            return
-        }
-
         const calculatedResults = calcularPension(
           parseFloat(salarioPromedio),
           parseInt(semanasCotizadas),
@@ -228,9 +243,10 @@ const UserPanel = () => {
         )
         setResults(calculatedResults)
         setShowForm(false)
+        handleNotification('Cálculo realizado con éxito', 'success')
       } catch (error) {
         console.error('Error:', error)
-        setMessage(error.message || 'Error al obtener los valores actualizados')
+        handleNotification(error.message || 'Error al obtener los valores actualizados', 'error')
       }
     }
   }
@@ -270,7 +286,7 @@ const UserPanel = () => {
     const currentDate = getFormattedDate()
     doc.text(`${currentDate}`, doc.internal.pageSize.width - 17, 15, { align: 'right' })
     doc.text(`Semanas cotizadas actuales: ${results.semanasCotizadas}`, 15, height + 20)
-    doc.text(`Edad: ${results.edad}`, 15, height + 25)
+    doc.text(`Edad:  ${results.edad}`, 15, height + 25)
 
     const dataNuevaTabla =   [
       [ { content: 'Salario mínimo vigente:', styles: { fontStyle: 'normal', halign: 'right' }}, { content: '$' + SALARIO_MINIMO.toFixed(2), styles: { fontStyle: 'normal' }}, '', 'Cálculo Mensual' ],
@@ -358,6 +374,7 @@ const UserPanel = () => {
     doc.text('Pensiona-T', doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 3, { align: 'center' })
 
     doc.save('Proyección.pdf')
+    handleNotification('PDF generado con éxito', 'success')
   }
 
   if (loading) {
@@ -367,10 +384,14 @@ const UserPanel = () => {
   return (
     <>
       <Header />
+      <Notification
+        showNotification={showNotification}
+        message={notificationMessage}
+        type={notificationType}
+      />
 
       <main className="mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Calculadora</h1>
-        <p className="mb-4">{message}</p>
         {remainingDays !== null && (
           <p className="mb-4 text-yellow-400">
             Días restantes de tu suscripción: {remainingDays}

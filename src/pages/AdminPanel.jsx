@@ -28,7 +28,6 @@ const AdminPanel = () => {
           headers: { Authorization: `Bearer ${token}` }
         })
         setUsers(response.data)
-        handleNotification('', 'success') // Clear any existing notifications
       } catch (error) {
         console.error('Error fetching users:', error)
         handleNotification('Error al obtener la lista de usuarios', 'error')
