@@ -1,42 +1,42 @@
-import { useState } from 'react';
-import EditUserForm from './EditUserForm';
-import { parseISO, format } from 'date-fns';
-import axiosInstance from '../services/axiosConfig';
-import AuthService from '../services/authService';
+import { useState } from 'react'
+import EditUserForm from './EditUserForm'
+import { parseISO, format } from 'date-fns'
+import axiosInstance from '../services/axiosConfig'
+import AuthService from '../services/authService'
 
 const UserList = ({ users, onUserUpdated, handleNotification }) => {
-    const [search, setSearch] = useState('');
-    const [editingUser, setEditingUser] = useState(null);
+    const [search, setSearch] = useState('')
+    const [editingUser, setEditingUser] = useState(null)
 
     const filteredUsers = users.filter((user) => 
         user.firstname.toLowerCase().includes(search.toLowerCase()) ||
         user.lastname.toLowerCase().includes(search.toLowerCase()) ||
         user.username.toLowerCase().includes(search.toLowerCase())
-    );
+    )
 
-    const handleEditClick = (user) => setEditingUser(user);
-    const handleEditClose = () => setEditingUser(null);
+    const handleEditClick = (user) => setEditingUser(user)
+    const handleEditClose = () => setEditingUser(null)
 
     const handleLogoutUser = async (userId) => {
         try {
-            const response = await axiosInstance.post(`/admin/users/logout/${userId}`);
+            const response = await axiosInstance.post(`/admin/users/logout/${userId}`)
             if (response.data.success) {
-                onUserUpdated();
-                handleNotification('Sesión del usuario cerrada exitosamente', 'success');
+                onUserUpdated()
+                handleNotification('Sesión del usuario cerrada exitosamente', 'success')
             } else {
-                handleNotification('Error al cerrar sesión del usuario', 'error');
+                handleNotification('Error al cerrar sesión del usuario', 'error')
             }
         } catch (error) {
-            console.error('Error al cerrar sesión del usuario', error);
-            handleNotification('Error al cerrar sesión del usuario', 'error');
+            console.error('Error al cerrar sesión del usuario', error)
+            handleNotification('Error al cerrar sesión del usuario', 'error')
             if (error.response && error.response.status === 401) {
-                AuthService.logout();
-                window.location.href = '/login';
+                AuthService.logout()
+                window.location.href = '/login'
             }
         }
-    };
+    }
 
-    const formatDate = (dateString) => format(parseISO(dateString), 'dd/MM/yyyy');
+    const formatDate = (dateString) => format(parseISO(dateString), 'dd/MM/yyyy')
 
     return (
         <div className="rounded-lg">
@@ -105,7 +105,7 @@ const UserList = ({ users, onUserUpdated, handleNotification }) => {
                 />
             )}
         </div>
-    );
-};
+    )
+}
 
-export default UserList;
+export default UserList
