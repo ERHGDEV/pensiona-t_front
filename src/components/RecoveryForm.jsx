@@ -12,7 +12,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
     const handleStep1 = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post('https://pensiona-t-back.vercel.app/api/recovery/step1', { email })
+            const response = await axios.post(`${URL}/recovery/step1`, { email })
             if (response.data.success) {
                 setSecretQuestion(response.data.secretQuestion)
                 setStep(2)
@@ -28,7 +28,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
     const handleStep2 = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post('https://pensiona-t-back.vercel.app/api/recovery/step2', { email, secretAnswer })
+            const response = await axios.post(`${URL}/recovery/step2`, { email, secretAnswer })
             if (response.data.success) {
                 setStep(3)
             } else {
@@ -51,7 +51,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
             return
         }
         try {
-            const response = await axios.post('https://pensiona-t-back.vercel.app/api/recovery/step3', { email, newPassword })
+            const response = await axios.post(`${URL}/recovery/step3`, { email, newPassword })
             if (response.data.success) {
                 onPasswordRecovered()
             } else {

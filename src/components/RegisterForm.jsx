@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import URL from "../constants/url"
 
 const RegisterForm = ({ onUserRegistered, handleNotification }) => {
     const [newUser, setNewUser] = useState({
@@ -31,7 +32,7 @@ const RegisterForm = ({ onUserRegistered, handleNotification }) => {
         }
 
         try {
-            const response = await axios.post('https://pensiona-t-back.vercel.app/api/register', {
+            const response = await axios.post(`${URL}/register`, {
                 firstname: newUser.firstname,
                 lastname: newUser.lastname,
                 username: newUser.username,

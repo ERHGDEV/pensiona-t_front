@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import authService from "../services/authService"
 import Header from "../components/Header"
 import Notification from "../components/Notification"
 import RegisterForm from "../components/RegisterForm"
@@ -38,18 +38,15 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-          const response = await axios.post('https://pensiona-t-back.vercel.app/api/login', { username, password })
-          if (response.data.success) {
-            localStorage.setItem('token', response.data.token)
-            localStorage.setItem('role', response.data.role)
-            localStorage.setItem('username', response.data.username)
-            if (response.data.role === 'admin') {
+          const response = await authService.login(username, password)
+          if (response.success) {
+            if (response.role === 'admin') {
               navigate('/admin')
             } else {
               navigate('/user')
             }
           } else {
-            handleNotification(response.data.message, 'error')
+            handleNotification(response.message, 'error')
           }
         } catch (error) {
           console.error('Error during login:', error)
@@ -172,7 +169,7 @@ const Login = () => {
                             <h3 className="text-lg leading-6 font-medium text-gray-900">Información de Registro</h3>
                             <div className="mt-2 px-7 py-3">
                                 <p className="text-sm text-gray-500">
-                                    El registro incluye una prueba gratuita de 7 días naturales
+                                    El registro incluye una prueba gratuita de 30 días naturales
                                 </p>
                             </div>
                             <div className="items-center px-4 py-3">

@@ -1,6 +1,7 @@
 import { useState } from "react"
-import axios from "axios"
 import { parseISO, format, set } from 'date-fns'
+import axiosInstance from "../services/axiosConfig"
+import AuthService from "../services/authService"
 
 const EditUserForm = ({ user, onClose, onUserUpdated, handleNotification }) => {
     const [editedUser, setEditedUser] = useState({
@@ -21,17 +22,13 @@ const EditUserForm = ({ user, onClose, onUserUpdated, handleNotification }) => {
         e.preventDefault()
 
         try {
-            const token = localStorage.getItem('token')
             const localDate = parseISO(editedUser.expiration)
             const utcDate = set(localDate, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 })
 
-            const response = await axios.put(`https://pensiona-t-back.vercel.app/api/admin/users/${user._id}`, 
+            const response = await axiosInstance.put(`/admin/users/${user._id}`, 
                 {
                     ...editedUser,
                     expiration: utcDate.toISOString()
-                },
-                {
-                    headers: { Authorization: `Bearer ${token}` }
                 }
             )
 
@@ -41,10 +38,15 @@ const EditUserForm = ({ user, onClose, onUserUpdated, handleNotification }) => {
                 setTimeout(() => onClose(), 2000)
             } else {
                 handleNotification(response.data.message || 'Error al actualizar el usuario', 'error')
-            } 
+            }
         } catch (error) {
             handleNotification('Error en el servidor', 'error')
             console.error('Error al actualizar usuario:', error)
+
+            if (error.response && error.response.status === 401) {
+                AuthService.logout()
+                window.location.href = '/login'
+            }
         }
     }
 
@@ -52,10 +54,7 @@ const EditUserForm = ({ user, onClose, onUserUpdated, handleNotification }) => {
         if (!window.confirm('¿Estás seguro de eliminar este usuario?')) return
 
         try {
-            const token = localStorage.getItem('token')
-            const response = await axios.delete(`https://pensiona-t-back.vercel.app/api/admin/users/${user._id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
+            const response = await axiosInstance.delete(`/admin/users/${user._id}`)
 
             if (response.data.success) {
                 handleNotification('Usuario eliminado correctamente', 'success')
@@ -67,6 +66,11 @@ const EditUserForm = ({ user, onClose, onUserUpdated, handleNotification }) => {
         } catch (error) {
             handleNotification('Error en el servidor', 'error')
             console.error('Error al eliminar usuario:', error)
+
+            if (error.response && error.response.status === 401) {
+                AuthService.logout()
+                window.location.href = '/login'
+            }
         }
     }
 

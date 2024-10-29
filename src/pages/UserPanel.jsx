@@ -1,42 +1,13 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { jsPDF } from "jspdf"
-import "jspdf-autotable"
 import Header from "../components/Header"
 import Notification from "../components/Notification"
+import { SEMANAS_MINIMAS, SEMANAS_MAXIMAS, EDAD_MINIMA, EDAD_MAXIMA, TABULADOR } from "../constants/calculateData"
+import generatePDF from "../utils/generatePDF"
 
 let SALARIO_MINIMO
 let UMA
-const SEMANAS_MINIMAS = 500
-const SEMANAS_MAXIMAS = 2600
-const EDAD_MINIMA = 43
-const EDAD_MAXIMA = 75
-
-const tabulador = [
-  { min: 1.00, max: 1.25, cuantiaBasica: 80.000, incrementoAnual: 0.563 },
-  { min: 1.26, max: 1.5, cuantiaBasica: 77.110, incrementoAnual: 0.814 },
-  { min: 1.51, max: 1.75, cuantiaBasica: 58.180, incrementoAnual: 1.178 },
-  { min: 1.76, max: 2, cuantiaBasica: 49.230, incrementoAnual: 1.430 },
-  { min: 2.01, max: 2.25, cuantiaBasica: 42.670, incrementoAnual: 1.615 },
-  { min: 2.26, max: 2.5, cuantiaBasica: 37.650, incrementoAnual: 1.756 },
-  { min: 2.51, max: 2.75, cuantiaBasica: 33.680, incrementoAnual: 1.868 },
-  { min: 2.76, max: 3, cuantiaBasica: 30.480, incrementoAnual: 1.958 },
-  { min: 3.01, max: 3.25, cuantiaBasica: 27.830, incrementoAnual: 2.033 },
-  { min: 3.26, max: 3.5, cuantiaBasica: 25.600, incrementoAnual: 2.096 },
-  { min: 3.51, max: 3.75, cuantiaBasica: 23.700, incrementoAnual: 2.149 },
-  { min: 3.75, max: 4, cuantiaBasica: 22.070, incrementoAnual: 2.195 },
-  { min: 4.01, max: 4.25, cuantiaBasica: 20.650, incrementoAnual: 2.235 },
-  { min: 4.26, max: 4.5, cuantiaBasica: 19.390, incrementoAnual: 2.271 },
-  { min: 4.51, max: 4.75, cuantiaBasica: 18.290, incrementoAnual: 2.302 },
-  { min: 4.76, max: 5, cuantiaBasica: 17.300, incrementoAnual: 2.330 },
-  { min: 5.01, max: 5.25, cuantiaBasica: 16.410, incrementoAnual: 2.355 },
-  { min: 5.26, max: 5.5, cuantiaBasica: 15.610, incrementoAnual: 2.377 },
-  { min: 5.51, max: 5.75, cuantiaBasica: 14.880, incrementoAnual: 2.398 },
-  { min: 5.76, max: 6, cuantiaBasica: 14.220, incrementoAnual: 2.416 },
-  { min: 6.01, max: 6.01, cuantiaBasica: 13.620, incrementoAnual: 2.433 },
-  { min: 6.02, max: Infinity, cuantiaBasica: 13.000, incrementoAnual: 2.450 }
-]
 
 const UserPanel = () => {
   const [loading, setLoading] = useState(true)
@@ -79,7 +50,6 @@ const UserPanel = () => {
         }
         handleNotification(`Bienvenido, ${response.data.username}`, 'success')
         
-        // Calculate remaining days
         const expirationDate = new Date(response.data.expiration)
         const today = new Date()
         const timeDiff = expirationDate.getTime() - today.getTime()
@@ -163,7 +133,7 @@ const UserPanel = () => {
     const salarioDiario = salarioMensual / 30
     const salarioEnVSM = salarioDiario / SALARIO_MINIMO
   
-    const rango = tabulador.find(r => salarioEnVSM >= r.min && salarioEnVSM <= r.max)
+    const rango = TABULADOR.find(r => salarioEnVSM >= r.min && salarioEnVSM <= r.max)
     if (!rango) {
       throw new Error(`No se encontró un rango válido para el salario: ${salarioEnVSM} VSM`)
     }
@@ -243,7 +213,6 @@ const UserPanel = () => {
         )
         setResults(calculatedResults)
         setShowForm(false)
-        handleNotification('Cálculo realizado con éxito', 'success')
       } catch (error) {
         console.error('Error:', error)
         handleNotification(error.message || 'Error al obtener los valores actualizados', 'error')
@@ -251,129 +220,10 @@ const UserPanel = () => {
     }
   }
 
-  const getFormattedDate = () => {
-    const date = new Date()
-    return date.toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })
-  }
-
-  const generarPDFButtonHandler = () => {
+  const generatePDFButtonHandler = () => {
     if (!results) return
 
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'letter',
-      marginLeft: 15,
-      marginRight: 15,
-    })
-
-    const lineHeight = 10
-    const x = 0
-    const y = 0
-    const width = doc.internal.pageSize.width
-    const height = lineHeight * 1
-    const fillColor = 'c8c8c8'
-    doc.setFillColor(fillColor)
-    doc.rect(x, y, width, height, "F")
-
-    doc.setTextColor(33, 53, 71)
-    doc.setFont("helvetica", "bold")
-    doc.setFontSize(16)
-    doc.text('Proyección de pensión', doc.internal.pageSize.width / 2, height + 10, { align: 'center' })
-
-    doc.setFont("helvetica", "normal")
-    doc.setFontSize(10)
-    const currentDate = getFormattedDate()
-    doc.text(`${currentDate}`, doc.internal.pageSize.width - 17, 15, { align: 'right' })
-    doc.text(`Semanas cotizadas actuales: ${results.semanasCotizadas}`, 15, height + 20)
-    doc.text(`Edad:  ${results.edad}`, 15, height + 25)
-
-    const dataNuevaTabla =   [
-      [ { content: 'Salario mínimo vigente:', styles: { fontStyle: 'normal', halign: 'right' }}, { content: '$' + SALARIO_MINIMO.toFixed(2), styles: { fontStyle: 'normal' }}, '', 'Cálculo Mensual' ],
-      [ { content: 'Salario mensual promedio últimos 5 años:', colSpan: 3 }, `${'$' +   results.salarioPromedio.toFixed(2)}` ],
-      [ { content: 'Porcentaje de Cuantía:', colSpan: 2}, `${results.porcentajeCuantia.toFixed(2)}%`, `${'$' +    results.cuantiaBasica.toFixed(2)}`],
-      [ { content: 'Semanas Cotizadas', rowSpan: 3 }, 'Total:', `${results.semanasCotizadas}`, { content: '', rowSpan: 4 } ],
-      [ 'Requisito:', '500' ],
-      [ 'Excedentes:', `${results.semanasExcedentes}` ],
-      [ { content: 'Incrementos por años excedentes:', colSpan: 2 }, `${results.aniosExcedentes}` ],
-      [ { content: 'Porcentaje de incremento:', colSpan: 2 }, `${results.porcentajeIncremento.toFixed(2)}%`, `${'$' + results.incremento.toFixed(2)}` ],
-      [ { content: 'Suma de cuantía e incrementos:', colSpan: 3, styles: { fillColor: [200, 200, 200] } }, { content: '$' + results.sumaCuantiaIncrementos.toFixed(2), styles: { fontStyle: 'bold', fillColor: [200, 200, 200] }} ],
-      [ { content: 'Asignaciones familiares', rowSpan: 2 }, 'Esposa (o):', '15%', `${'$' + results.asignacionEsposa.toFixed(2)}` ],
-      [ 'Hijos:', '10% c/u', `${'$' + results.asignacionHijos.toFixed(2)}` ],
-      [ { content: 'Ayuda asistencial (15% a 20%):', colSpan: 2 }, '15%', `${'$' + results.ayudaAsistencial.toFixed(2)}` ],
-      [ { content: 'Total de cuantía básica:', colSpan: 3, styles: { fillColor: [200, 200, 200] } }, { content: '$' + results.totalCuantiaBasica.toFixed(2), styles: { fontStyle: 'bold', fillColor: [200, 200, 200] }} ],
-    ]
-
-    const stylesPDF = {
-      theme: 'grid',
-      styles: {
-        fontSize: 10,
-        lineWidth: 0.1,
-        cellPadding: 2,
-        cellSpacing: 0,
-        valign: 'middle',
-        halign: 'center',
-        fontStyle: 'normal',
-        overflow: 'linebreak',
-        fillColor: [255, 255, 255],
-        textColor: [33, 53, 71],
-        fillStyle: 'F',
-      },
-      headStyles: {
-        fillColor: [200, 200, 200],
-        fontStyle: 'bold',
-      },
-    }
-
-    doc.autoTable({
-      head: [dataNuevaTabla[0]], 
-      body: dataNuevaTabla.slice(1), 
-      startY: 40,
-      theme: stylesPDF.theme,
-      styles: stylesPDF.styles,
-      headStyles: stylesPDF.headStyles,
-    })
-
-    const resultTableData = [
-      ['Edad de retiro', 'Porcentaje', 'Pensión Mensual'],
-      ...results.pensionPorEdad.map(r => [
-        `${r.edad} años`,
-        `${r.porcentaje.toFixed(0)}%`,
-        `$${r.pension.toFixed(2)}`
-      ])
-    ]
-
-    doc.autoTable({
-      head: [resultTableData[0]],
-      body: resultTableData.slice(1),
-      startY: doc.lastAutoTable.finalY + 10,
-      theme: stylesPDF.theme,
-      styles: stylesPDF.styles,
-      headStyles: stylesPDF.headStyles,
-    })
-
-    const bottomRectHeight = lineHeight * 1
-    const bottomRectY = doc.internal.pageSize.height - bottomRectHeight
-
-    doc.setFont("helvetica", "bold")
-    doc.setFontSize(10)
-    doc.text('Consideraciones para la proyección', 15, bottomRectY - 37)
-
-    doc.setFont("helvetica", "normal")
-    doc.text('• Este cálculo únicamente es una proyección, el IMSS realizará el cálculo final al momento del trámite.', 15, bottomRectY - 30)
-    doc.text('• Asignaciones familiares y ayuda asistencial, Artículo 164 LSS 1973.', 15, bottomRectY - 25)
-    doc.text('• Cuantía de las pensiones, Artículo 167 LSS 1973.', 15, bottomRectY - 20)
-    doc.text('• Pensión mínima, Artículo 168 LSS 1973.', 15, bottomRectY - 15)
-    doc.text('• Tope de pensión es el salario promedio, Artículo 169 LSS 1973.', 15, bottomRectY - 10)
-    doc.text('• Tope 25 umas, Transitorio Cuarto inciso II LSS 1973.', 15, bottomRectY - 5)
-
-    doc.setFillColor(fillColor)
-    doc.rect(x, bottomRectY, width, bottomRectHeight, "F")
-
-    doc.setTextColor(255, 255, 255)
-    doc.text('Pensiona-T', doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 3, { align: 'center' })
-
-    doc.save('Proyección.pdf')
+    generatePDF(results, SALARIO_MINIMO)
     handleNotification('PDF generado con éxito', 'success')
   }
 
@@ -531,7 +381,7 @@ const UserPanel = () => {
                 Volver
               </button>
               <button
-                onClick={generarPDFButtonHandler}
+                onClick={generatePDFButtonHandler}
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 Generar PDF

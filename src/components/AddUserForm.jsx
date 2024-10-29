@@ -1,5 +1,6 @@
 import { useState } from "react"
-import axios from "axios"
+import axiosInstance from "../services/axiosConfig"
+import AuthService from "../services/authService"
 
 const AddUserForm = ({ onUserAdded, handleNotification }) => {
     const [newUser, setNewUser] = useState({
@@ -21,10 +22,7 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
         e.preventDefault()
 
         try {
-            const token = localStorage.getItem('token')
-            const response = await axios.post('https://pensiona-t-back.vercel.app/api/admin/users', newUser, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
+            const response = await axiosInstance.post('/admin/users', newUser)
 
             if (response.data.success) {
                 handleNotification('Usuario creado correctamente', 'success')
@@ -42,8 +40,14 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
                 handleNotification(response.data.message || 'Error al crear el usuario', 'error')
             }
         } catch (error) {
-            handleNotification('Error en el servidor', 'error')
+            const errorMsg = error.response?.data?.message || 'Error en el servidor'
+            handleNotification(errorMsg, 'error')
             console.error('Error al crear usuario:', error)
+            
+            if (error.response && error.response.status === 401) {
+                AuthService.logout()
+                window.location.href = '/login'
+            }
         }
     }
 
@@ -80,7 +84,6 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
                     <input
                         type="text"
                         id="username"
-                        
                         name="username"
                         value={newUser.username}
                         onChange={handleChange}

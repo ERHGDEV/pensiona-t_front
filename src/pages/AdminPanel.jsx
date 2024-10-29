@@ -1,127 +1,117 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import axios from "axios"
 import Header from "../components/Header"
 import UserList from "../components/UserList"
 import AddUserForm from "../components/AddUserForm"
 import Notification from "../components/Notification"
+import AuthService from "../services/authService"
+import axiosInstance from "../services/axiosConfig"
 
 const AdminPanel = () => {
-    const [loading, setLoading] = useState(true)
-    const [users, setUsers] = useState([])
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [salarioMinimo, setSalarioMinimo] = useState('')
-    const [uma, setUma] = useState('')
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const [editValues, setEditValues] = useState({ salarioMinimo: '', uma: '' })
-    const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+  const [users, setUsers] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [salarioMinimo, setSalarioMinimo] = useState('')
+  const [uma, setUma] = useState('')
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [editValues, setEditValues] = useState({ salarioMinimo: '', uma: '' })
+  const navigate = useNavigate()
 
-    // New state for notifications
-    const [notificationMessage, setNotificationMessage] = useState('')
-    const [showNotification, setShowNotification] = useState(false)
-    const [notificationType, setNotificationType] = useState('error')
-  
-    const fetchUsers = async () => {
-      try { 
-        const token = localStorage.getItem('token')
-        const response = await axios.get('https://pensiona-t-back.vercel.app/api/admin', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        setUsers(response.data)
-      } catch (error) {
-        console.error('Error fetching users:', error)
-        handleNotification('Error al obtener la lista de usuarios', 'error')
-      }
+  const [notificationMessage, setNotificationMessage] = useState('')
+  const [showNotification, setShowNotification] = useState(false)
+  const [notificationType, setNotificationType] = useState('error')
+
+  const handleNotification = (message, type) => {
+    setNotificationMessage(message)
+    setNotificationType(type)
+    setShowNotification(true)
+  }
+
+  const fetchUsers = async () => {
+    try { 
+      const response = await axiosInstance.get('/admin')
+      setUsers(response.data)
+    } catch (error) {
+      console.error('Error fetching users:', error)
+      handleNotification('Error al obtener la lista de usuarios', 'error')
     }
-  
-    const fetchValues = async () => {
+  }
+
+  const fetchValues = async () => {
+    try {
+      const response = await axiosInstance.get('/admin/values')
+      setSalarioMinimo(response.data.salarioMinimo)
+      setUma(response.data.uma)
+      setEditValues({ salarioMinimo: response.data.salarioMinimo, uma: response.data.uma })
+    } catch (error) {
+      console.error('Error fetching values:', error)
+      handleNotification('Error al obtener los valores de salario mínimo y UMA', 'error')
+    }
+  }
+
+  useEffect(() => {
+    const verifyAdmin = async () => {
       try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('https://pensiona-t-back.vercel.app/api/admin/values', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        setSalarioMinimo(response.data.salarioMinimo)
-        setUma(response.data.uma)
-        setEditValues({ salarioMinimo: response.data.salarioMinimo, uma: response.data.uma })
-      } catch (error) {
-        console.error('Error fetching values:', error)
-        handleNotification('Error al obtener los valores de salario mínimo y UMA', 'error')
-      }
-    }
-  
-    useEffect(() => {
-      const verifyAdmin = async () => {
-        try {
-          const token = localStorage.getItem('token')
-          const role = localStorage.getItem('role')
-          if (!token || role !== 'admin') {
-            navigate('/login')
-            return
-          }
-          await fetchUsers()
-          await fetchValues()
-        } catch (error) {
-          console.error('Error verifying admin:', error)
-          if (error.response && error.response.status === 403) {
-            handleNotification('No tienes permisos de administrador', 'error')
-            navigate('/login')
-          } else {
-            handleNotification('Error al verificar permisos de administrador', 'error')
-          }
-        } finally {
-          setLoading(false)
+        if (!AuthService.isAuthenticated()) {
+          navigate('/login')
+          return
         }
-      }
-      verifyAdmin()
-    }, [navigate])
-
-    useEffect(() => {
-      if (showNotification) {
-        const timer = setTimeout(() => {
-          setShowNotification(false)
-        }, 3000)
-        return () => clearTimeout(timer)
-      }
-    }, [showNotification])
-  
-    const handleNotification = (message, type) => {
-      setNotificationMessage(message)
-      setNotificationType(type)
-      setShowNotification(true)
-    }
-
-    const handleUserAdded = () => {
-      fetchUsers()
-      setIsModalOpen(false)
-      handleNotification('Usuario agregado exitosamente', 'success')
-    }
-  
-    const handleUserUpdated = () => {
-      fetchUsers()
-      handleNotification('Usuario actualizado exitosamente', 'success')
-    }
-  
-    const handleEditInputChange = (e) => {
-      const { name, value } = e.target
-      setEditValues(prev => ({ ...prev, [name]: value }))
-    }
-  
-    const handleValuesUpdate = async (e) => {
-      e.preventDefault()
-      try {
-        const token = localStorage.getItem('token')
-        await axios.put('https://pensiona-t-back.vercel.app/api/admin/values', 
-          editValues,
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        handleNotification('Valores actualizados correctamente', 'success')
-        setIsEditModalOpen(false)
-        fetchValues()
+        const user = await AuthService.getCurrentUser()
+        if (user.role !== 'admin') {
+          handleNotification('No tienes permisos de administrador', 'error')
+          navigate('/login')
+          return
+        }
+        await fetchUsers()
+        await fetchValues()
       } catch (error) {
-        console.error('Error updating values:', error)
-        handleNotification('Error al actualizar los valores', 'error')
+        console.error('Error verifying admin:', error)
+        handleNotification('Error al verificar permisos de administrador', 'error')
+        navigate('/login')
+      } finally {
+        setLoading(false)
       }
     }
+    verifyAdmin()
+  }, [navigate])
+
+  useEffect(() => {
+    if (showNotification) {
+      const timer = setTimeout(() => {
+        setShowNotification(false)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [showNotification])
+
+  const handleUserAdded = () => {
+    fetchUsers()
+    setIsModalOpen(false)
+    handleNotification('Usuario agregado exitosamente', 'success')
+  }
+
+  const handleUserUpdated = () => {
+    fetchUsers()
+    handleNotification('Usuario actualizado exitosamente', 'success')
+  }
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target
+    setEditValues(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleValuesUpdate = async (e) => {
+    e.preventDefault()
+    try {
+      await axiosInstance.put('/admin/values', editValues)
+      handleNotification('Valores actualizados correctamente', 'success')
+      setIsEditModalOpen(false)
+      fetchValues()
+    } catch (error) {
+      console.error('Error updating values:', error)
+      handleNotification('Error al actualizar los valores', 'error')
+    }
+  }
   
     if (loading) {
       return <div className="flex justify-center items-center h-screen">Cargando...</div>
@@ -272,5 +262,3 @@ const AdminPanel = () => {
   }
 
 export default AdminPanel
-
-//Revisar notificaciones, no se muestran correctamente
