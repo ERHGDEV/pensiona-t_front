@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
+import URL from '../constants/url'
 
 const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
     const [step, setStep] = useState(1)
@@ -67,7 +68,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
         <div>
             {step === 1 && (
                 <form onSubmit={handleStep1} className="space-y-4 text-sky-950">
-                    <h2 className="text-xl font-bold mb-4">Recuperar Contraseña</h2>
+                    <h2 className="text-sky-950 text-2xl font-bold mb-2">Recuperar Contraseña</h2>
                     <div>
                         <label htmlFor="recovery-email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
                         <input
@@ -76,7 +77,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
                     </div>
                     <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -87,7 +88,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
 
             {step === 2 && (
                 <form onSubmit={handleStep2} className="space-y-4 text-sky-950">
-                    <h2 className="text-xl font-bold mb-4">Pregunta Secreta</h2>
+                    <h2 className="text-sky-950 text-2xl font-bold mb-2">Pregunta Secreta</h2>
                     <p className="mb-2">{secretQuestion}</p>
                     <div>
                         <label htmlFor="secret-answer" className="block text-sm font-medium text-gray-700">Respuesta</label>
@@ -97,7 +98,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
                             value={secretAnswer}
                             onChange={(e) => setSecretAnswer(e.target.value)}
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
                     </div>
                     <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -108,7 +109,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
 
             {step === 3 && (
                 <form onSubmit={handleStep3} className="space-y-4 text-sky-950">
-                    <h2 className="text-xl font-bold mb-4">Nueva Contraseña</h2>
+                    <h2 className="text-sky-950 text-2xl font-bold mb-2">Nueva Contraseña</h2>
                     <div>
                         <label htmlFor="new-password" className="block text-sm font-medium text-gray-700">Nueva Contraseña</label>
                         <input
@@ -117,7 +118,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
                     </div>
                     <div>
@@ -128,7 +129,7 @@ const RecoveryForm = ({ onPasswordRecovered, handleNotification }) => {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
-                            className="mt-1  block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
                     </div>
                     <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

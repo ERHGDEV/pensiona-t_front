@@ -10,7 +10,6 @@ const UserList = ({ users, onUserUpdated, handleNotification }) => {
 
     const filteredUsers = users.filter((user) => 
         user.firstname.toLowerCase().includes(search.toLowerCase()) ||
-        user.lastname.toLowerCase().includes(search.toLowerCase()) ||
         user.username.toLowerCase().includes(search.toLowerCase())
     )
 
@@ -52,8 +51,8 @@ const UserList = ({ users, onUserUpdated, handleNotification }) => {
                 <table className="min-w-full bg-gray-100">
                     <thead>
                         <tr className="bg-sky-900 text-gray-100 uppercase text-sm leading-normal">
+                            <th className="py-3 px-6 text-left">Número Consar</th>
                             <th className="py-3 px-6 text-left">Nombre</th>
-                            <th className="py-3 px-6 text-left">Apellido</th>
                             <th className="py-3 px-6 text-left">Username</th>
                             <th className="py-3 px-6 text-left">Role</th>
                             <th className="py-3 px-6 text-left">Logged In</th>
@@ -65,8 +64,8 @@ const UserList = ({ users, onUserUpdated, handleNotification }) => {
                     <tbody className="text-sky-950 text-sm font-light">
                         {filteredUsers.map((user) => (
                             <tr key={user.username} className="border-b border-gray-500 hover:bg-gray-300">
+                                <td className="py-3 px-6 text-left whitespace-nowrap">{user.numeroConsar}</td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{user.firstname}</td>
-                                <td className="py-3 px-6 text-left whitespace-nowrap">{user.lastname}</td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{user.username}</td>
                                 <td className="py-3 px-6 text-left">{user.role}</td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">

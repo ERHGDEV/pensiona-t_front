@@ -180,13 +180,13 @@ const AdminPanel = () => {
           <UserList users={users} onUserUpdated={handleUserUpdated} handleNotification={handleNotification} />
 
           {isModalOpen && (
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
-              <div className="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-gray-100">
+            <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="my-modal">
+              <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                 <div>
                   <div>
                     <AddUserForm onUserAdded={handleUserAdded} handleNotification={handleNotification} />
                   </div>
-                  <div className="items-center py-3">
+                  <div className="items-center pt-3">
                     <button
                       id="ok-btn"
                       className="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -201,13 +201,11 @@ const AdminPanel = () => {
           )}
           
           {isEditModalOpen && (
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="edit-modal">
-              <div className="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-gray-100">
-                <div className="mt-3">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Editar parámetros de calculadora</h3>
-                  <div className="mt-2 py-3">
+            <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="edit-modal">
+              <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
+                  <h2 className="text-sky-950 text-2xl font-bold mb-2">Editar parámetros de calculadora</h2>
                     <form onSubmit={handleValuesUpdate}>
-                      <div className="mb-4">
+                      <div className="mb-2">
                         <label htmlFor="salarioMinimo" className="block text-gray-700 text-sm font-bold mb-2">
                           Salario Mínimo <span className="text-xs pl-4">Actualizar cada 1ero de Enero</span>
                         </label>
@@ -251,8 +249,6 @@ const AdminPanel = () => {
                         </button>
                       </div>
                     </form>
-                  </div>
-                </div>
               </div>
             </div>
           )}

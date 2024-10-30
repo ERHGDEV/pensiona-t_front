@@ -163,12 +163,12 @@ const Login = () => {
             </form>
 
             {isPreRegisterModalOpen && (
-                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="pre-register-modal">
-                    <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="pre-register-modal">
+                    <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                         <div className="mt-3 text-center">
-                            <h3 className="text-lg leading-6 font-medium text-gray-900">Información de Registro</h3>
+                            <h3 className="text-sky-950 text-2xl font-bold mb-2">Información de Registro</h3>
                             <div className="mt-2 px-7 py-3">
-                                <p className="text-sm text-gray-500">
+                                <p className="text-md text-gray-500">
                                     El registro incluye una prueba gratuita de 30 días naturales
                                 </p>
                             </div>
@@ -187,8 +187,8 @@ const Login = () => {
             )}
 
             {isRegisteredOpen && (
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
-              <div className="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-gray-100">
+            <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="my-modal">
+              <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                 <div>
                   <div>
                     <RegisterForm onUserRegistered={handleUserRegistered} handleNotification={handleNotification}/>
@@ -208,13 +208,13 @@ const Login = () => {
           )}
 
             {isRecoveryOpen && (
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="recovery-modal">
-              <div className="relative top-20 mx-auto p-8 border w-96 shadow-lg rounded-md bg-gray-100">
+            <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="recovery-modal">
+              <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                 <div>
                   <div>
                     <RecoveryForm onPasswordRecovered={handlePasswordRecovered} handleNotification={handleNotification}/>
                   </div>
-                  <div className="items-center py-3">
+                  <div className="items-center pt-3">
                     <button
                       id="close-recovery-btn"
                       className="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

@@ -4,8 +4,8 @@ import AuthService from "../services/authService"
 
 const AddUserForm = ({ onUserAdded, handleNotification }) => {
     const [newUser, setNewUser] = useState({
+        numeroConsar: '',
         firstname: '',
-        lastname: '',
         username: '',
         password: '',
         role: 'user',
@@ -27,8 +27,8 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
             if (response.data.success) {
                 handleNotification('Usuario creado correctamente', 'success')
                 setNewUser({
+                    numeroConsar: '',
                     firstname: '',
-                    lastname: '',
                     username: '',
                     password: '',
                     role: 'user',
@@ -53,8 +53,21 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
 
     return (
         <>
-            <h2 className="text-2xl text-gray-800 font-bold mb-4">Añadir Usuario</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <h2 className="text-sky-950 text-2xl font-bold mb-2">Añadir Usuario</h2>
+            <form onSubmit={handleSubmit} className="space-y-2">
+                
+                <div>
+                    <label htmlFor="numeroConsar" className="block text-sm font-medium text-gray-700">Número Consar</label>
+                    <input
+                        type="number"
+                        id="numeroConsar"
+                        name="numeroConsar"
+                        value={newUser.numeroConsar}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
+                    />
+                </div>
                 <div>
                     <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">Nombre</label>
                     <input
@@ -62,18 +75,6 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
                         id="firstname"
                         name="firstname"
                         value={newUser.firstname}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="lastname" className="block text-sm font-medium text-gray-700">Apellido</label>
-                    <input
-                        type="text"
-                        id="lastname"
-                        name="lastname"
-                        value={newUser.lastname}
                         onChange={handleChange}
                         required
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
@@ -144,12 +145,14 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
                     />
                 </div>
-                <button
-                    type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-                >
-                    Añadir Usuario
-                </button>
+                <div className="pt-2">
+                    <button
+                        type="submit"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                    >
+                        Añadir Usuario
+                    </button>
+                </div>
             </form>
         </>
     )
