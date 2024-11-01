@@ -60,7 +60,6 @@ const RegisterForm = ({ onUserRegistered, handleNotification }) => {
             const response = await axios.post(`${URL}/register`, {
                 numeroConsar: newUser.numeroConsar,
                 firstname: newUser.firstname,
-                lastname: newUser.lastname,
                 username: newUser.username,
                 password: newUser.password,
                 secretQuestion: newUser.secretQuestion,
