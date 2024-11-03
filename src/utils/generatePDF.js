@@ -42,7 +42,7 @@ const generatePDF = ( results, SALARIO_MINIMO ) => {
       [ { content: 'Salario mínimo vigente:', styles: { fontStyle: 'normal', halign: 'right' }}, { content: '$' + SALARIO_MINIMO.toFixed(2), styles: { fontStyle: 'normal' }}, '', 'Cálculo Mensual' ],
       [ { content: 'Salario mensual promedio últimos 5 años:', colSpan: 3 }, `${'$' +   results.salarioPromedio.toFixed(2)}` ],
       [ { content: 'Porcentaje de Cuantía:', colSpan: 2}, `${results.porcentajeCuantia.toFixed(2)}%`, `${'$' +    results.cuantiaBasica.toFixed(2)}`],
-      [ { content: 'Semanas Cotizadas', rowSpan: 3 }, 'Total:', `${results.semanasCotizadas}`, { content: '', rowSpan: 4 } ],
+      [ { content: 'Semanas Cotizadas', rowSpan: 3 }, 'Total:', `${results.semanasTotales}`, { content: '', rowSpan: 4 } ],
       [ 'Requisito:', '500' ],
       [ 'Excedentes:', `${results.semanasExcedentes}` ],
       [ { content: 'Incrementos por años excedentes:', colSpan: 2 }, `${results.aniosExcedentes}` ],
