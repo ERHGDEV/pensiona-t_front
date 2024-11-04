@@ -26,9 +26,9 @@ const UserPanel = () => {
   const [results, setResults] = useState(null)
   const [errors, setErrors] = useState({})
   const [remainingDays, setRemainingDays] = useState(null)
-
-  const { showNotification } = useNotificationContext()
   
+  const { showNotification } = useNotificationContext()
+
   const navigate = useNavigate()
 
   const getValues = async () => {
@@ -89,7 +89,7 @@ const UserPanel = () => {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, modalidad40Data) => {
     e.preventDefault()
     if (validateInputs(formData, setErrors, SALARIO_MINIMO, UMA)) {
       try {
@@ -104,6 +104,28 @@ const UserPanel = () => {
           hijos,
           SALARIO_MINIMO
         )
+
+        if (modalidad40Data.includeModalidad40) {
+          const salarioPromedioModalidad40 = (
+            (parseFloat(salarioPromedio) * (5 - parseInt(modalidad40Data.anosModalidad40))) +
+            (parseFloat(modalidad40Data.salarioModalidad40) * parseInt(modalidad40Data.anosModalidad40))
+          ) / 5
+
+          const calculatedResultsModalidad40 = calcularPension(
+            salarioPromedioModalidad40,
+            parseInt(semanasCotizadas),
+            parseInt(edad),
+            estadoCivil,
+            hijos,
+            SALARIO_MINIMO
+          )
+
+          calculatedResults.salarioRegistradoM40 = parseFloat(modalidad40Data.salarioModalidad40)
+          calculatedResults.salarioPromedioModalidad40 = salarioPromedioModalidad40
+          calculatedResults.pensionModalidad40 = calculatedResultsModalidad40.pensionPorEdad
+          calculatedResults.anosModalidad40 = parseInt(modalidad40Data.anosModalidad40)
+        }
+
         setResults(calculatedResults)
         setShowForm(false)
       } catch (error) {
@@ -129,7 +151,7 @@ const UserPanel = () => {
       <Header />
       <Notification />
 
-      <main className="mx-auto px-4  py-8">
+      <main className="mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Calculadora</h1>
         {remainingDays !== null && (
           <p className="mb-4 text-yellow-400">
@@ -143,6 +165,7 @@ const UserPanel = () => {
             errors={errors}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
+            UMA={UMA}
           />
         ) : (
           <PensionResults
