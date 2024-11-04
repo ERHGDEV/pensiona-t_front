@@ -44,7 +44,7 @@ const Landing = () => {
                             />
                             <div>
                                 <p className="text-sm font-medium text-gray-900">Modalidad 40</p>
-                                <p className="text-xs text-gray-500">Proximamente</p>
+                                
                             </div>
                         </div>
                     
