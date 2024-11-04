@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import axiosInstance from "../services/axiosConfig"
 import Header from "../components/Header"
 import Notification from "../components/Notification"
+import { useNotificationContext } from "../context/NotificationContext"
 import generatePDF from "../utils/generatePDF"
 import { validateInputs } from "../utils/userFormValidation"
 import { calcularPension } from "../utils/calculatePension"
@@ -25,11 +26,9 @@ const UserPanel = () => {
   const [results, setResults] = useState(null)
   const [errors, setErrors] = useState({})
   const [remainingDays, setRemainingDays] = useState(null)
-  
-  const [notificationMessage, setNotificationMessage] = useState('')
-  const [showNotification, setShowNotification] = useState(false)
-  const [notificationType, setNotificationType] = useState('error')
 
+  const { showNotification } = useNotificationContext()
+  
   const navigate = useNavigate()
 
   const getValues = async () => {
@@ -42,7 +41,7 @@ const UserPanel = () => {
       UMA = valuesResponse.data.uma
     } catch (error) {
       console.error('Error:', error)
-      handleNotification(error.message || 'Error al obtener los valores actualizados', 'error')
+      showNotification(error.message || 'Error al obtener los valores actualizados', 'error')
     }
   }
 
@@ -56,7 +55,7 @@ const UserPanel = () => {
         navigate("/login")
         return
       }
-      handleNotification(`Bienvenido, ${response.data.username}`, 'success')
+      showNotification(`Bienvenido, ${response.data.username}`, 'success')
       
       const expirationDate = new Date(response.data.expiration)
       const today = new Date()
@@ -66,7 +65,7 @@ const UserPanel = () => {
       
     } catch (error) {
       console.error('Error: ', error)
-      handleNotification(error.message || "Ocurrió un error al verificar tu sesión", 'error')
+      showNotification(error.message || "Ocurrió un error al verificar tu sesión", 'error')
       navigate("/login")
     } finally {
       setLoading(false)
@@ -77,21 +76,6 @@ const UserPanel = () => {
     verifyUser()
     getValues()
   }, [navigate])
-
-  useEffect(() => {
-    if (showNotification) {
-      const timer = setTimeout(() => {
-        setShowNotification(false)
-      }, 3000)
-      return () => clearTimeout(timer)
-    }
-  }, [showNotification])
-
-  const handleNotification = (message, type) => {
-    setNotificationMessage(message)
-    setNotificationType(type)
-    setShowNotification(true)
-  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -124,7 +108,7 @@ const UserPanel = () => {
         setShowForm(false)
       } catch (error) {
         console.error('Error:', error)
-        handleNotification(error.message || 'Error al obtener los valores actualizados', 'error')
+        showNotification(error.message || 'Error al obtener los valores actualizados', 'error')
       }
     }
   }
@@ -133,7 +117,7 @@ const UserPanel = () => {
     if (!results) return
 
     generatePDF(results, SALARIO_MINIMO)
-    handleNotification('PDF generado con éxito', 'success')
+    showNotification('PDF generado con éxito', 'success')
   }
 
   if (loading) {
@@ -143,11 +127,7 @@ const UserPanel = () => {
   return (
     <>
       <Header />
-      <Notification
-        showNotification={showNotification}
-        message={notificationMessage}
-        type={notificationType}
-      />
+      <Notification />
 
       <main className="mx-auto px-4  py-8">
         <h1 className="text-3xl font-bold mb-4">Calculadora</h1>

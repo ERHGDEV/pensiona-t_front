@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import authService from "../services/authService"
 import Header from "../components/Header"
 import Notification from "../components/Notification"
+import { useNotificationContext } from "../context/NotificationContext"
 import RegisterForm from "../components/RegisterForm"
 import RecoveryForm from "../components/RecoveryForm"
 
@@ -13,27 +14,9 @@ const Login = () => {
     const [isRecoveryOpen, setIsRecoveryOpen] = useState(false)
     const [isPreRegisterModalOpen, setIsPreRegisterModalOpen] = useState(false)
 
+    const { showNotification } = useNotificationContext()
+
     const navigate = useNavigate()
-
-    //Estados, useEfect y función para mostrar notificaciones
-    const [notificationMessage, setNotificationMessage] = useState('')
-    const [showNotification, setShowNotification] = useState(false)
-    const [notificationType, setNotificationType] = useState('error')
-
-    useEffect(() => {
-        if (showNotification) {
-            const timer = setTimeout(() => {
-                setShowNotification(false)
-            }, 3000)
-            return () => clearTimeout(timer)
-        }
-    }, [showNotification])
-
-    const handleNotification = (message, type) => {
-        setNotificationMessage(message)
-        setNotificationType(type)
-        setShowNotification(true)
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -46,11 +29,11 @@ const Login = () => {
               navigate('/user')
             }
           } else {
-            handleNotification(response.message, 'error')
+            showNotification(response.message, 'error')
           }
         } catch (error) {
           console.error('Error during login:', error)
-          handleNotification('Error en el servidor', 'error')
+          showNotification('Error en el servidor', 'error')
         }
     }
 
@@ -60,7 +43,7 @@ const Login = () => {
 
     const handlePasswordRecovered = () => {
         setIsRecoveryOpen(false)
-        handleNotification('Contraseña actualizada exitosamente', 'success')
+        showNotification('Contraseña actualizada exitosamente', 'success')
     }
 
     const handlePreRegisterClick = () => {
@@ -75,7 +58,7 @@ const Login = () => {
     return (
         <>
             <Header />
-            <Notification showNotification={showNotification} message={notificationMessage} type={notificationType}/>
+            <Notification />
             <main>
                 <form
                     onSubmit={handleSubmit} 
@@ -191,7 +174,7 @@ const Login = () => {
               <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                 <div>
                   <div>
-                    <RegisterForm onUserRegistered={handleUserRegistered} handleNotification={handleNotification}/>
+                    <RegisterForm onUserRegistered={handleUserRegistered} showNotification={showNotification}/>
                   </div>
                   <div className="items-center py-3">
                     <button
@@ -212,7 +195,7 @@ const Login = () => {
               <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                 <div>
                   <div>
-                    <RecoveryForm onPasswordRecovered={handlePasswordRecovered} handleNotification={handleNotification}/>
+                    <RecoveryForm onPasswordRecovered={handlePasswordRecovered} showNotification={showNotification}/>
                   </div>
                   <div className="items-center pt-3">
                     <button
