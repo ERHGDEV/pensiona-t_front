@@ -42,9 +42,11 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    if (includeModalidad40 && !salarioModalidad40) {
-      setModalidad40Errors(prev => ({ ...prev, salarioModalidad40: 'Este campo es requerido' }))
-      return
+    if (includeModalidad40) {
+      validateSalarioModalidad40(salarioModalidad40)
+      if (modalidad40Errors.salarioModalidad40) {
+        return
+      }
     }
     handleSubmit(e, { includeModalidad40, salarioModalidad40, anosModalidad40 })
   }
