@@ -174,7 +174,7 @@ const Login = () => {
               <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                 <div>
                   <div>
-                    <RegisterForm onUserRegistered={handleUserRegistered} showNotification={showNotification}/>
+                    <RegisterForm onUserRegistered={handleUserRegistered} handleNotification={showNotification}/>
                   </div>
                   <div className="items-center py-3">
                     <button
@@ -195,7 +195,7 @@ const Login = () => {
               <div className="bg-gray-100 p-4 rounded-lg shadow-xl w-full max-w-md">
                 <div>
                   <div>
-                    <RecoveryForm onPasswordRecovered={handlePasswordRecovered} showNotification={showNotification}/>
+                    <RecoveryForm onPasswordRecovered={handlePasswordRecovered} handleNotification={showNotification}/>
                   </div>
                   <div className="items-center pt-3">
                     <button
