@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import authService from "../services/authService"
 import Header from "../components/Header"
 import Notification from "../components/Notification"
@@ -15,8 +15,16 @@ const Login = () => {
     const [isPreRegisterModalOpen, setIsPreRegisterModalOpen] = useState(false)
 
     const { showNotification } = useNotificationContext()
-
     const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search)
+        const register = searchParams.get('register')
+        if (register === 'true') {
+            setIsRegisteredOpen(true)
+        }
+    }, [location])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
