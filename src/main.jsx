@@ -5,9 +5,9 @@ import './index.css'
 import { NotificationProvider } from './context/NotificationContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  /* <StrictMode> */
     <NotificationProvider>
       <App />
     </NotificationProvider>
-  </StrictMode>,
+  /* </StrictMode>, */
 )

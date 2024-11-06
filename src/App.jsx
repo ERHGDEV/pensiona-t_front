@@ -4,6 +4,7 @@ import Landing from './pages/Landing'
 import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import UserPanel from './pages/UserPanel'
+import Verify from './pages/Verify'
 import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -18,7 +19,7 @@ function App() {
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/user" element={<UserPanel />} />
         </Route>
-
+        <Route path="/verify" element={<Verify />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
