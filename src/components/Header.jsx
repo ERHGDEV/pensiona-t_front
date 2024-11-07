@@ -6,11 +6,11 @@ const Header = () => {
     const navigate = useNavigate()
     const isLoggedIn = AuthService.isAuthenticated() 
     const userRole = AuthService.getUserRole() 
-    const username = AuthService.getUsername() 
+    const email = AuthService.getUsername() 
 
     const handleLogout = async () => {
         try {
-            const response = await axiosInstance.post('/logout', { username })
+            const response = await axiosInstance.post('/logout', { email })
 
             if (response.data.success) {
                 AuthService.logout()
@@ -52,9 +52,6 @@ const Header = () => {
             ) : (
                 <>
                     <Link to="/" className='text-2xl font-bold'>Pensiona-T</Link>
-                    <Link to='/login' className='text-lg font-semibold hover:text-gray-400'>
-                        Iniciar sesión
-                    </Link>
                 </>
             )}
         </header>
