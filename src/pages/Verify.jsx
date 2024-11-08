@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import Header from '../components/Header'
+import Button from '../components/Button'
 import URL from "../constants/url"
 import { motion } from 'framer-motion'
+import Dots from '../components/Dots'
 
 const Verify = () => {
   const [searchParams] = useSearchParams()
@@ -21,7 +23,7 @@ const Verify = () => {
           setIsLoading(false)
         }, 3000)
       } catch (error) {
-        const message = error.response?.data?.message || 'Error en el servidor'
+        const message = error.response?.data?.message
         setTimeout(() => {
           setStatus({ verified: false, message })
           setIsLoading(false)
@@ -39,26 +41,6 @@ const Verify = () => {
     }
   }, [searchParams])
 
-  const ellipsisVariants = {
-    animate: {
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  const dotVariants = {
-    initial: { y: 0 },
-    animate: {
-      y: [0, -10, 0],
-      transition: {
-        duration: 0.6,
-        repeat: Infinity,
-        ease: "easeInOut",
-      },
-    },
-  }
-
   return (
     <div className="min-h-screen">
       <Header />
@@ -73,20 +55,12 @@ const Verify = () => {
           <div className="mx-auto">
             <div className="p-8 text-center">
               <h1 className="block mt-1 text-lg leading-tight font-medium text-gray-100">
-                {isLoading ? ' ' : (status.verified ? '¡Listo!' : 'Error')}
+                {isLoading ? ' ' : (status.verified ? '¡Listo!' : 'Algo salió mal')}
               </h1>
-              <div className="mt-2 text-gray-200">
+              <div className="mt-6 text-gray-200">
                 <p>{status.message}</p>
                 {isLoading && (
-                  <motion.span
-                    variants={ellipsisVariants}
-                    animate="animate"
-                    className="inline-flex ml-1"
-                  >
-                    <motion.span variants={dotVariants} className="w-1 h-1 bg-gray-200 rounded-full mx-0.5" />
-                    <motion.span variants={dotVariants} className="w-1 h-1 bg-gray-200 rounded-full mx-0.5" />
-                    <motion.span variants={dotVariants} className="w-1 h-1 bg-gray-200 rounded-full mx-0.5" />
-                  </motion.span>
+                  <Dots />
                 )}
               </div>
               
@@ -99,22 +73,21 @@ const Verify = () => {
                   transition={{ delay: 0.2, duration: 0.5 }}
                   className="mt-6"
                 >
-                    <Link
-                        to="/login"
-                        className="max-w-fit mx-auto bg-white hover:bg-sky-100 text-sky-900 font-bold py-3 px-6 rounded-full text-lg transition duration-300 ease-in-out flex items-center justify-center"
-                    >
-                        Inicia sesión
-                        <span className="ml-2">→</span>
-                    </Link>
+                  <div className='className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
+                    <Button to="/login" children="Iniciar sesión" />
+                  </div>
                 </motion.div>
               ) : (
                 <motion.p 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="mt-6 text-red-500"
+                  className="mt-6"
                 >
-                  Por favor, intenta verificar tu cuenta nuevamente o contacta a soporte.
+                  <p className='mb-4'>Por favor, contacta a <a className="font-bold" href="mailto:pensionat.calculadora@gmail.com">soporte</a>.</p>
+                  <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+                    <Button to="/" order="primary" children="Volver al inicio" />
+                  </div>
                 </motion.p>
               )}
             </div>

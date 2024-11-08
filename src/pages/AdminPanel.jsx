@@ -4,6 +4,7 @@ import Header from "../components/Header"
 import UserList from "../components/UserList"
 import AddUserForm from "../components/AddUserForm"
 import Notification from "../components/Notification"
+import Dots from "../components/Dots"
 import { useNotificationContext } from "../context/NotificationContext"
 import AuthService from "../services/authService"
 import axiosInstance from "../services/axiosConfig"
@@ -98,7 +99,12 @@ const AdminPanel = () => {
   }
   
     if (loading) {
-      return <div className="flex justify-center items-center h-screen">Cargando...</div>
+      return (
+        <div className="flex flex-col justify-center items-center h-screen">
+          <p className="mb-8">Cargando</p>
+          <Dots />
+        </div>
+      )
     }
   
     return (

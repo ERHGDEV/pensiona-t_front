@@ -9,6 +9,7 @@ import { validateInputs } from "../utils/userFormValidation"
 import { calcularPension } from "../utils/calculatePension"
 import PensionCalculatorForm from "../components/PensionCalculatorForm"
 import PensionResults from "../components/PensionResults"
+import Dots from "../components/Dots"
 
 let SALARIO_MINIMO
 let UMA
@@ -48,14 +49,11 @@ const UserPanel = () => {
   const verifyUser = async () => {
     try {
       const response = await axiosInstance.get("/user")
-
-      if (!response.data.isLoggedIn) {
-        localStorage.removeItem("token")
-        localStorage.removeItem("role")
-        navigate("/login")
-        return
+      if (!response.data.name) {
+        throw new Error('No se pudo verificar tu sesión')
       }
-      showNotification(`Bienvenido, ${response.data.username}`, 'success')
+
+      showNotification(`Bienvenido, ${response.data.name}`, 'success')
       
       const expirationDate = new Date(response.data.expiration)
       const today = new Date()
@@ -143,7 +141,12 @@ const UserPanel = () => {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Cargando...</div>
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <p className="mb-8">Cargando</p>
+        <Dots />
+      </div>
+    )
   }
 
   return (

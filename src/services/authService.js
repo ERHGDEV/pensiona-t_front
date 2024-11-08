@@ -2,8 +2,8 @@ import axios from 'axios'
 import URL from '../constants/url'
 
 class AuthService {
-  async login(username, password) {
-    const response = await axios.post(`${URL}/login`, { username, password })
+  async login(email, password) {
+    const response = await axios.post(`${URL}/login`, { email, password })
     if (response.data.token) {
       this.setToken(response.data.token)
     }
@@ -39,7 +39,7 @@ class AuthService {
     if (!token) return null
     const payload = token.split('.')[1]
     const data = JSON.parse(atob(payload))
-    return data.username
+    return data.email
   }
 
   getCurrentUser() {

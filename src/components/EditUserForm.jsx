@@ -5,9 +5,8 @@ import AuthService from "../services/authService"
 
 const EditUserForm = ({ user, onClose, onUserUpdated, handleNotification }) => {
     const [editedUser, setEditedUser] = useState({
-        numeroConsar: user.numeroConsar,
-        firstname: user.firstname,
-        username: user.username,
+        name: user.name,
+        email: user.email,
         expiration: format(parseISO(user.expiration),'yyyy-MM-dd'),
         role: user.role,
         status: user.status
@@ -80,37 +79,24 @@ const EditUserForm = ({ user, onClose, onUserUpdated, handleNotification }) => {
                 <h2 className="text-sky-950 text-2xl font-bold mb-2">Editar Usuario</h2>
                 <form onSubmit={handleSubmit} className="space-y-2">
                     <div>
-                        <label htmlFor="numeroConsar" className="block text-sm font-medium text-gray-700">Número Consar</label>
-                        <input
-                            type="number"
-                            id="numeroConsar"
-                            name="numeroConsar"
-                            value={editedUser.numeroConsar}
-                            onChange={handleChange}
-                            disabled
-                            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800"
-                        />
-                    </div>
-                    
-                    <div>
-                        <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">Nombre</label>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre</label>
                         <input
                             type="text"
-                            id="firstname"
-                            name="firstname"
-                            value={editedUser.firstname}
+                            id="name"
+                            name="name"
+                            value={editedUser.name}
                             onChange={handleChange}
                             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
                         <input
                             type="text"
-                            id="username"
-                            name="username"
-                            value={editedUser.username}
+                            id="email"
+                            name="email"
+                            value={editedUser.email}
                             onChange={handleChange}
                             disabled
                             className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-800"

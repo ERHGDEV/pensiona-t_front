@@ -4,13 +4,10 @@ import AuthService from "../services/authService"
 
 const AddUserForm = ({ onUserAdded, handleNotification }) => {
     const [newUser, setNewUser] = useState({
-        numeroConsar: '',
-        firstname: '',
-        username: '',
+        name: '',
+        email: '',
         password: '',
-        role: 'user',
-        secretQuestion: '',
-        secretAnswer: ''
+        role: 'user'
     })
 
     const handleChange = (e) => {
@@ -27,13 +24,10 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
             if (response.data.success) {
                 handleNotification('Usuario creado correctamente', 'success')
                 setNewUser({
-                    numeroConsar: '',
-                    firstname: '',
-                    username: '',
+                    name: '',
+                    email: '',
                     password: '',
-                    role: 'user',
-                    secretQuestion: '',
-                    secretAnswer: ''
+                    role: 'user'
                 })
                 onUserAdded()
             } else {
@@ -55,38 +49,25 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
         <>
             <h2 className="text-sky-950 text-2xl font-bold mb-2">Añadir Usuario</h2>
             <form onSubmit={handleSubmit} className="space-y-2">
-                
                 <div>
-                    <label htmlFor="numeroConsar" className="block text-sm font-medium text-gray-700">Número Consar</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre</label>
                     <input
-                        type="number"
-                        id="numeroConsar"
-                        name="numeroConsar"
-                        value={newUser.numeroConsar}
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={newUser.name}
                         onChange={handleChange}
                         required
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
                     />
                 </div>
                 <div>
-                    <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">Nombre</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
                     <input
                         type="text"
-                        id="firstname"
-                        name="firstname"
-                        value={newUser.firstname}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="username" className="block text-sm font-medium text-gray-700">Usuario</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={newUser.username}
+                        id="email"
+                        name="email"
+                        value={newUser.email}
                         onChange={handleChange}
                         required
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
@@ -116,34 +97,6 @@ const AddUserForm = ({ onUserAdded, handleNotification }) => {
                         <option value="user">Usuario</option>
                         <option value="admin">Administrador</option>
                     </select>
-                </div>
-                <div>
-                    <label htmlFor="secretQuestion" className="block text-sm font-medium text-gray-700">Pregunta Secreta</label>
-                    <select
-                        id="secretQuestion"
-                        name="secretQuestion"
-                        value={newUser.secretQuestion}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
-                    >
-                        <option value="">Selecciona una pregunta</option>
-                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
-                        <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
-                        <option value="¿Cuál es el nombre de tu mejor amigo de la infancia?">¿Cuál es el nombre de tu mejor amigo de la infancia?</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="secretAnswer" className="block text-sm font-medium text-gray-700">Respuesta Secreta</label>
-                    <input
-                        type="text"
-                        id="secretAnswer"
-                        name="secretAnswer"
-                        value={newUser.secretAnswer}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-800"
-                    />
                 </div>
                 <div className="pt-2">
                     <button

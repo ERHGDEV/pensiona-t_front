@@ -51,7 +51,7 @@ const Header = () => {
                 </>
             ) : (
                 <>
-                    <Link to="/" className='text-2xl font-bold'>Pensiona-T</Link>
+                    <Link to="/" className='text-2xl hover:text-gray-300 active:text-gray-500 font-bold'>Pensiona-T</Link>
                 </>
             )}
         </header>

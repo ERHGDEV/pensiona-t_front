@@ -7,9 +7,11 @@ const Notification = () => {
 
   return (
     <div
-      className={`fixed top-24 left-1/2 transform -translate-x-1/2
-        ${type === 'error' ? 'bg-red-500 text-white' : 'bg-green-500 text-black'}
-        px-4 py-2 rounded shadow-lg z-50
+      className={`fixed z-50 top-24 left-1/2 transform -translate-x-1/2 
+        px-6 py-3 rounded shadow-lg
+        text-center font-bold
+        bg-white
+        ${type === 'error' ? 'text-red-600' : 'text-green-600'}
       `}
     >
       {message}

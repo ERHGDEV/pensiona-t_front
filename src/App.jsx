@@ -4,9 +4,12 @@ import Landing from './pages/Landing'
 import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import UserPanel from './pages/UserPanel'
+import Register from './pages/Register'
 import Verify from './pages/Verify'
+import Recovery from './pages/Recovery'
 import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
+import ForgotPassword from './pages/ForgotPassword'
 
 function App() {
   return (
@@ -19,7 +22,10 @@ function App() {
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/user" element={<UserPanel />} />
         </Route>
+        <Route path='/register' element={<Register />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/password" element={<ForgotPassword />} />
+        <Route path="/recovery" element={<Recovery />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
