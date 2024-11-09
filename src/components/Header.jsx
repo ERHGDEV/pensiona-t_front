@@ -32,20 +32,24 @@ const Header = () => {
                     <h1 className='text-2xl font-bold'>Pensiona-T</h1>
                     <nav>
                         {userRole === 'admin' && (
-                            <Link to='/admin' className='text-green-200 mr-4'>
+                            <Link to='/admin' className='text-green-100 hover:text-green-300 active:text-green-700 mr-8'>
                                 Dashboard
                             </Link>
                         )}
                         {userRole === 'user' && (
-                            <Link to='/user' className='text-green-200 mr-4'>
+                            <Link to='/user' className='text-green-100 hover:text-green-300 active:text-green-700 mr-8'>
                                 Dashboard
                             </Link>
                         )}
                         <button
                             onClick={handleLogout}
-                            className='text-lg font-semibold hover:text-gray-400'
+                            className='text-lg font-semibold 
+                            hover:text-gray-300 active:text-gray-500
+                            transition duration-300 ease-in-out
+                            rounded-full'
                         >
-                            Cerrar sesión
+                            Salir
+                            <span className="ml-2">→</span>
                         </button>
                     </nav>
                 </>
