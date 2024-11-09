@@ -1,13 +1,6 @@
 import Button from "./Button"
-import { useNavigate } from "react-router-dom"
 
 const CallToAction = () => {
-    const navigate = useNavigate()
-
-    const handleRegisterClick = () => {
-        navigate('/login?register=true')
-    }
-
     return (
         <section className="mt-20 text-center">
             <h2 className="text-3xl font-bold text-white mb-4">
