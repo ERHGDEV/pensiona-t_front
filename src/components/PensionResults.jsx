@@ -1,4 +1,4 @@
-import React from 'react'
+import Button from "./Button"
 
 const PensionResults = ({ results, onBack, onGeneratePDF }) => {
   return (
@@ -40,18 +40,10 @@ const PensionResults = ({ results, onBack, onGeneratePDF }) => {
       </table>
     </div>
     <div className="flex justify-between max-w-lg mx-auto">
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        onClick={onBack}
-      >
-        Volver
-      </button>
-      <button
-        onClick={onGeneratePDF}
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      >
-        Generar PDF
-      </button>
+      <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+        <Button onClick={onGeneratePDF} order="primary" children="Generar PDF" />
+        <Button onClick={onBack} children="Regresar" />
+      </div>
     </div>
     </>
   )
