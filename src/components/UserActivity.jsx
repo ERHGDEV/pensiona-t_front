@@ -22,6 +22,7 @@ const UserActivity = () => {
       const response = await axiosInstance.get('/admin/login-history', {
         params: { start: start.toISOString(), end: end.toISOString() }
       })
+      console.log('Login data:', response.data)
       prepareChartData(response.data, start, end)
     } catch (error) {
       console.error('Error fetching login data:', error)
@@ -30,21 +31,22 @@ const UserActivity = () => {
 
   const prepareChartData = (data, start, end) => {
     const days = eachDayOfInterval({ start, end })
+  
     const loginCounts = days.map(day => {
-      const count = data.filter(login => 
-        new Date(login.timestamp).toDateString() === day.toDateString()
-      ).length
+      const formattedDay = format(day, 'yyyy-MM-dd')
+      const loginDataForDay = data.find(login => login.date === formattedDay)
+      const count = loginDataForDay ? loginDataForDay.count : 0
       return { x: format(day, 'dd-MMM', { locale: es }), y: count }
     })
-
+  
     setChartData({
-      labels: loginCounts.length ? loginCounts.map(d => d.x) : [],
+      labels: loginCounts.map(d => d.x),
       datasets: [
         {
           label: 'Inicios de sesión',
-          data: loginCounts.length ? loginCounts.map(d => d.y) : [],
-          borderColor: '#082f49', // Color de línea
-          backgroundColor: 'rgba(255,255,255,0.2)', // Color del punto
+          data: loginCounts.map(d => d.y),
+          borderColor: '#082f49',
+          backgroundColor: 'rgba(255,255,255,0.2)',
           tension: 0.1
         }
       ]
