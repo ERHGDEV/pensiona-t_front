@@ -30,7 +30,11 @@ const ForgotPassword = () => {
             }, 3000)
         } catch (error) {
             setTimeout(() => {
-                setStatus("Error en el servidor")
+                if (error.response && error.response.status === 429) {
+                    setStatus("Demasiados intentos, regresa más tarde")
+                } else {
+                    setStatus("Error en el servidor")
+                }
                 setIsSubmitting(false)
                 setShowForm(false)
             }, 3000)
