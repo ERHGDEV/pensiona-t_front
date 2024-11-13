@@ -28,7 +28,11 @@ const Recovery = () => {
                 }, 3000)
             } catch (error) {
                 setTimeout(() => {
-                    setStatus({ message: 'Token inválido o expirado', success: false })
+                    if (error.response && error.response.status === 429) {
+                        setStatus({ message: 'Demasiados intentos, regresa más tarde', success: false })
+                    } else {
+                        setStatus({ message: 'Token inválido o expirado', success: false })
+                    }
                     setIsLoading(false)
                 }, 3000)
             }
@@ -66,7 +70,11 @@ const Recovery = () => {
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Error al actualizar la contraseña'
             setTimeout(() => {
-                setStatus({ message: errorMessage, success: false })
+                if (error.response && error.response.status === 429) {
+                    setStatus({ message: 'Demasiados intentos, regresa más tarde', success: false })
+                } else {
+                    setStatus({ message: errorMessage, success: false })
+                }
                 setIsSubmitting(false)
             }, 3000)
         }

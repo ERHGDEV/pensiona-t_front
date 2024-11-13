@@ -62,6 +62,8 @@ const Register = () => {
             setTimeout(() => {
                 if (error.response && error.response.status === 400) {
                     setStatusMessage(error.response.data.message || "Error al registrar usuario")
+                } else if (error.response && error.response.status === 429) {
+                    setStatusMessage('Demasiados intentos, regresa más tarde')
                 } else {
                     setStatusMessage("Error en el servidor")
                 }

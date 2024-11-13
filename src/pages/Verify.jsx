@@ -25,7 +25,11 @@ const Verify = () => {
       } catch (error) {
         const message = error.response?.data?.message
         setTimeout(() => {
-          setStatus({ verified: false, message })
+          if (error.response && error.response.status === 429) {
+            setStatus({ verified: false, message: 'Demasiados intentos, regresa más tarde' })
+          } else {
+            setStatus({ verified: false, message })
+          }
           setIsLoading(false)
         }, 3000)
       }

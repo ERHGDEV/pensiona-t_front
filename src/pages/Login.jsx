@@ -37,7 +37,11 @@ const Login = () => {
     } catch (error) {
       console.error('Error during login:', error)
       setLoading(false)
-      setStatusMessage('Error en el servidor')
+      if (error.response && error.response.status === 429) {
+        setStatusMessage('Demasiados intentos, regresa más tarde')
+      } else {
+        setStatusMessage('Error en el servidor')
+      }
     }
   }
 
