@@ -22,7 +22,6 @@ const UserActivity = () => {
       const response = await axiosInstance.get('/admin/login-history', {
         params: { start: start.toISOString(), end: end.toISOString() }
       })
-      console.log('Login data:', response.data)
       prepareChartData(response.data, start, end)
     } catch (error) {
       console.error('Error fetching login data:', error)
