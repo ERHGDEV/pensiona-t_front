@@ -7,8 +7,8 @@ export const validateInputs = ( formData, setErrors, SALARIO_MINIMO, UMA ) => {
     const semanas = parseInt(semanasCotizadas)
     const edadActual = parseInt(edad)
 
-    const SALARIO_MINIMO_MENSUAL = SALARIO_MINIMO * 30
-    const SALARIO_MAXIMO_MENSUAL = UMA * 25 * 30
+    const SALARIO_MINIMO_MENSUAL = SALARIO_MINIMO * 30.4
+    const SALARIO_MAXIMO_MENSUAL = UMA * 25 * 30.4
 
     if (isNaN(salarioMensual) || salarioMensual < SALARIO_MINIMO_MENSUAL || salarioMensual > SALARIO_MAXIMO_MENSUAL) {
       newErrors.salarioPromedio = `El salario mensual debe estar entre $${SALARIO_MINIMO_MENSUAL.toFixed(2)} y $${SALARIO_MAXIMO_MENSUAL.toFixed(2)} pesos.`

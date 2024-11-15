@@ -7,7 +7,7 @@ export const calcularPension = (salarioPromedio, semanasCotizadas, edad, estadoC
       semanasTotales += (60 - edad) * 52
     }
 
-    const salarioDiario = salarioMensual / 30
+    const salarioDiario = salarioMensual / 30.4
     const salarioEnVSM = salarioDiario / SALARIO_MINIMO
   
     const rango = TABULADOR.find(r => salarioEnVSM >= r.min && salarioEnVSM <= r.max)
@@ -36,7 +36,7 @@ export const calcularPension = (salarioPromedio, semanasCotizadas, edad, estadoC
   
     const pensionPorEdad = porcentajes.map(p => {
       let pension = totalCuantiaBasica * p.porcentaje
-      pension = Math.max(pension, SALARIO_MINIMO * 30)
+      pension = Math.max(pension, SALARIO_MINIMO * 30.4)
       pension = Math.min(pension, salarioMensual)
   
       return {

@@ -30,12 +30,12 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
   const validateSalarioModalidad40 = (value) => {
     const salarioModalidad40 = parseFloat(value)
     const salarioPromedio = parseFloat(formData.salarioPromedio)
-    const maxSalario = 25 * UMA * 30
+    const maxSalario = 25 * UMA * 30.4
 
     if (salarioModalidad40 < salarioPromedio) {
       setModalidad40Errors(prev => ({ ...prev, salarioModalidad40: 'El salario debe ser mayor o igual al último salario.' }))
     } else if (salarioModalidad40 > maxSalario) {
-      setModalidad40Errors(prev => ({ ...prev, salarioModalidad40: `El salario de Mod 40 no puede ser mayor a ${maxSalario.toFixed(2)}` }))
+      setModalidad40Errors(prev => ({ ...prev, salarioModalidad40: `El salario de Mod 40 no puede ser mayor a $${maxSalario.toFixed(2)} pesos` }))
     } else {
       setModalidad40Errors(prev => ({ ...prev, salarioModalidad40: '' }))
     }
