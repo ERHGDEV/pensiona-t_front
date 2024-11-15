@@ -9,6 +9,7 @@ import { useNotificationContext } from "../context/NotificationContext"
 import AuthService from "../services/authService"
 import axiosInstance from "../services/axiosConfig"
 import CalculatorParameters from "../components/CalculatorParameters"
+import AdminEmailForm from "../components/AdminEmailForm"
 
 const AdminPanel = () => {
   const [loading, setLoading] = useState(true)
@@ -90,6 +91,8 @@ const AdminPanel = () => {
         />
 
         <UserActivity />
+
+        <AdminEmailForm />
       </main>
     </div>
   )
