@@ -156,11 +156,11 @@ const UserPanel = () => {
 
       <main className="mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Calculadora</h1>
-        {remainingDays !== null && (
+        {/* {remainingDays !== null && (
           <p className="mb-4 text-yellow-400">
             Días restantes de tu suscripción: {remainingDays}
           </p>
-        )}
+        )} */}
 
         {showForm ? (
           <PensionCalculatorForm
