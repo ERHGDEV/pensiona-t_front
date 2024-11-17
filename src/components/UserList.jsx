@@ -34,7 +34,9 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
     return (
         <div className="bg-gray-50 rounded shadow-md p-4 mt-8">
             <div className="flex justify-between items-end mb-4">
-                <h2 className="text-2xl text-sky-950 font-bold w-full">Usuarios</h2>
+                <h2 className="text-2xl text-sky-950 font-bold w-full">
+                    Usuarios<span className="ml-2 text-sm text-gray-500"> ({filteredUsers.length})</span>
+                </h2>
                 <AdminButton
                     onClick={handleAddClick}
                     variant="primary"
@@ -65,8 +67,9 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                     <thead className="bg-sky-700 text-gray-100 uppercase text-sm leading-normal sticky top-0">
                         <tr>
                             <th className="py-3 px-6 text-left" style={{ width: "40%" }}>Nombre</th>
-                            <th className="py-3 px-6 text-left" style={{ width: "40%" }}>Email</th>
+                            <th className="py-3 px-6 text-left" style={{ width: "35%" }}>Email</th>
                             <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Role</th>
+                            <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Creado</th>
                             <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Vigencia</th>
                             <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Estatus</th>
                             <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Acciones</th>
@@ -78,8 +81,11 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{user.name}</td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{user.email}</td>
                                 <td className="py-3 px-6 text-left">{user.role}</td>
+                                <td className="py-3 px-6 text-left whitespace-nowrap">{formatDate(user.created)}</td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
-                                <td className="py-3 px-6 text-left">{user.status}</td>
+                                <td className="py-3 px-6 text-center">
+                                    {user.verified ? '✅' : ''}
+                                </td>
                                 <td className="py-3 px-6 text-left whitespace-nowrap">
                                     <AdminButton
                                         onClick={() => handleEditClick(user)}
