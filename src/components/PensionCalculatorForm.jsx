@@ -10,11 +10,6 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
   const [inicioAnio, setInicioAnio] = useState(new Date().getFullYear().toString())
   const [modalidad40Errors, setModalidad40Errors] = useState({})
 
-  /* const months = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-  ]  */
-
   const currentYear = new Date().getFullYear()
   const yearRange = Array.from({ length: 16 }, (_, i) => currentYear -5 + i)
 
