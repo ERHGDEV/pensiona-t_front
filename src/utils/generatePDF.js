@@ -1,5 +1,7 @@
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
+import { MONTHS as months } from '../constants/calculateData'
+import { PERCENTAGES as percentages } from '../constants/calculateData'
 
 const getFormattedDate = () => {
   const date = new Date()
@@ -135,29 +137,44 @@ const generatePDF = (results, SALARIO_MINIMO) => {
 
   addFooter()
 
-  const getMonthName = (monthNumber) => {
-    const months = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-    ]
-    return months[monthNumber - 1]
-  }
-
   if (results.salarioRegistradoM40 && results.salarioPromedioModalidad40 && results.pensionModalidad40) {
     doc.addPage()
     addHeader('Modalidad 40')
 
-    doc.text(`Salario a registrar: $${results.salarioRegistradoM40.toFixed(2)}`, 15, height + 20)
-    doc.text(`Años que se pagará: ${results.anosModalidad40}`, 15, height + 25)
-    doc.text(`Salario promedio después de Modalidad 40: $${results.salarioPromedioModalidad40.toFixed(2)}`, 15, height + 30)
-    doc.text(`Inicio de pago: ${getMonthName(parseInt(results.inicioMes))} del ${results.inicioAnio}`, 15, height + 35)
+    const getMonthName = (monthNumber) => {
+      return months[monthNumber - 1]
+    }
+
+    const column1X = 15 
+    const column2X = doc.internal.pageSize.width / 2 
+    const baseY = height + 20 
+    const lineSpacing = 5 
+
+    doc.text(`Salario a registrar: $${results.salarioRegistradoM40.toFixed(2)}`, column1X, baseY)
+    doc.setFont("helvetica", "bold") 
+    doc.text(`Salario promedio final: $${results.salarioPromedioModalidad40.toFixed(2)}`, column1X, baseY + lineSpacing)
+    doc.setFont("helvetica", "normal") 
+
+    const anosTexto = `Se pagará por: `
+    const anosNegrita = `${results.anosModalidad40} años`
+    doc.text(anosTexto, column2X, baseY)
+    doc.setFont("helvetica", "bold") 
+    doc.text(anosNegrita, column2X + doc.getTextWidth(anosTexto), baseY) 
+    doc.setFont("helvetica", "normal")
+
+    const inicioTexto = `Inicio de pago: `
+    const inicioNegrita = `${getMonthName(parseInt(results.inicioMes))} del ${results.inicioAnio}`
+    doc.text(inicioTexto, column2X, baseY + lineSpacing)
+    doc.setFont("helvetica", "bold") 
+    doc.text(inicioNegrita, column2X + doc.getTextWidth(inicioTexto), baseY + lineSpacing) 
+    doc.setFont("helvetica", "normal") 
 
     const modalidad40TableData = [
       ['Edad de retiro', 'Pensión Normal', 'Pensión Mod 40', 'Diferencia'],
       ...results.pensionPorEdad.map((r, index) => [
         `${r.edad} años`,
         `$${r.pension.toFixed(2)}`,
-        `$${results.pensionModalidad40[index].pension.toFixed(2)}`,
+        { content: '$' + results.pensionModalidad40[index].pension.toFixed(2), styles: { fontStyle: 'bold' } },
         `$${(results.pensionModalidad40[index].pension - r.pension).toFixed(2)}`
       ])
     ]
@@ -165,27 +182,15 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     doc.autoTable({
       head: [modalidad40TableData[0]],
       body: modalidad40TableData.slice(1),
-      startY: 50,
+      startY: 40,
       theme: stylesPDF.theme,
       styles: stylesPDF.styles,
       headStyles: stylesPDF.headStyles,
     })
 
     const costsTableData = [
-      ['Año', 'Costo', 'Meses', 'Costo Mensual', 'Gasto Anualizado']
+      ['Año', 'Costo', 'Meses', 'Pago Mensual', 'Costo Anualizado']
     ]
-
-    const percentages = {
-      2022: 10.075,
-      2023: 11.166,
-      2024: 12.256,
-      2025: 13.347,
-      2026: 14.438,
-      2027: 15.528,
-      2028: 16.619,
-      2029: 17.709,
-      2030: 18.800
-    }
 
     let totalGastoAnualizado = 0
     const startYear = parseInt(results.inicioAnio)
@@ -220,13 +225,13 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     }
 
     costsTableData.push([
-      'Total',
-      '',
-      '',
-      '',
-      `$${totalGastoAnualizado.toFixed(2)}`
+      { content: '', styles: { fillColor: [200, 200, 200] } }, 
+      { content: '', styles: { fillColor: [200, 200, 200] } }, 
+      { content: '', styles: { fillColor: [200, 200, 200] } }, 
+      { content: 'Total', styles: { fontStyle: 'bold', fillColor: [200, 200, 200] } }, 
+      { content: `$${totalGastoAnualizado.toFixed(2)}`, styles: { fontStyle: 'bold', fillColor: [200, 200, 200] } }
     ])
-
+    
     doc.autoTable({
       head: [costsTableData[0]],
       body: costsTableData.slice(1),
