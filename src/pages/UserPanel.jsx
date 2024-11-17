@@ -122,6 +122,8 @@ const UserPanel = () => {
           calculatedResults.salarioPromedioModalidad40 = salarioPromedioModalidad40
           calculatedResults.pensionModalidad40 = calculatedResultsModalidad40.pensionPorEdad
           calculatedResults.anosModalidad40 = parseInt(modalidad40Data.anosModalidad40)
+          calculatedResults.inicioMes = modalidad40Data.inicioMes
+          calculatedResults.inicioAnio = modalidad40Data.inicioAnio
         }
 
         setResults(calculatedResults)

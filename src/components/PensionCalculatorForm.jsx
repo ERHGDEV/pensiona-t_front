@@ -5,7 +5,17 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
   const [includeModalidad40, setIncludeModalidad40] = useState(false)
   const [salarioModalidad40, setSalarioModalidad40] = useState('')
   const [anosModalidad40, setAnosModalidad40] = useState('1')
+  const [inicioMes, setInicioMes] = useState('1')
+  const [inicioAnio, setInicioAnio] = useState(new Date().getFullYear().toString())
   const [modalidad40Errors, setModalidad40Errors] = useState({})
+
+  const months = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ]
+
+  const currentYear = new Date().getFullYear()
+  const yearRange = Array.from({ length: 16 }, (_, i) => currentYear -5 + i)
 
   useEffect(() => {
     if (!includeModalidad40) {
@@ -24,6 +34,10 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
       validateSalarioModalidad40(value)
     } else if (name === 'anosModalidad40') {
       setAnosModalidad40(value)
+    } else if (name === 'inicioMes') {
+      setInicioMes(value)
+    } else if (name === 'inicioAno') {
+      setInicioAnio(value)
     }
   }
 
@@ -49,7 +63,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
         return
       }
     }
-    handleSubmit(e, { includeModalidad40, salarioModalidad40, anosModalidad40 })
+    handleSubmit(e, { includeModalidad40, salarioModalidad40, anosModalidad40, inicioMes, inicioAnio })
   }
 
   return (
@@ -203,6 +217,33 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
               Años que se pagará
             </label>
           </div>
+          <div className="relative z-0 w-full mb-5 group">
+        <label className="block text-md text-gray-400 mb-2">Cuándo se iniciará el pago</label>
+        <div className="flex gap-4">
+          <select
+            name="inicioMes"
+            className="block py-2.5 px-0 w-1/2 text-md bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-gray-100 peer"
+            required
+            value={inicioMes}
+            onChange={handleModalidad40Change}
+          >
+            {months.map((month, index) => (
+              <option key={index} value={index + 1} className="text-sky-950">{month}</option>
+            ))}
+          </select>
+          <select
+            name="inicioAno"
+            className="block py-2.5 px-0 w-1/2 text-md bg-transparent border-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-gray-100 peer"
+            required
+            value={inicioAnio}
+            onChange={handleModalidad40Change}
+          >
+            {yearRange.map(year => (
+              <option key={year} value={year} className="text-sky-950">{year}</option>
+            ))}
+          </select>
+        </div>
+      </div>
         </>
       )}
       <div>

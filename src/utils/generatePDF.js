@@ -135,6 +135,14 @@ const generatePDF = (results, SALARIO_MINIMO) => {
 
   addFooter()
 
+  const getMonthName = (monthNumber) => {
+    const months = [
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ]
+    return months[monthNumber - 1]
+  }
+
   if (results.salarioRegistradoM40 && results.salarioPromedioModalidad40 && results.pensionModalidad40) {
     doc.addPage()
     addHeader('Modalidad 40')
@@ -142,6 +150,7 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     doc.text(`Salario a registrar: $${results.salarioRegistradoM40.toFixed(2)}`, 15, height + 20)
     doc.text(`Años que se pagará: ${results.anosModalidad40}`, 15, height + 25)
     doc.text(`Salario promedio después de Modalidad 40: $${results.salarioPromedioModalidad40.toFixed(2)}`, 15, height + 30)
+    doc.text(`Inicio de pago: ${getMonthName(parseInt(results.inicioMes))} del ${results.inicioAnio}`, 15, height + 35)
 
     const modalidad40TableData = [
       ['Edad de retiro', 'Pensión Normal', 'Pensión Mod 40', 'Diferencia'],
@@ -156,15 +165,14 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     doc.autoTable({
       head: [modalidad40TableData[0]],
       body: modalidad40TableData.slice(1),
-      startY: 45,
+      startY: 50,
       theme: stylesPDF.theme,
       styles: stylesPDF.styles,
       headStyles: stylesPDF.headStyles,
     })
 
-    
     const costsTableData = [
-      ['Año', 'Costo', 'Pago Mensual', 'Costo Anualizado']
+      ['Año', 'Costo', 'Meses', 'Costo Mensual', 'Gasto Anualizado']
     ]
 
     const percentages = {
@@ -179,37 +187,54 @@ const generatePDF = (results, SALARIO_MINIMO) => {
       2030: 18.800
     }
 
-    for (let year = 2022; year <= 2030; year++) {
-      const percentage = percentages[year]
-      const pagoMensual = results.salarioRegistradoM40 * (percentage / 100)
-      const pagoAnual = pagoMensual * 12
+    let totalGastoAnualizado = 0
+    const startYear = parseInt(results.inicioAnio)
+    const startMonth = parseInt(results.inicioMes)
+    const yearsToCalculate = parseInt(results.anosModalidad40)
+    let remainingMonths = yearsToCalculate * 12
+
+    for (let i = 0; remainingMonths > 0; i++) {
+      const year = startYear + i
+      let percentage
+      if (year < 2022) {
+        percentage = percentages[2022]
+      } else if (year > 2030) {
+        percentage = percentages[2030]
+      } else {
+        percentage = percentages[year]
+      }
+      const costoMensual = results.salarioRegistradoM40 * (percentage / 100)
+      const meses = i === 0 ? 13 - startMonth : (remainingMonths >= 12 ? 12 : remainingMonths)
+      const gastoAnualizado = costoMensual * meses
 
       costsTableData.push([
         year.toString(),
         `${percentage.toFixed(3)}%`,
-        `$${pagoMensual.toFixed(2)}`,
-        `$${pagoAnual.toFixed(2)}`
+        meses.toString(),
+        `$${costoMensual.toFixed(2)}`,
+        `$${gastoAnualizado.toFixed(2)}`
       ])
+
+      totalGastoAnualizado += gastoAnualizado
+      remainingMonths -= meses
     }
+
+    costsTableData.push([
+      'Total',
+      '',
+      '',
+      '',
+      `$${totalGastoAnualizado.toFixed(2)}`
+    ])
 
     doc.autoTable({
       head: [costsTableData[0]],
       body: costsTableData.slice(1),
-      startY: doc.lastAutoTable.finalY + 7,
+      startY: doc.lastAutoTable.finalY + 10,
       theme: stylesPDF.theme,
       styles: stylesPDF.styles,
       headStyles: stylesPDF.headStyles,
     })
-
-    doc.setFont("helvetica", "bold")
-    doc.setFontSize(10)
-    doc.text('¿Cómo calcular el pago de la Modalidad 40?', 15, doc.lastAutoTable.finalY + 8)
-
-    doc.setFont("helvetica", "normal")
-    doc.text('• Ubica en la tabla el año en qué iniciaras los pagos.', 15, doc.lastAutoTable.finalY + 15)
-    doc.text('• Multiplica el pago mensual por los meses restantes del año.', 15, doc.lastAutoTable.finalY + 20)
-    doc.text('• Suma el pago mensual con el costo anualizado del siguiente año.', 15, doc.lastAutoTable.finalY + 25)
-    doc.text('• Repite el proceso hasta el año en que completes los años de pago.', 15, doc.lastAutoTable.finalY + 30)
 
     doc.setFont("helvetica", "bold")
     doc.setFontSize(10)
