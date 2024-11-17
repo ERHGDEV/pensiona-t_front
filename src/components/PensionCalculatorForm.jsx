@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Button from './Button'
+import { MONTHS as months } from '../constants/calculateData'
 
 const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubmit, UMA }) => {
   const [includeModalidad40, setIncludeModalidad40] = useState(false)
@@ -9,10 +10,10 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
   const [inicioAnio, setInicioAnio] = useState(new Date().getFullYear().toString())
   const [modalidad40Errors, setModalidad40Errors] = useState({})
 
-  const months = [
+  /* const months = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-  ]
+  ]  */
 
   const currentYear = new Date().getFullYear()
   const yearRange = Array.from({ length: 16 }, (_, i) => currentYear -5 + i)
@@ -218,7 +219,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
             </label>
           </div>
           <div className="relative z-0 w-full mb-5 group">
-        <label className="block text-md text-gray-400 mb-2">Cuándo se iniciará el pago</label>
+        <label className="block text-md text-gray-400">Cuándo se iniciará el pago</label>
         <div className="flex gap-4">
           <select
             name="inicioMes"

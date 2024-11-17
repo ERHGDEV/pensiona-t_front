@@ -3,6 +3,23 @@ const SEMANAS_MAXIMAS = 2600
 const EDAD_MINIMA = 43
 const EDAD_MAXIMA = 75
 
+const MONTHS = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+]
+
+const PERCENTAGES = {
+  2022: 10.075,
+  2023: 11.166,
+  2024: 12.256,
+  2025: 13.347,
+  2026: 14.438,
+  2027: 15.528,
+  2028: 16.619,
+  2029: 17.709,
+  2030: 18.800
+}
+
 const TABULADOR = [
   { min: 1.00, max: 1.25, cuantiaBasica: 80.000, incrementoAnual: 0.563 },
   { min: 1.26, max: 1.5, cuantiaBasica: 77.110, incrementoAnual: 0.814 },
@@ -33,6 +50,8 @@ export {
     SEMANAS_MAXIMAS,
     EDAD_MINIMA,
     EDAD_MAXIMA,
+    MONTHS,
+    PERCENTAGES,
     TABULADOR
 }
     
