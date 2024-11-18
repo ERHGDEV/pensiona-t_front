@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axiosInstance from '../services/axiosConfig'
 import AuthService from '../services/authService'
+import UserProfile from './UserProfile'
 
 export default function Header() {
   const navigate = useNavigate()
@@ -9,6 +10,17 @@ export default function Header() {
   const userRole = AuthService.getUserRole()
   const email = AuthService.getUsername()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const handleLogout = async () => {
     try {
@@ -57,9 +69,12 @@ export default function Header() {
                   </Link>
                 )}
                 {userRole === 'user' && (
-                  <Link to="/user" className="text-base font-medium text-white hover:text-sky-200">
-                    Dashboard
-                  </Link>
+                  <button
+                    onClick={() => setShowProfile(true)}
+                    className="text-base font-medium text-white hover:text-sky-200"
+                  >
+                    Mi Perfil
+                  </button>
                 )}
                 <button
                   onClick={handleLogout}
@@ -115,18 +130,21 @@ export default function Header() {
                         </Link>
                       )}
                       {userRole === 'user' && (
-                        <Link to="/user" className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                          <span className="ml-3 text-base font-medium text-gray-900">
-                            Dashboard
-                          </span>
-                        </Link>
+                        <div className="-m-3 p-3">
+                          <div className="h-[360px] overflow-y-auto">
+                            <UserProfile isMobile={true} onClose={() => setIsMenuOpen(false)} />
+                          </div>
+                        </div>
                       )}
                       <button
-                        onClick={handleLogout}
-                        className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
+                        onClick={() => {
+                          handleLogout()
+                          setIsMenuOpen(false)
+                        }}
+                        className="py-3 flex items-center rounded-md hover:bg-gray-50 w-full text-right"
                       >
-                        <span className="ml-3 text-base font-medium text-gray-900">
-                          Salir
+                        <span className="w-full text-base font-medium text-gray-900">
+                          Cerrar sesión
                         </span>
                       </button>
                     </>
@@ -148,6 +166,12 @@ export default function Header() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {showProfile && !isMobile && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <UserProfile onClose={() => setShowProfile(false)} isMobile={false} />
         </div>
       )}
     </header>
