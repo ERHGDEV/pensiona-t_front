@@ -9,6 +9,7 @@ import { validateInputs } from "../utils/userFormValidation"
 import { calcularPension } from "../utils/calculatePension"
 import PensionCalculatorForm from "../components/PensionCalculatorForm"
 import PensionResults from "../components/PensionResults"
+import WhatAforeAmI from "../components/WhatAforeAmI"
 import Dots from "../components/Dots"
 
 let SALARIO_MINIMO
@@ -17,6 +18,7 @@ let UMA
 const UserPanel = () => {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(true)
+  const [activeSection, setActiveSection] = useState('calculadora')
   const [formData, setFormData] = useState({
     salarioPromedio: "",
     semanasCotizadas: "",
@@ -29,7 +31,6 @@ const UserPanel = () => {
   const [remainingDays, setRemainingDays] = useState(null)
   
   const { showNotification } = useNotificationContext()
-
   const navigate = useNavigate()
 
   const getValues = async () => {
@@ -43,6 +44,14 @@ const UserPanel = () => {
     } catch (error) {
       console.error('Error:', error)
       showNotification(error.message || 'Error al obtener los valores actualizados', 'error')
+    }
+  }
+
+  const incrementCalculationCount = async () => {
+    try {
+      await axiosInstance.put('/user/increment-calculos')
+    } catch (error) {
+      console.error('Error al incrementar el contador:', error)
     }
   }
 
@@ -128,6 +137,8 @@ const UserPanel = () => {
 
         setResults(calculatedResults)
         setShowForm(false)
+
+        await incrementCalculationCount()
       } catch (error) {
         console.error('Error:', error)
         showNotification(error.message || 'Error al obtener los valores actualizados', 'error')
@@ -135,11 +146,17 @@ const UserPanel = () => {
     }
   }
 
-  const generatePDFButtonHandler = () => {
-    if (!results) return
+  const generatePDFButtonHandler = async () => {
+    if (!results) return;
 
-    generatePDF(results, SALARIO_MINIMO)
-    showNotification('PDF generado con éxito', 'success')
+    try {
+        generatePDF(results, SALARIO_MINIMO)
+        showNotification('PDF generado con éxito', 'success')
+
+        await axiosInstance.put('/user/increment-reportes')
+    } catch (error) {
+        console.error('Error al incrementar el contador de reportes:', error)
+    }
   }
 
   if (loading) {
@@ -156,28 +173,50 @@ const UserPanel = () => {
       <Header />
       <Notification />
 
-      <main className="mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">Calculadora</h1>
+      <main className="max-w-md mx-auto px-4 py-8">
+        
         {/* {remainingDays !== null && (
           <p className="mb-4 text-yellow-400">
             Días restantes de tu suscripción: {remainingDays}
           </p>
         )} */}
 
-        {showForm ? (
-          <PensionCalculatorForm
-            formData={formData}
-            errors={errors}
-            handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
-            UMA={UMA}
-          />
+        <div className="flex justify-center mb-8">
+          <button
+            className={`px-4 py-2 mr-2 rounded-lg ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-200 text-gray-700'}`}
+            onClick={() => setActiveSection('calculadora')}
+          >
+            Calculadora
+          </button>
+          <button
+            className={`px-4 py-2 rounded-lg ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-200 text-gray-700'}`}
+            onClick={() => setActiveSection('afore')}
+          >
+            ¿En qué Afore estoy?
+          </button>
+        </div>
+
+        {activeSection === 'calculadora' ? (
+          <>
+            <h1 className="text-3xl font-bold mb-4">Calculadora de Pensión</h1>
+            {showForm ? (
+              <PensionCalculatorForm
+                formData={formData}
+                errors={errors}
+                handleInputChange={handleInputChange}
+                handleSubmit={handleSubmit}
+                UMA={UMA}
+              />
+            ) : (
+              <PensionResults
+                results={results}
+                onBack={() => setShowForm(true)}
+                onGeneratePDF={generatePDFButtonHandler}
+              />
+            )}
+          </>
         ) : (
-          <PensionResults
-            results={results}
-            onBack={() => setShowForm(true)}
-            onGeneratePDF={generatePDFButtonHandler}
-          />
+          <WhatAforeAmI />
         )}
       </main>
     </>

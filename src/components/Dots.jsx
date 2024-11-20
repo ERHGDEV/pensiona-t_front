@@ -20,16 +20,16 @@ const ellipsisVariants = {
     },
   }
 
-const Dots = () => {
+const Dots = ({ color = false }) => {
     return (
         <motion.span
             variants={ellipsisVariants}
             animate="animate"
             className="inline-flex ml-1"
         >
-            <motion.span variants={dotVariants} className="w-1 h-1 bg-gray-200 rounded-full mx-0.5" />
-            <motion.span variants={dotVariants} className="w-1 h-1 bg-gray-200 rounded-full mx-0.5" />
-            <motion.span variants={dotVariants} className="w-1 h-1 bg-gray-200 rounded-full mx-0.5" />
+            <motion.span variants={dotVariants} className={`w-1 h-1 ${color ? 'bg-sky-950' : 'bg-gray-200'} rounded-full mx-0.5`} />
+            <motion.span variants={dotVariants} className={`w-1 h-1 ${color ? 'bg-sky-950' : 'bg-gray-200'} rounded-full mx-0.5`} />
+            <motion.span variants={dotVariants} className={`w-1 h-1 ${color ? 'bg-sky-950' : 'bg-gray-200'} rounded-full mx-0.5`} />
         </motion.span>
     )
 }

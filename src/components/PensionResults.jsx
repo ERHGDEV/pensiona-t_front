@@ -1,6 +1,18 @@
+import { useState } from "react"
 import Button from "./Button"
+import Dots from "./Dots"
 
 const PensionResults = ({ results, onBack, onGeneratePDF }) => {
+  const [isGenerating, setIsGenerating] = useState(false)
+
+  const handleGeneratePDF = () => {
+    setIsGenerating(true) 
+    setTimeout(() => {
+      onGeneratePDF() 
+      setIsGenerating(false)
+    }, 3000)
+  }
+
   return (
     <div className="max-w-xl mx-auto px-4 py-8">
       <div className="bg-white shadow-xl rounded-lg overflow-hidden">
@@ -20,37 +32,44 @@ const PensionResults = ({ results, onBack, onGeneratePDF }) => {
               </tr>
             </thead>
             <tbody>
-              {results && results.pensionPorEdad.map((result, index) => (
-                <tr 
-                  key={index} 
-                  className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-gray-100 transition-colors duration-200`}
-                >
-                  <td className="px-6 py-4 whitespace-nowrap">{result.edad} años</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{result.porcentaje}%</td>
-                  <td className="px-6 py-4 whitespace-nowrap font-semibold">${result.pension.toFixed(2)}</td>
-                  {results.pensionModalidad40 && (
-                    <>
-                      <td className="px-6 py-4 whitespace-nowrap font-semibold text-sky-800">
-                        ${results.pensionModalidad40[index].pension.toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-green-600">
-                        +${(results.pensionModalidad40[index].pension - result.pension).toFixed(2)}
-                      </td>
-                    </>
-                  )}
-                </tr>
-              ))}
+              {results &&
+                results.pensionPorEdad.map((result, index) => (
+                  <tr
+                    key={index}
+                    className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-100 transition-colors duration-200`}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">{result.edad} años</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{result.porcentaje}%</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-semibold">${result.pension.toFixed(2)}</td>
+                    {results.pensionModalidad40 && (
+                      <>
+                        <td className="px-6 py-4 whitespace-nowrap font-semibold text-sky-800">
+                          ${results.pensionModalidad40[index].pension.toFixed(2)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-green-600">
+                          +${(results.pensionModalidad40[index].pension - result.pension).toFixed(2)}
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
       </div>
-      <div className="mt-8 max-w-sm mx-auto flex justify-center space-x-4">
-        <Button onClick={onGeneratePDF} order="primary">
-          Generar PDF
-        </Button>
-        <Button onClick={onBack}>
-          Regresar
-        </Button>
+      <div className="mt-8 max-w-sm mx-auto flex flex-col items-center space-y-4">
+        <div className="flex justify-center space-x-4">
+          <Button onClick={handleGeneratePDF} order="primary">
+            Generar PDF
+          </Button>
+          <Button onClick={onBack}>Regresar</Button>
+        </div>
+        {isGenerating && (
+          <div className="mt-4 flex flex-col items-center">
+            <p className="mb-4">Generando reporte</p>
+            <Dots />
+          </div>
+        )}
       </div>
     </div>
   )
