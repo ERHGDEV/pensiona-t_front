@@ -39,7 +39,7 @@ const UserProfile = ({ onClose, isMobile = false }) => {
 
   if (isLoading) {
     return (
-      <div className={`text-sky-950 ${isMobile ? 'w-full bg-transparent' : 'bg-white rounded-lg shadow-xl max-w-md w-full mx-auto'} p-4 flex items-center justify-center h-[360px]`}>
+      <div className={`text-sky-950 ${isMobile ? 'w-full bg-transparent' : 'bg-white rounded-lg shadow-xl max-w-md w-full mx-auto'} p-4 flex items-center justify-center h-[440px]`}>
         <p>Cargando perfil...</p>
       </div>
     )
@@ -48,7 +48,7 @@ const UserProfile = ({ onClose, isMobile = false }) => {
   if (!user) return null
 
   return (
-    <div className={`text-sky-950 ${isMobile ? 'w-full bg-transparent' : 'bg-white rounded-lg shadow-xl h-[360px] p-4 max-w-md w-full mx-auto'} relative`}>
+    <div className={`text-sky-950 ${isMobile ? 'w-full bg-transparent' : 'bg-white rounded-lg shadow-xl h-[440px] p-4 max-w-md w-full mx-auto'} relative`}>
       {!isMobile && (
         <button 
           onClick={onClose} 
@@ -82,6 +82,12 @@ const UserProfile = ({ onClose, isMobile = false }) => {
           <h3 className="text-sm font-semibold mb-1">Reportes</h3>
           <div className={`${isMobile ? 'bg-gray-100' : 'bg-gray-200'} h-16 rounded flex items-center justify-center`}>
             <span className="text-xl font-bold">{user.reportesGenerados || 0}</span>
+          </div>
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold mb-1">Afore consultadas</h3>
+          <div className={`${isMobile ? 'bg-gray-100' : 'bg-gray-200'} h-16 rounded flex items-center justify-center`}>
+            <span className="text-xl font-bold">{user.aforesConsultadas || 0}</span>
           </div>
         </div>
       </div>
