@@ -42,8 +42,8 @@ export default function Header() {
   return (
     <header className="bg-sky-900 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
-          <div className="flex justify-start lg:w-0 lg:flex-1">
+        <div className="flex justify-between items-center py-6">
+          <div className="flex lg:w-0 lg:flex-1">
             <Link to="/" className="text-2xl font-bold text-white hover:text-sky-200 transition duration-150 ease-in-out">
               Pensiona-T
             </Link>
@@ -131,7 +131,7 @@ export default function Header() {
                       )}
                       {userRole === 'user' && (
                         <div className="-m-3 p-3">
-                          <div className="h-[360px] overflow-y-auto">
+                          <div className="h-[410px] overflow-y-auto">
                             <UserProfile isMobile={true} onClose={() => setIsMenuOpen(false)} />
                           </div>
                         </div>
