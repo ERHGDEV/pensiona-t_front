@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axiosInstance from '../services/axiosConfig'
 import Dots from "../components/Dots"
 import Button from "../components/Button"
@@ -22,9 +22,16 @@ const WhatAforeAmI = () => {
   const [afore, setAfore] = useState(null)
   const [showForm, setShowForm] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
+  const [isValidNSS, setIsValidNSS] = useState(false)
+
+  useEffect(() => {
+    setIsValidNSS(nss.length === 11 && /^\d+$/.test(nss))
+  }, [nss])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!isValidNSS) return
+
     setIsLoading(true)
     setAfore(null)
     setErrorMessage('')
@@ -53,6 +60,12 @@ const WhatAforeAmI = () => {
     setAfore(null)
     setShowForm(true)
     setErrorMessage('')
+    setIsValidNSS(false)
+  }
+
+  const handleNssChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 11)
+    setNss(value)
   }
 
   return (
@@ -69,15 +82,21 @@ const WhatAforeAmI = () => {
               type="text"
               id="nss"
               value={nss}
-              onChange={(e) => setNss(e.target.value)}
-              className="mt-2 w-full px-3 py-2 border rounded-md border-sky-300 text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
+              onChange={handleNssChange}
+              className={`mt-2 w-full px-3 py-2 border rounded-md ${
+                nss.length > 0 ? (isValidNSS ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
+              } text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent`}
               required
               disabled={isLoading}
+              placeholder="11 dígitos"
             />
           </div>
           <div className='mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
-            <Button variant="primary" type="submit" disabled={isLoading} children="Consultar" />
+            <Button variant="primary" type="submit" disabled={isLoading || !isValidNSS} children="Consultar" />
           </div>
+          {nss.length > 0 && !isValidNSS && (
+              <p className="mt-1 text-center w-full text-sm text-red-500">El NSS debe tener 11 dígitos</p>
+            )}
         </form>
       ) : (
         <div className="text-sky-950 text-center mt-8">
