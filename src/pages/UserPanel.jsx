@@ -11,6 +11,7 @@ import PensionCalculatorForm from "../components/PensionCalculatorForm"
 import PensionResults from "../components/PensionResults"
 import WhatAforeAmI from "../components/WhatAforeAmI"
 import Dots from "../components/Dots"
+import ExcelAforeUploader from "../components/ExcelAforeUploader"
 
 let SALARIO_MINIMO
 let UMA
@@ -216,7 +217,10 @@ const UserPanel = () => {
             )}
           </>
         ) : (
-          <WhatAforeAmI />
+          <>
+            <WhatAforeAmI />
+            <ExcelAforeUploader />
+          </>
         )}
       </main>
     </>
