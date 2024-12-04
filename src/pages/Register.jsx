@@ -18,6 +18,7 @@ const Register = () => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [statusMessage, setStatusMessage] = useState('')
     const [showForm, setShowForm] = useState(true)
+    const [showModal, setShowModal] = useState(true)
     
     const { showNotification } = useNotificationContext()
 
@@ -78,6 +79,19 @@ const Register = () => {
             <Header />
             <Notification />
             <main>
+                {showModal && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-sm text-sky-950">
+                            <p className="text-xl">¡Bienvenido a Pensiona-T!</p>
+                            <p className="my-5">Te sugerimos utilizar un correo electrónico con dominio
+                                <strong> @gmail.com</strong> para asegurar que recibas el correo de verificación.
+                            </p>
+                            <div className='mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
+                                <Button onClick={() => setShowModal(false)} order="secundary" children="Aceptar" />
+                            </div>
+                        </div>
+                    </div>    
+                )}
                 {showForm ? (
                     <form onSubmit={handleSubmit} autoComplete="off" className="max-w-sm mx-auto mt-48">
                         <p className="text-xl mb-5">Regístrate</p>
