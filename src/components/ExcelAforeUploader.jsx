@@ -8,9 +8,10 @@ import { AFORE_INFO } from '../constants/infoAfore'
 const ExcelAforeUploader = () => {
   const [file, setFile] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [results, setResults] = useState(null)
+  const [results, setResults] = useState([])
   const [error, setError] = useState(null)
   const [showForm, setShowForm] = useState(true)
+  const [progress, setProgress] = useState(0)
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
@@ -33,11 +34,23 @@ const ExcelAforeUploader = () => {
         throw new Error('El límite son 100 números de seguridad social')
       }
 
-      const response = await axiosInstance.post('/batch-afore-info', { nssArray: data })
-      
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      
-      setResults(response.data)
+      const batches = []
+      for (let i = 0; i < data.length; i += 10) {
+        batches.push(data.slice(i, i + 10))
+      }
+
+      const allResults = []
+      for (let i = 0; i < batches.length; i++) {
+        const batch = batches[i]
+        const response = await axiosInstance.post('/batch-afore-info', { nssArray: batch })
+        allResults.push(...response.data)
+
+        setProgress(((i + 1) / batches.length) * 100)
+
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+
+      setResults(allResults)
     } catch (err) {
       setError(err.message || 'Ocurrió un error al procesar el archivo')
       setShowForm(true)
@@ -83,9 +96,10 @@ const ExcelAforeUploader = () => {
 
   const handleReset = () => {
     setFile(null)
-    setResults(null)
+    setResults([])
     setError(null)
     setShowForm(true)
+    setProgress(0)
   }
 
   const getSuccessfulResultsCount = () => {
@@ -119,14 +133,14 @@ const ExcelAforeUploader = () => {
       
       {isLoading && (
         <div className="text-center mt-4">
-          <p className="text-sky-950 mb-4">Procesando</p>
+          <p className="text-sky-950 mb-4">Procesando ({Math.round(progress)}%)</p>
           <Dots color={true} />
         </div>
       )}
       
       {error && <p className="text-center text-red-500 mt-2">{error}</p>}
       
-      {results && !isLoading && (
+      {results.length > 0 && !isLoading && (
         <>
           <p className="text-sky-950 text-center mt-8">Resultados obtenidos para {getSuccessfulResultsCount()} NSS</p>
           <div className="mt-8 flex gap-4 max-w-fit mx-auto">
