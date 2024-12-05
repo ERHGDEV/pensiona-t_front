@@ -54,10 +54,11 @@ const WhatAforeAmI = () => {
   const handleNssChange = (e) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 11)
     setNss(value)
+    setErrorMessage('')
   }
 
   return (
-    <div className="max-w-md h-[320px] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+    <div className="max-w-md h-[290px] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
       
       {showForm ? (
@@ -89,7 +90,7 @@ const WhatAforeAmI = () => {
       ) : (
         <div className="text-sky-950 text-center mt-8">
           <p className="text-xl font-semibold mb-4">Tu AFORE actual es:</p>
-          <img src={afore.logo} alt={afore.name} className="mx-auto mb-4" />
+          <img src={afore.logo} alt={afore.name} className="mx-auto mb-4 h-16" />
           <div className='mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
             <Button variant="secondary" onClick={handleReset} children="Volver" />
           </div>
@@ -97,8 +98,8 @@ const WhatAforeAmI = () => {
       )}
 
       {isLoading && (
-        <div className="text-sky-950 text-center mt-4">
-          <p className="text-center mb-4">Consultando tu AFORE</p>
+        <div className="text-sky-950 text-center mt-2">
+          <p className="text-center mb-2">Consultando tu AFORE</p>
           <Dots color={true} />
         </div>
       )}
