@@ -12,6 +12,7 @@ const ExcelAforeUploader = () => {
   const [error, setError] = useState(null)
   const [showForm, setShowForm] = useState(true)
   const [progress, setProgress] = useState(0)
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false)
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
@@ -108,9 +109,16 @@ const ExcelAforeUploader = () => {
   }
 
   return (
-    <div className="mt-8 p-6 h-60 border rounded-lg bg-white shadow-sm">
-      <h3 className="text-2xl font-bold mb-4 text-center text-sky-900">Consulta masiva de AFORE</h3>
-      
+    <div className="mt-8 p-6 h-60 border rounded-lg bg-white shadow-sm relative">
+      <h3 className="text-2xl font-bold mb-4 text-center text-sky-900">Consulta masiva AFORE</h3>
+
+      <button
+        className="absolute top-2 right-2 font-bold bg-sky-600 text-white py-1 rounded-full hover:bg-sky-700 px-3"
+        onClick={() => setIsHelpModalOpen(true)}
+      >
+        ?
+      </button>
+
       {showForm && (
         <>
           <input
@@ -119,7 +127,7 @@ const ExcelAforeUploader = () => {
             onChange={handleFileChange}
             className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
           />
-          <div className='mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
+          <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
             <Button
               variant="primary"
               onClick={handleUpload}
@@ -130,16 +138,16 @@ const ExcelAforeUploader = () => {
           </div>
         </>
       )}
-      
+
       {isLoading && (
         <div className="text-center mt-4">
           <p className="text-sky-950 mb-4">Procesando ({Math.round(progress)}%)</p>
           <Dots color={true} />
         </div>
       )}
-      
+
       {error && <p className="text-center text-red-500 mt-2">{error}</p>}
-      
+
       {results.length > 0 && !isLoading && (
         <>
           <p className="text-sky-950 text-center mt-8">Resultados obtenidos para {getSuccessfulResultsCount()} NSS</p>
@@ -152,6 +160,30 @@ const ExcelAforeUploader = () => {
             </Button>
           </div>
         </>
+      )}
+
+      {isHelpModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="bg-white p-4 rounded-lg max-w-sm shadow-lg text-sky-950">
+            <h4 className="text-lg font-semibold text-center mb-4">Instrucciones</h4>
+            <p className="mb-4 text-pretty">
+              Crea un nuevo documento de Excel y pega los números de seguridad social que deseas consultar (hasta 100 por consulta).
+            </p>
+            <p className="mb-4 text-pretty">
+              Guarda el documento de excel y adjuntalo oprimiendo en "Elegir archivo".
+            </p>
+            <div className="border rounded-md p-4 bg-gray-100">
+              <p>Ejemplo:</p>
+              <img src="./excel.webp" alt="Ejemplo" className="mt-2 h-64 mx-auto" />
+            </div>
+            <div className="mt-4 flex gap-4 max-w-fit mx-auto">
+              <Button variant="primary" onClick={() => setIsHelpModalOpen(false)}>
+                Aceptar
+              </Button>
+            </div>
+            
+          </div>
+        </div>
       )}
     </div>
   )
