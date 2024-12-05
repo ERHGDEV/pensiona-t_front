@@ -66,27 +66,29 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                 <table className="min-w-full">
                     <thead className="bg-sky-700 text-gray-100 uppercase text-sm leading-normal sticky top-0">
                         <tr>
-                            <th className="py-3 px-6 text-left" style={{ width: "40%" }}>Nombre</th>
-                            <th className="py-3 px-6 text-left" style={{ width: "35%" }}>Email</th>
-                            <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Role</th>
-                            <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Creado</th>
-                            <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Vigencia</th>
-                            <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Estatus</th>
-                            <th className="py-3 px-6 text-left" style={{ width: "5%" }}>Acciones</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "30%" }}>Nombre</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "30%" }}>Email</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "5%" }}>Rol</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "5%" }}>Creado</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "5%" }}>Vigencia</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "5%" }}>ST</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "5%" }}>C-R-A</th>
+                            <th className="py-3 px-4 text-left" style={{ width: "5%" }}>Acciones</th>
                         </tr>
                     </thead>
                     <tbody className="text-sky-950 text-sm font-light">
                         {filteredUsers.map((user) => (
                             <tr key={user.email} className="border-b border-gray-500 hover:bg-gray-300">
-                                <td className="py-3 px-6 text-left whitespace-nowrap">{user.name}</td>
-                                <td className="py-3 px-6 text-left whitespace-nowrap">{user.email}</td>
-                                <td className="py-3 px-6 text-left">{user.role}</td>
-                                <td className="py-3 px-6 text-left whitespace-nowrap">{formatDate(user.created)}</td>
-                                <td className="py-3 px-6 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
-                                <td className="py-3 px-6 text-center">
+                                <td className="py-3 px-4 text-left whitespace-nowrap">{user.name}</td>
+                                <td className="py-3 px-4 text-left whitespace-nowrap">{user.email}</td>
+                                <td className="py-3 px-4 text-left">{user.role}</td>
+                                <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.created)}</td>
+                                <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
+                                <td className="py-3 px-4 text-center">
                                     {user.verified ? '✅' : ''}
                                 </td>
-                                <td className="py-3 px-6 text-left whitespace-nowrap">
+                                <td className='py-3 px-4 text-left whitespace-nowrap'>{user.calculosRealizados}-{user.reportesGenerados}-{user.aforesConsultadas}</td>
+                                <td className="py-3 px-4 text-left whitespace-nowrap">
                                     <AdminButton
                                         onClick={() => handleEditClick(user)}
                                         variant="secondary"
