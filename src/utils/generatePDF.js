@@ -24,7 +24,7 @@ const generatePDF = (results, SALARIO_MINIMO) => {
   const y = 0
   const width = doc.internal.pageSize.width
   const height = lineHeight * 1
-  const fillColor = 'c8c8c8'
+  const fillColor = '082f49'
 
   const addHeader = (text) => {
     doc.setFillColor(fillColor)
@@ -66,11 +66,11 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     ['Excedentes:', `${results.semanasExcedentes}`],
     [{ content: 'Incrementos por años excedentes:', colSpan: 2 }, `${results.aniosExcedentes}`],
     [{ content: 'Porcentaje de incremento:', colSpan: 2 }, `${results.porcentajeIncremento.toFixed(2)}%`, `${'$' + results.incremento.toFixed(2)}`],
-    [{ content: 'Suma de cuantía e incrementos:', colSpan: 3, styles: { fillColor: [200, 200, 200] } }, { content: '$' + results.sumaCuantiaIncrementos.toFixed(2), styles: { fontStyle: 'bold', fillColor: [200, 200, 200] } }],
+    [{ content: 'Suma de cuantía e incrementos:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.sumaCuantiaIncrementos.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
     [{ content: 'Asignaciones familiares', rowSpan: 2 }, 'Esposa (o):', '15%', `${'$' + results.asignacionEsposa.toFixed(2)}`],
     ['Hijos:', '10% c/u', `${'$' + results.asignacionHijos.toFixed(2)}`],
     [{ content: 'Ayuda asistencial (15% a 20%):', colSpan: 2 }, '15%', `${'$' + results.ayudaAsistencial.toFixed(2)}`],
-    [{ content: 'Total de cuantía básica:', colSpan: 3, styles: { fillColor: [200, 200, 200] } }, { content: '$' + results.totalCuantiaBasica.toFixed(2), styles: { fontStyle: 'bold', fillColor: [200, 200, 200] } }],
+    [{ content: 'Total de cuantía básica:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.totalCuantiaBasica.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
   ]
 
   const stylesPDF = {
@@ -78,6 +78,7 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     styles: {
       fontSize: 10,
       lineWidth: 0.1,
+      lineColor: [8, 47, 73],
       cellPadding: 2,
       cellSpacing: 0,
       valign: 'middle',
@@ -89,8 +90,9 @@ const generatePDF = (results, SALARIO_MINIMO) => {
       fillStyle: 'F',
     },
     headStyles: {
-      fillColor: [200, 200, 200],
+      fillColor: [8, 47, 73],
       fontStyle: 'bold',
+      textColor: [255, 255, 255],
     },
   }
 
@@ -108,10 +110,10 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     ...results.pensionPorEdad.map(r => [
       `${r.edad} años`,
       `${r.porcentaje.toFixed(0)}%`,
-      `$${r.pension.toFixed(2)}`
+      `$${r.pension.toFixed(2)}`  
     ])
   ]
-
+  
   doc.autoTable({
     head: [resultTableData[0]],
     body: resultTableData.slice(1),
@@ -119,6 +121,9 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     theme: stylesPDF.theme,
     styles: stylesPDF.styles,
     headStyles: stylesPDF.headStyles,
+    columnStyles: {
+      2: { fontStyle: 'bold' }  
+    }
   })
 
   const bottomRectY = doc.internal.pageSize.height - lineHeight
@@ -225,11 +230,11 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     }
 
     costsTableData.push([
-      { content: '', styles: { fillColor: [200, 200, 200] } }, 
-      { content: '', styles: { fillColor: [200, 200, 200] } }, 
-      { content: '', styles: { fillColor: [200, 200, 200] } }, 
-      { content: 'Total', styles: { fontStyle: 'bold', fillColor: [200, 200, 200] } }, 
-      { content: `$${totalGastoAnualizado.toFixed(2)}`, styles: { fontStyle: 'bold', fillColor: [200, 200, 200] } }
+      { content: '', styles: { fillColor: [8, 47, 73] } }, 
+      { content: '', styles: { fillColor: [8, 47, 73] } }, 
+      { content: '', styles: { fillColor: [8, 47, 73] } }, 
+      { content: 'Total', styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, 
+      { content: `$${totalGastoAnualizado.toFixed(2)}`, styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }
     ])
     
     doc.autoTable({
