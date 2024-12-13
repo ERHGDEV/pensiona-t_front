@@ -5,94 +5,135 @@ import Button from "./Button"
 import { AFORE_INFO } from '../constants/infoAfore'
 
 const WhatAforeAmI = () => {
-  const [nss, setNss] = useState('')
+  const [queryType, setQueryType] = useState('nss')
+  const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [afore, setAfore] = useState(null)
   const [showForm, setShowForm] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
-  const [isValidNSS, setIsValidNSS] = useState(false)
+  const [isValidInput, setIsValidInput] = useState(false)
 
   useEffect(() => {
-    setIsValidNSS(nss.length === 11 && /^\d+$/.test(nss))
-  }, [nss])
+    if (queryType === 'nss') {
+      setIsValidInput(inputValue.length === 11 && /^\d+$/.test(inputValue))
+    } else if (queryType === 'curp') {
+      setIsValidInput(/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/.test(inputValue.toUpperCase()))
+    }
+  }, [inputValue, queryType])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!isValidNSS) return
+    if (!isValidInput) return
 
     setIsLoading(true)
     setAfore(null)
     setErrorMessage('')
 
     try {
-      const response = await axiosInstance.post('/afore-info', { nss })
+      const endpoint = queryType === 'nss' ? '/afore-info' : '/afore-info-curp'
+      const payload = queryType === 'nss' ? { nss: inputValue } : { curp: inputValue }
+
+      const response = await axiosInstance.post(endpoint, payload)
       setTimeout(() => {
         if (AFORE_INFO[response.data]) {
           setAfore(AFORE_INFO[response.data])
           setShowForm(false)
         } else {
-          setErrorMessage('Intenta consultar tu NSS de nuevo mañana')
+          setErrorMessage('Intenta consultar de nuevo mañana.')
         }
         setIsLoading(false)
       }, 3000)
     } catch (err) {
       setTimeout(() => {
-        setErrorMessage('Error al obtener la información de AFORE. Por favor, intente de nuevo.')
+        setErrorMessage('Por favor, intente de nuevo.')
+        console.error(err)
         setIsLoading(false)
       }, 3000)
     }
   }
 
   const handleReset = () => {
-    setNss('')
+    setInputValue('')
     setAfore(null)
     setShowForm(true)
     setErrorMessage('')
-    setIsValidNSS(false)
+    setIsValidInput(false)
   }
 
-  const handleNssChange = (e) => {
-    const value = e.target.value.replace(/\D/g, '').slice(0, 11)
-    setNss(value)
+  const handleInputChange = (e) => {
+    const value = e.target.value.replace(/\s/g, '').slice(0, queryType === 'nss' ? 11 : 18)
+    setInputValue(value)
+    setErrorMessage('')
+  }
+
+  const handleQueryTypeChange = (e) => {
+    setQueryType(e.target.value)
+    setInputValue('')
+    setIsValidInput(false)
     setErrorMessage('')
   }
 
   return (
-    <div className="max-w-md h-[290px] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+    <div className="max-w-md h-[380px] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
-      
+
       {showForm ? (
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="mb-4">
+            <label htmlFor="queryType" className="block text-sm font-medium text-gray-700">
+              Consultar por
+            </label>
+            <select
+              id="queryType"
+              value={queryType}
+              onChange={handleQueryTypeChange}
+              className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
+            >
+              <option value="nss">Número de Seguridad Social</option>
+              <option value="curp">CURP</option>
+            </select>
+          </div>
+
           <div>
-            <label htmlFor="nss" className="block text-sm font-medium text-gray-700">
-              Número de Seguridad Social
+            <label htmlFor="inputValue" className="block text-sm font-medium text-gray-700">
+              {queryType === 'nss' ? 'Número de Seguridad Social' : 'CURP'}
             </label>
             <input
               type="text"
-              id="nss"
-              value={nss}
-              onChange={handleNssChange}
+              id="inputValue"
+              value={inputValue}
+              onChange={handleInputChange}
               className={`mt-2 w-full px-3 py-2 border rounded-md ${
-                nss.length > 0 ? (isValidNSS ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
+                inputValue.length > 0 ? (isValidInput ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
               } text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent`}
               required
               disabled={isLoading}
-              placeholder="11 dígitos"
+              placeholder={queryType === 'nss' ? '11 dígitos' : '18 caracteres'}
             />
           </div>
-          <div className='mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
-            <Button variant="primary" type="submit" disabled={isLoading || !isValidNSS} children="Consultar" />
+
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+            <Button variant="primary" type="submit" disabled={isLoading || !isValidInput}>
+              Consultar
+            </Button>
           </div>
-          {nss.length > 0 && !isValidNSS && (
-              <p className="mt-1 text-center w-full text-sm text-red-500">El NSS debe tener 11 dígitos</p>
-            )}
+
+          {inputValue.length > 0 && !isValidInput && (
+            <p className="mt-1 text-center w-full text-sm text-red-500">
+              {queryType === 'nss'
+                ? 'El NSS debe tener 11 dígitos'
+                : 'El CURP debe tener 18 caracteres y ser válido'}
+            </p>
+          )}
         </form>
       ) : (
         <div className="text-sky-950 text-center mt-8">
-          <p className="text-xl font-semibold mb-4">Tu AFORE actual es:</p>
-          <img src={afore.logo} alt={afore.name} className="mx-auto mb-4 h-16" />
-          <div className='mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
-            <Button variant="secondary" onClick={handleReset} children="Volver" />
+          <p className="text-xl font-semibold mb-8">Tu AFORE actual es:</p>
+          <img src={afore.logo} alt={afore.name} className="mx-auto mb-8 h-24" />
+          <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+            <Button variant="secondary" onClick={handleReset}>
+              Volver
+            </Button>
           </div>
         </div>
       )}
