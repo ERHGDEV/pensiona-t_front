@@ -30,16 +30,20 @@ const WhatAforeAmI = () => {
     setErrorMessage('')
 
     try {
-      const endpoint = queryType === 'nss' ? '/afore-info' : '/afore-info-curp'
+      const endpoint = queryType === 'nss' ? '/afore-info-nss' : '/afore-info-curp'
       const payload = queryType === 'nss' ? { nss: inputValue } : { curp: inputValue }
 
       const response = await axiosInstance.post(endpoint, payload)
       setTimeout(() => {
-        if (AFORE_INFO[response.data]) {
-          setAfore(AFORE_INFO[response.data])
+        if (AFORE_INFO[response.data.claveAfore]) {
+          setAfore(AFORE_INFO[response.data.claveAfore])
           setShowForm(false)
+        } else if (response.data.diagnostico === 'Recuerda que sólamente puedes realizar una consulta por día.') {
+          setErrorMessage('Intenta consultar de nuevo mañana')
+        } else if (response.data.diagnostico === 'Lo sentimos, tu consulta generó un error, el NSS o CURP no se encuentra registrado.Si tienes alguna duda sobre el proceso denominado Localiza tu AFORE, llama al 55 1328 5000  (sin costo desde todo el país).”') {
+          setErrorMessage('No estás registrado en una Afore')
         } else {
-          setErrorMessage('Intenta consultar de nuevo mañana.')
+          setErrorMessage('No se encontró información')
         }
         setIsLoading(false)
       }, 3000)
