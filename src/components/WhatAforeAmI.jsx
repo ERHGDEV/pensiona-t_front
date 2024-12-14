@@ -31,7 +31,7 @@ const WhatAforeAmI = () => {
 
     try {
       const endpoint = queryType === 'nss' ? '/afore-info-nss' : '/afore-info-curp'
-      const payload = queryType === 'nss' ? { nss: inputValue } : { curp: inputValue }
+      const payload = queryType === 'nss' ? { nss: inputValue } : { curp: inputValue.toUpperCase() }
 
       const response = await axiosInstance.post(endpoint, payload)
       setTimeout(() => {
