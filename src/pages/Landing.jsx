@@ -9,7 +9,7 @@ export default function Landing() {
     <div className="min-h-screen bg-gradient-to-b from-sky-900 to-sky-700 text-white">
       <Header />
 
-      <main className="max-w-7xl mx-auto pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <main className="max-w-6xl mx-auto pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <Hero />
         <Description />
         <Features />
@@ -17,7 +17,7 @@ export default function Landing() {
       </main>
 
       <footer className="bg-sky-900 py-8 text-center text-sky-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <p>&copy; {new Date().getFullYear()} Pensiona-T</p>
           <div className="mt-4 flex justify-center space-x-6">
             <a href="https://www.facebook.com/calculadora.pensionat" target='_blank' className="text-sky-200 hover:text-white">

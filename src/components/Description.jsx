@@ -1,6 +1,6 @@
 export default function Description() {
   return (
-    <section className="relative mt-20 mb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative mt-20 mb-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
         <div className="relative">
           <h3 className="text-2xl font-extrabold text-white sm:text-3xl">
