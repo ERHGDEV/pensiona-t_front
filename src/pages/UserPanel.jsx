@@ -12,6 +12,7 @@ import PensionResults from "../components/PensionResults"
 import WhatAforeAmI from "../components/WhatAforeAmI"
 import Dots from "../components/Dots"
 import ExcelAforeUploader from "../components/ExcelAforeUploader"
+import PDFUploader from "../components/PDFUploader"
 
 let SALARIO_MINIMO
 let UMA
@@ -29,7 +30,7 @@ const UserPanel = () => {
   })
   const [results, setResults] = useState(null)
   const [errors, setErrors] = useState({})
-  const [remainingDays, setRemainingDays] = useState(null)
+  /* const [remainingDays, setRemainingDays] = useState(null) */
   
   const { showNotification } = useNotificationContext()
   const navigate = useNavigate()
@@ -65,11 +66,11 @@ const UserPanel = () => {
 
       showNotification(`Bienvenido, ${response.data.name}`, 'success')
       
-      const expirationDate = new Date(response.data.expiration)
+      /* const expirationDate = new Date(response.data.expiration)
       const today = new Date()
       const timeDiff = expirationDate.getTime() - today.getTime()
       const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
-      setRemainingDays(daysDiff)
+      setRemainingDays(daysDiff) */
       
     } catch (error) {
       console.error('Error: ', error)
@@ -218,6 +219,7 @@ const UserPanel = () => {
           </>
         ) : (
           <>
+            <PDFUploader />
             <WhatAforeAmI />
             <ExcelAforeUploader />
           </>
