@@ -41,7 +41,7 @@ export default function Header() {
 
   return (
     <header className="bg-sky-900 shadow-lg sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
           <div className="flex lg:w-0 lg:flex-1">
             <Link to="/" className="text-2xl font-bold text-white hover:text-sky-200 transition duration-150 ease-in-out">

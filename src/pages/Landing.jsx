@@ -9,7 +9,7 @@ export default function Landing() {
     <div className="min-h-screen bg-gradient-to-b from-sky-900 to-sky-700 text-white">
       <Header />
 
-      <main className="max-w-6xl mx-auto pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <main className="max-w-7xl mx-auto pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <Hero />
         <Description />
         <Features />
