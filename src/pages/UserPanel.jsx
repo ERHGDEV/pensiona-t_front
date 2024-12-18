@@ -184,13 +184,13 @@ const UserPanel = () => {
 
         <div className="flex justify-center mb-8">
           <button
-            className={`px-4 py-2 mr-2 rounded-lg ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 mr-2 rounded-lg ${activeSection === 'calculadora' ? 'bg-gray-200 text-gray-700 font-semibold' : 'bg-sky-950 text-white' }`}
             onClick={() => setActiveSection('calculadora')}
           >
             Calculadora
           </button>
           <button
-            className={`px-4 py-2 rounded-lg ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded-lg ${activeSection === 'afore' ? 'bg-gray-200 text-gray-700 font-semibold' : 'bg-sky-950 text-white' }`}
             onClick={() => setActiveSection('afore')}
           >
             ¿En qué Afore estoy?
@@ -199,7 +199,7 @@ const UserPanel = () => {
 
         {activeSection === 'calculadora' ? (
           <>
-            <h1 className="text-3xl font-bold mb-4">Calculadora de Pensión</h1>
+            <h1 className="text-3xl text-center font-bold mb-4">Calculadora de Pensión</h1>
             {showForm ? (
               <PensionCalculatorForm
                 formData={formData}

@@ -14,7 +14,7 @@ const PensionResults = ({ results, onBack, onGeneratePDF }) => {
   }
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8">
+    <div className="mx-auto py-8">
       <div className="bg-white shadow-xl rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-center text-gray-700">
