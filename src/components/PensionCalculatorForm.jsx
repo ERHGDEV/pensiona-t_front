@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Button from './Button'
 import { MONTHS as months } from '../constants/calculateData'
+import PDFUploader from './PDFUploader'
 
 const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubmit, UMA }) => {
   const [includeModalidad40, setIncludeModalidad40] = useState(false)
@@ -9,6 +10,8 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
   const [inicioMes, setInicioMes] = useState('1')
   const [inicioAnio, setInicioAnio] = useState(new Date().getFullYear().toString())
   const [modalidad40Errors, setModalidad40Errors] = useState({})
+  const [showPDFUploader, setShowPDFUploader] = useState(false)
+  const [pdfError, setPDFError] = useState(null)
 
   const currentYear = new Date().getFullYear()
   const yearRange = Array.from({ length: 16 }, (_, i) => currentYear -5 + i)
@@ -62,7 +65,69 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
     handleSubmit(e, { includeModalidad40, salarioModalidad40, anosModalidad40, inicioMes, inicioAnio })
   }
 
+  const handlePDFUploaderToggle = (e) => {
+    setShowPDFUploader(e.target.checked)
+    if (!e.target.checked) {
+      handleInputChange({
+        target: { name: 'salarioPromedio', value: '' }
+      })
+      handleInputChange({
+        target: { name: 'semanasCotizadas', value: '' }
+      })
+      handleInputChange({
+        target: { name: 'edad', value: '' }
+      })
+      setPDFError(null)
+    }
+  }
+
+  const handlePDFData = (extractedData) => {
+    if (extractedData && extractedData.salarioPromedio && extractedData.totalSemanas) {
+      handleInputChange({
+        target: { name: 'salarioPromedio', value: extractedData.salarioPromedio }
+      })
+      handleInputChange({
+        target: { name: 'semanasCotizadas', value: extractedData.totalSemanas }
+      })
+      handleInputChange({
+        target: { name: 'edad', value: extractedData.edad }
+      })
+    }
+  }
+
+  const handlePDFError = (error) => {
+    if (error) {
+      setPDFError(error)
+      handleInputChange({
+        target: { name: 'salarioPromedio', value: '' }
+      })
+      handleInputChange({
+        target: { name: 'semanasCotizadas', value: '' }
+      })
+      handleInputChange({
+        target: { name: 'edad', value: '' }
+      })
+    } else {
+      setPDFError(null)
+    }
+  }
+
   return (
+    <>
+    <div className="relative z-0 w-full group">
+        <input
+          type="checkbox"
+          id="showPDFUploader"
+          checked={showPDFUploader}
+          onChange={handlePDFUploaderToggle}
+          className="mr-2"
+        />
+        <label htmlFor="showPDFUploader" className="text-md text-gray-200">
+          Cargar reporte de Semanas Cotizadas
+        </label>
+        {showPDFUploader && <PDFUploader onDataExtracted={handlePDFData} onError={handlePDFError} />}
+        {pdfError && <p className="text-yellow-300 text-center italic my-2 h-1">{pdfError}</p>}
+      </div>
     <form onSubmit={handleFormSubmit} className="max-w-md mx-auto pt-6 pb-8 mb-4">
       <div className="relative z-0 w-full mb-5 group">
         <input
@@ -80,7 +145,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
         >
           Salario promedio
         </label>
-        {errors.salarioPromedio && <p className="text-red-400 text-xs italic mt-1 h-1">{errors.salarioPromedio}</p>}
+        {errors.salarioPromedio && <p className="text-yellow-300 text-xs italic mt-1 h-1">{errors.salarioPromedio}</p>}
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
@@ -98,7 +163,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
         >
           Semanas cotizadas
         </label>
-        {errors.semanasCotizadas && <p className="text-red-400 text-xs italic mt-1 h-1">{errors.semanasCotizadas}</p>}
+        {errors.semanasCotizadas && <p className="text-yellow-300 text-xs italic mt-1 h-1">{errors.semanasCotizadas}</p>}
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
@@ -116,7 +181,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
         >
           Edad
         </label>
-        {errors.edad && <p className="text-red-400 text-xs italic mt-1 h-1">{errors.edad}</p>}
+        {errors.edad && <p className="text-yellow-300 text-xs italic mt-1 h-1">{errors.edad}</p>}
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <select
@@ -136,7 +201,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
         >
           Estado civil
         </label>
-        {errors.estadoCivil && <p className="text-red-400 text-xs italic mt-1 h-1">{errors.estadoCivil}</p>}
+        {errors.estadoCivil && <p className="text-yellow-300 text-xs italic mt-1 h-1">{errors.estadoCivil}</p>}
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <select
@@ -167,7 +232,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
           checked={includeModalidad40}
           onChange={handleModalidad40Change}
         />
-        <label htmlFor="includeModalidad40" className="text-md text-gray-400">
+        <label htmlFor="includeModalidad40" className="text-md text-gray-200">
           Incluir Modalidad 40
         </label>
       </div>
@@ -189,7 +254,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
             >
               Salario Modalidad 40
             </label>
-            {modalidad40Errors.salarioModalidad40 && <p className="text-red-400 text-xs italic mt-1 h-1">{modalidad40Errors.salarioModalidad40}</p>}
+            {modalidad40Errors.salarioModalidad40 && <p className="text-yellow-300 text-xs italic mt-1 h-1">{modalidad40Errors.salarioModalidad40}</p>}
           </div>
           <div className="relative z-0 w-full mb-5 group">
             <select
@@ -248,6 +313,7 @@ const PensionCalculatorForm = ({ formData, errors, handleInputChange, handleSubm
         </div>
       </div>
     </form>
+    </>
   )
 }
 
