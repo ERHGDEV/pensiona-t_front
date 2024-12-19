@@ -60,7 +60,7 @@ const PDFUploader = ({ onDataExtracted, onError }) => {
   
   return (
     <div className="max-w-md mx-auto">
-      <div className="relative z-0 w-full mb-5 group">
+      <div className="relative z-0 w-full mt-2 mb-5 group">
         <input
           type="file"
           accept=".pdf"
