@@ -7,15 +7,10 @@ const PDFUploader = ({ onDataExtracted, onError }) => {
   const [file, setFile] = useState(null)
   const [loading, setLoading] = useState(false)
 
- useEffect(() => {
+  useEffect(() => {
     const loadWorker = async () => {
-      try {
-        const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
-        pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-      } catch (error) {
-        // Capturamos el error pero no lo reportamos
-        console.debug('PDF.js worker loading suppressed error:', error);
-      }
+      const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.mjs');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
     };
     loadWorker();
   }, []);
