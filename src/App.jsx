@@ -10,6 +10,7 @@ import Recovery from './pages/Recovery'
 import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
 import ForgotPassword from './pages/ForgotPassword'
+import Privacity from './pages/Privacity'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/password" element={<ForgotPassword />} />
         <Route path="/recovery" element={<Recovery />} />
+        <Route path="/privacity" element={<Privacity />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
