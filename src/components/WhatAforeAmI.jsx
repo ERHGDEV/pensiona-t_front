@@ -78,7 +78,7 @@ const WhatAforeAmI = () => {
   }
 
   return (
-    <div className="max-w-md h-[380px] mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+    <div className="max-w-md h-[340px] mx-auto mt-4 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
 
       {showForm ? (
@@ -118,39 +118,39 @@ const WhatAforeAmI = () => {
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
             <Button variant="primary" type="submit" disabled={isLoading || !isValidInput}>
-              Consultar
+              {isLoading ? (
+                <span>
+                    Consultando
+                    <Dots />
+                </span>
+              ): (
+                "Consultar"
+              )}
             </Button>
           </div>
-
-          {inputValue.length > 0 && !isValidInput && (
-            <p className="mt-1 text-center w-full text-sm text-red-500">
-              {queryType === 'nss'
-                ? 'El NSS debe tener 11 dígitos'
-                : 'El CURP debe tener 18 caracteres y ser válido'}
-            </p>
-          )}
         </form>
       ) : (
-        <div className="text-sky-950 text-center mt-8">
+        <div className="text-sky-950 text-center mt-6">
           <p className="text-xl font-semibold mb-8">Tu AFORE actual es:</p>
           <img src={afore.logo} alt={afore.name} className="mx-auto mb-8 h-24" />
           <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-            <Button variant="secondary" onClick={handleReset}>
+            <Button variant="secondary" onClick={handleReset} disabled={isLoading}>
               Volver
             </Button>
           </div>
         </div>
       )}
 
-      {isLoading && (
-        <div className="text-sky-950 text-center mt-2">
-          <p className="text-center mb-2">Consultando tu AFORE</p>
-          <Dots color={true} />
-        </div>
+      {inputValue.length > 0 && !isValidInput && (
+        <p className="mt-2 text-center w-full text-sm text-red-500">
+          {queryType === 'nss'
+            ? 'El NSS debe tener 11 dígitos'
+            : 'El CURP debe tener 18 caracteres'}
+        </p>
       )}
 
       {errorMessage && (
-        <div className="text-red-500 text-center mt-4">
+        <div className="text-red-500 text-center text-sm mt-2">
           <p>{errorMessage}</p>
         </div>
       )}
