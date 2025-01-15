@@ -9,7 +9,7 @@ import WhatAforeAmI from "../components/WhatAforeAmI"
 import ExcelAforeUploader from "../components/ExcelAforeUploader"
 import Notification from "../components/Notification"
 
-const UserPanel2 = () => {
+const UserPanel = () => {
     const [loading, setLoading] = useState(true)
     const [activeSection, setActiveSection] = useState('calculadora')
     
@@ -82,4 +82,4 @@ const UserPanel2 = () => {
     )
 }
 
-export default UserPanel2
+export default UserPanel
