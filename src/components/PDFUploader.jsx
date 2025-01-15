@@ -76,7 +76,7 @@ const PDFUploader = ({ onDataExtracted, onPDFBack }) => {
   }
 
   return (
-    <div className="max-w-md h-36 mx-auto">
+    <div className="max-w-md h-[140px] mx-auto">
       <div className="relative z-0 w-full mt-2 mb-5 group">
         <input
           type="file"
@@ -100,7 +100,7 @@ const PDFUploader = ({ onDataExtracted, onPDFBack }) => {
           )}
         </Button>
       </div>
-      {pdfError && <p className="text-red-600 text-center italic my-2 h-1">{pdfError}</p>}
+      {pdfError && <p className="text-red-600 text-center text-sm my-2 h-1">{pdfError}</p>}
     </div>
   )
 }
