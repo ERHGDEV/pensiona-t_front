@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
 import Description from '../components/Description'
@@ -18,7 +19,12 @@ export default function Landing() {
 
       <footer className="bg-sky-900 py-8 text-center text-sky-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p>&copy; {new Date().getFullYear()} Pensiona-T</p>
+          <div className='flex place-content-center'>
+            <p>&copy; {new Date().getFullYear()} Pensiona-T</p> 
+            <Link to={"/privacity"} >
+              <p className='ml-4'>Aviso de privacidad</p>
+            </Link>
+          </div>
           <div className="mt-4 flex justify-center space-x-6">
             <a href="https://www.facebook.com/calculadora.pensionat" target='_blank' className="text-sky-200 hover:text-white">
               <span className="sr-only">Facebook</span>
