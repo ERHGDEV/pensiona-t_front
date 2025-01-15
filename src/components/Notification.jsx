@@ -11,7 +11,7 @@ const Notification = () => {
         px-6 py-3 rounded shadow-lg
         text-center font-bold
         bg-white
-        ${type === 'error' ? 'text-red-600' : 'text-green-600'}
+        ${type === 'error' ? 'text-red-600' : 'text-sky-800'}
       `}
     >
       {message}

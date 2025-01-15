@@ -8,7 +8,7 @@ const getFormattedDate = () => {
   return date.toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
-const generatePDF = (results, SALARIO_MINIMO) => {
+const generatePDF = (results) => {
   if (!results) return
 
   const doc = new jsPDF({
@@ -54,23 +54,23 @@ const generatePDF = (results, SALARIO_MINIMO) => {
 
   addHeader('Proyección de pensión')
 
-  doc.text(`Semanas cotizadas actuales: ${results.semanasCotizadas}`, 15, height + 20)
-  doc.text(`Edad:  ${results.edad}`, 15, height + 25)
+  doc.text(`Semanas cotizadas actuales: ${results.weeksContributed}`, 15, height + 20)
+  doc.text(`Edad:  ${results.age}`, 15, height + 25)
 
   const dataNuevaTabla = [
-    [{ content: 'Salario mínimo vigente:', styles: { fontStyle: 'normal', halign: 'right' } }, { content: '$' + SALARIO_MINIMO.toFixed(2), styles: { fontStyle: 'normal' } }, '', 'Cálculo Mensual'],
-    [{ content: 'Salario mensual promedio últimos 5 años:', colSpan: 3 }, `${'$' + results.salarioPromedio.toFixed(2)}`],
-    [{ content: 'Porcentaje de Cuantía:', colSpan: 2 }, `${results.porcentajeCuantia.toFixed(2)}%`, `${'$' + results.cuantiaBasica.toFixed(2)}`],
-    [{ content: 'Semanas Cotizadas', rowSpan: 3 }, 'Total:', `${results.semanasTotales}`, { content: '', rowSpan: 4 }],
+    [{ content: 'Salario mínimo vigente:', styles: { fontStyle: 'normal', halign: 'right' } }, { content: '$' + results.salarioMinimo.toFixed(2), styles: { fontStyle: 'normal' } }, '', 'Cálculo Mensual'],
+    [{ content: 'Salario mensual promedio últimos 5 años:', colSpan: 3 }, `${'$' + (parseInt(results.averageSalary)).toFixed(2)}`],
+    [{ content: 'Porcentaje de Cuantía:', colSpan: 2 }, `${results.pensionResults.normalResults.porcentajeCuantia.toFixed(2)}%`, `${'$' + results.pensionResults.normalResults.cuantiaBasica.toFixed(2)}`],
+    [{ content: 'Semanas Cotizadas', rowSpan: 3 }, 'Total:', `${results.pensionResults.normalResults.semanasTotales}`, { content: '', rowSpan: 4 }],
     ['Requisito:', '500'],
-    ['Excedentes:', `${results.semanasExcedentes}`],
-    [{ content: 'Incrementos por años excedentes:', colSpan: 2 }, `${results.aniosExcedentes}`],
-    [{ content: 'Porcentaje de incremento:', colSpan: 2 }, `${results.porcentajeIncremento.toFixed(2)}%`, `${'$' + results.incremento.toFixed(2)}`],
-    [{ content: 'Suma de cuantía e incrementos:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.sumaCuantiaIncrementos.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
-    [{ content: 'Asignaciones familiares', rowSpan: 2 }, 'Esposa (o):', '15%', `${'$' + results.asignacionEsposa.toFixed(2)}`],
-    ['Hijos:', '10% c/u', `${'$' + results.asignacionHijos.toFixed(2)}`],
-    [{ content: 'Ayuda asistencial (15% a 20%):', colSpan: 2 }, '15%', `${'$' + results.ayudaAsistencial.toFixed(2)}`],
-    [{ content: 'Total de cuantía básica:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.totalCuantiaBasica.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    ['Excedentes:', `${results.pensionResults.normalResults.semanasExcedentes}`],
+    [{ content: 'Incrementos por años excedentes:', colSpan: 2 }, `${results.pensionResults.normalResults.aniosExcedentes}`],
+    [{ content: 'Porcentaje de incremento:', colSpan: 2 }, `${results.pensionResults.normalResults.porcentajeIncremento.toFixed(2)}%`, `${'$' + results.pensionResults.normalResults.incremento.toFixed(2)}`],
+    [{ content: 'Suma de cuantía e incrementos:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.pensionResults.normalResults.sumaCuantiaIncrementos.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    [{ content: 'Asignaciones familiares', rowSpan: 2 }, 'Esposa (o):', '15%', `${'$' + results.pensionResults.normalResults.asignacionEsposa.toFixed(2)}`],
+    ['Hijos:', '10% c/u', `${'$' + results.pensionResults.normalResults.asignacionHijos.toFixed(2)}`],
+    [{ content: 'Ayuda asistencial (15% a 20%):', colSpan: 2 }, '15%', `${'$' + results.pensionResults.normalResults.ayudaAsistencial.toFixed(2)}`],
+    [{ content: 'Total de cuantía básica:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.pensionResults.normalResults.totalCuantiaBasica.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
   ]
 
   const stylesPDF = {
@@ -107,9 +107,9 @@ const generatePDF = (results, SALARIO_MINIMO) => {
 
   const resultTableData = [
     ['Edad de retiro', 'Porcentaje', 'Pensión Mensual'],
-    ...results.pensionPorEdad.map(r => [
-      `${r.edad} años`,
-      `${r.porcentaje.toFixed(0)}%`,
+    ...results.pensionResults.normalResults.pensionPorEdad.map(r => [
+      `${r.age} años`,
+      `${r.percentage.toFixed(0)}%`,
       `$${r.pension.toFixed(2)}`  
     ])
   ]
@@ -142,7 +142,7 @@ const generatePDF = (results, SALARIO_MINIMO) => {
 
   addFooter()
 
-  if (results.salarioRegistradoM40 && results.salarioPromedioModalidad40 && results.pensionModalidad40) {
+  if (results.salaryModalidad40 && results.pensionResults.modalidad40Results.salarioPromedioModalidad40 && results.pensionResults.modalidad40Results.pensionModalidad40) {
     doc.addPage()
     addHeader('Modalidad 40')
 
@@ -155,20 +155,20 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     const baseY = height + 20 
     const lineSpacing = 5 
 
-    doc.text(`Salario a registrar: $${results.salarioRegistradoM40.toFixed(2)}`, column1X, baseY)
+    doc.text(`Salario a registrar: $${(parseInt(results.salaryModalidad40)).toFixed(2)}`, column1X, baseY)
     doc.setFont("helvetica", "bold") 
-    doc.text(`Salario promedio final: $${results.salarioPromedioModalidad40.toFixed(2)}`, column1X, baseY + lineSpacing)
+    doc.text(`Salario promedio final: $${results.pensionResults.modalidad40Results.salarioPromedioModalidad40.toFixed(2)}`, column1X, baseY + lineSpacing)
     doc.setFont("helvetica", "normal") 
 
     const anosTexto = `Se pagará por: `
-    const anosNegrita = `${results.anosModalidad40} años`
+    const anosNegrita = `${results.yearsModalidad40} años`
     doc.text(anosTexto, column2X, baseY)
     doc.setFont("helvetica", "bold") 
     doc.text(anosNegrita, column2X + doc.getTextWidth(anosTexto), baseY) 
     doc.setFont("helvetica", "normal")
 
     const inicioTexto = `Inicio de pago: `
-    const inicioNegrita = `${getMonthName(parseInt(results.inicioMes))} del ${results.inicioAnio}`
+    const inicioNegrita = `${getMonthName(parseInt(results.startMonth))} del ${results.startYear}`
     doc.text(inicioTexto, column2X, baseY + lineSpacing)
     doc.setFont("helvetica", "bold") 
     doc.text(inicioNegrita, column2X + doc.getTextWidth(inicioTexto), baseY + lineSpacing) 
@@ -176,11 +176,11 @@ const generatePDF = (results, SALARIO_MINIMO) => {
 
     const modalidad40TableData = [
       ['Edad de retiro', 'Pensión Normal', 'Pensión Mod 40', 'Diferencia'],
-      ...results.pensionPorEdad.map((r, index) => [
-        `${r.edad} años`,
+      ...results.pensionResults.normalResults.pensionPorEdad.map((r, index) => [
+        `${r.age} años`,
         `$${r.pension.toFixed(2)}`,
-        { content: '$' + results.pensionModalidad40[index].pension.toFixed(2), styles: { fontStyle: 'bold' } },
-        `$${(results.pensionModalidad40[index].pension - r.pension).toFixed(2)}`
+        { content: '$' + results.pensionResults.modalidad40Results.pensionModalidad40[index].pension.toFixed(2), styles: { fontStyle: 'bold' } },
+        `$${(results.pensionResults.modalidad40Results.pensionModalidad40[index].pension - r.pension).toFixed(2)}`
       ])
     ]
 
@@ -198,9 +198,9 @@ const generatePDF = (results, SALARIO_MINIMO) => {
     ]
 
     let totalGastoAnualizado = 0
-    const startYear = parseInt(results.inicioAnio)
-    const startMonth = parseInt(results.inicioMes)
-    const yearsToCalculate = parseInt(results.anosModalidad40)
+    const startYear = parseInt(results.startYear)
+    const startMonth = parseInt(results.startMonth)
+    const yearsToCalculate = parseInt(results.yearsModalidad40)
     let remainingMonths = yearsToCalculate * 12
 
     for (let i = 0; remainingMonths > 0; i++) {
@@ -213,15 +213,15 @@ const generatePDF = (results, SALARIO_MINIMO) => {
       } else {
         percentage = percentages[year]
       }
-      const costoMensual = results.salarioRegistradoM40 * (percentage / 100)
+      const costoMensual = results.salaryModalidad40 * (percentage / 100)
       const meses = i === 0 ? 13 - startMonth : (remainingMonths >= 12 ? 12 : remainingMonths)
       const gastoAnualizado = costoMensual * meses
 
       costsTableData.push([
         year.toString(),
-        `${percentage.toFixed(3)}%`,
+        { content: `${percentage.toFixed(3)}%`, styles: { fontStyle: 'bold' } }, 
         meses.toString(),
-        `$${costoMensual.toFixed(2)}`,
+        { content: `$${costoMensual.toFixed(2)}`, styles: { fontStyle: 'bold' } }, 
         `$${gastoAnualizado.toFixed(2)}`
       ])
 
@@ -233,7 +233,7 @@ const generatePDF = (results, SALARIO_MINIMO) => {
       { content: '', styles: { fillColor: [8, 47, 73] } }, 
       { content: '', styles: { fillColor: [8, 47, 73] } }, 
       { content: '', styles: { fillColor: [8, 47, 73] } }, 
-      { content: 'Total', styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, 
+      { content: 'Inversión total', styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, 
       { content: `$${totalGastoAnualizado.toFixed(2)}`, styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }
     ])
     

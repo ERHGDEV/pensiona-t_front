@@ -109,7 +109,7 @@ const ExcelAforeUploader = () => {
   }
 
   return (
-    <div className="mt-8 p-6 h-60 border rounded-lg bg-white shadow-sm relative">
+    <div className="mt-4 p-6 h-[235px] border rounded-lg bg-white shadow-sm relative">
       <h3 className="text-2xl font-bold mb-4 text-center text-sky-900">Consulta masiva AFORE</h3>
 
       <button
@@ -146,7 +146,7 @@ const ExcelAforeUploader = () => {
         </div>
       )}
 
-      {error && <p className="text-center text-red-500 mt-2">{error}</p>}
+      {error && <p className="text-center text-red-500 text-sm mt-2">{error}</p>}
 
       {results.length > 0 && !isLoading && (
         <>

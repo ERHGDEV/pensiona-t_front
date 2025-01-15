@@ -73,6 +73,12 @@ const UserProfile = ({ onClose, isMobile = false }) => {
       <h2 className='mb-2 text-center'>Has realizado</h2>
       <div className="text-center grid grid-cols-2 gap-3">
         <div>
+          <h3 className="text-sm font-semibold mb-1">Semanas analizadas</h3>
+          <div className={`${isMobile ? 'bg-gray-100' : 'bg-gray-200'} h-16 rounded flex items-center justify-center`}>
+            <span className="text-xl font-bold">{user.pdfAnalizados || 0}</span>
+          </div>
+        </div>
+        <div>
           <h3 className="text-sm font-semibold mb-1">Cálculos</h3>
           <div className={`${isMobile ? 'bg-gray-100' : 'bg-gray-200'} h-16 rounded flex items-center justify-center`}>
             <span className="text-xl font-bold">{user.calculosRealizados || 0}</span>

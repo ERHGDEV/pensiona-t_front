@@ -20,6 +20,15 @@ const PERCENTAGES = {
   2030: 18.800
 }
 
+const PERCENTAGES_PENSION = [
+  { age: 60, percentage: 0.75 },
+  { age: 61, percentage: 0.80 },
+  { age: 62, percentage: 0.85 },
+  { age: 63, percentage: 0.90 },
+  { age: 64, percentage: 0.95 },
+  { age: 65, percentage: 1.00 },
+]
+
 const TABULADOR = [
   { min: 1.00, max: 1.25, cuantiaBasica: 80.000, incrementoAnual: 0.563 },
   { min: 1.26, max: 1.5, cuantiaBasica: 77.110, incrementoAnual: 0.814 },
@@ -52,6 +61,7 @@ export {
     EDAD_MAXIMA,
     MONTHS,
     PERCENTAGES,
+    PERCENTAGES_PENSION,
     TABULADOR
 }
     
