@@ -10,9 +10,11 @@ import AuthService from "../services/authService"
 import axiosInstance from "../services/axiosConfig"
 import CalculatorParameters from "../components/CalculatorParameters"
 import AdminEmailForm from "../components/AdminEmailForm"
+import UserGrowth from "../components/UserGrowth"
 
 const AdminPanel = () => {
   const [loading, setLoading] = useState(true)
+  const [activeSection, setActiveSection] = useState('home')
   const [users, setUsers] = useState([])
   const { showNotification } = useNotificationContext()
   
@@ -79,20 +81,42 @@ const AdminPanel = () => {
       <main className="mx-auto max-w-7xl px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Panel de Administrador</h1>
+
+          <div className="flex justify-center">
+            <button
+                className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'home' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                onClick={() => setActiveSection('home')}
+            >
+                Home
+            </button>
+            <button
+                className={`px-4 py-2 rounded-lg ${activeSection === 'statistics' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                onClick={() => setActiveSection('statistics')}
+            >
+                Estadísticas
+            </button>
+          </div>
         </div>
 
-        <CalculatorParameters />
+        {activeSection === 'home' ? (
+          <>
+            <CalculatorParameters />
+            <UserList 
+              users={users} 
+              onUserUpdated={handleUserUpdated} 
+              onUserAdded={handleUserAdded}
+              handleNotification={showNotification} 
+            />
+          </>  
+        ) : (
+          <>
+            <UserGrowth users={users} />
+            <UserActivity />
+            {/* <AdminEmailForm /> */}
+          </>
+        )
+        }
 
-        <UserList 
-          users={users} 
-          onUserUpdated={handleUserUpdated} 
-          onUserAdded={handleUserAdded}
-          handleNotification={showNotification} 
-        />
-
-        <UserActivity />
-
-        <AdminEmailForm />
       </main>
     </div>
   )
