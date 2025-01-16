@@ -36,8 +36,8 @@ const ExcelAforeUploader = () => {
       }
 
       const batches = []
-      for (let i = 0; i < data.length; i += 10) {
-        batches.push(data.slice(i, i + 10))
+      for (let i = 0; i < data.length; i += 25) {
+        batches.push(data.slice(i, i + 25))
       }
 
       const allResults = []
