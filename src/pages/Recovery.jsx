@@ -188,7 +188,7 @@ const Recovery = () => {
                     )}
                 </div>
             </main>
-            <Footer />
+            <Footer variant="fixed"/>
         </>
     )
 }

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Header from "../components/Header"
+import Footer from "../components/Footer"
 
 const Privacity = () => {
     const [showMore, setShowMore] = useState(false)
@@ -171,6 +172,11 @@ const Privacity = () => {
                     {showMore ? "Mostrar menos ↑" : "Mostrar más ↓"}
                 </button>
             </div>
+            {showMore ? (
+                <Footer />
+            ) : (
+                <Footer variant="fixed" />
+            )}
         </>
     )
 }

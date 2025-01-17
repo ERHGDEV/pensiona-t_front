@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import URL from "../constants/url"
 import { motion } from 'framer-motion'
 import Dots from '../components/Dots'
+import Footer from '../components/Footer'
 
 const Verify = () => {
   const [searchParams] = useSearchParams()
@@ -98,6 +99,7 @@ const Verify = () => {
           </div>
         </motion.div>
       </main>
+      <Footer variant="fixed"/>
     </div>
   )
 }

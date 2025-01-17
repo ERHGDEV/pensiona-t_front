@@ -246,7 +246,7 @@ const Register = () => {
                     </div>
                 )}
             </main>
-            <Footer />
+            <Footer variant="fixed"/>
         </>
     )
 }

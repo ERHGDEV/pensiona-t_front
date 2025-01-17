@@ -144,7 +144,7 @@ const Login = () => {
         )}
       </main>
 
-      <Footer />
+      <Footer variant="fixed"/>
     </>
   )
 }
