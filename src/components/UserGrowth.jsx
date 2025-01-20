@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
-import { format, eachDayOfInterval } from 'date-fns'
+import { format, eachDayOfInterval, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
@@ -13,27 +13,30 @@ const UserGrowthChart = ({ users }) => {
     if (users && users.length > 0) {
       prepareChartData()
     }
-  }, [users])
+  }, [])
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A'
+    return format(parseISO(dateString), 'dd-MMM', { locale: es })
+  }
 
   const prepareChartData = () => {
-    // Determinar la fecha más antigua y la fecha actual
     const oldestDate = new Date(
       Math.min(...users.map((user) => new Date(user.created).getTime()))
     )
     const today = new Date()
-
-    // Generar un intervalo de días entre la fecha más antigua y hoy
+  
     const days = eachDayOfInterval({ start: oldestDate, end: today })
-
-    // Calcular el crecimiento acumulado de usuarios por día
+  
     const cumulativeUserCounts = days.map((day) => {
+      const startOfDay = new Date(day.setHours(0, 0, 0, 0))
       const usersUpToDate = users.filter(
-        (user) => new Date(user.created) <= day
+        (user) => new Date(user.created).setHours(0, 0, 0, 0) <= startOfDay
       ).length
-
-      return { x: format(day, 'dd-MMM', { locale: es }), y: usersUpToDate }
+  
+      return { x: formatDate(day.toISOString()), y: usersUpToDate }
     })
-
+  
     setChartData({
       labels: cumulativeUserCounts.map((d) => d.x),
       datasets: [
