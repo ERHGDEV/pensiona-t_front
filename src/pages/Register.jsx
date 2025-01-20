@@ -46,7 +46,7 @@ const Register = () => {
         try {
             const response = await axios.post(`${URL}/register`, {
                 name: newUser.name,
-                email: newUser.email,
+                email: (newUser.email).toLowerCase(),
                 password: newUser.password
             })
     
