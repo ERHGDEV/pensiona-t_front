@@ -3,6 +3,7 @@ import axiosInstance from '../services/axiosConfig'
 import Dots from "./Dots"
 import Button from "./Button"
 import { AFORE_INFO } from '../constants/infoAfore'
+import UsageModal from './UsageModal'
 
 const WhatAforeAmI = () => {
   const [queryType, setQueryType] = useState('nss')
@@ -12,6 +13,9 @@ const WhatAforeAmI = () => {
   const [showForm, setShowForm] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const [isValidInput, setIsValidInput] = useState(false)
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const openModal = () => setIsModalOpen(true)
 
   useEffect(() => {
     if (queryType === 'nss') {
@@ -23,6 +27,9 @@ const WhatAforeAmI = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    openModal()
+
+    /* e.preventDefault()
     if (!isValidInput) return
 
     setIsLoading(true)
@@ -53,7 +60,7 @@ const WhatAforeAmI = () => {
         console.error(err)
         setIsLoading(false)
       }, 3000)
-    }
+    } */
   }
 
   const handleReset = () => {
@@ -80,6 +87,8 @@ const WhatAforeAmI = () => {
   return (
     <div className="max-w-md h-[340px] mx-auto mt-4 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
+
+      <UsageModal show={isModalOpen} handleClose={() => setIsModalOpen(false)} />
 
       {showForm ? (
         <form onSubmit={handleSubmit} className="space-y-4">

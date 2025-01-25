@@ -4,6 +4,7 @@ import axiosInstance from '../services/axiosConfig'
 import Button from './Button'
 import Dots from './Dots'
 import { AFORE_INFO } from '../constants/infoAfore'
+import UsageModal from './UsageModal'
 
 const ExcelAforeUploader = () => {
   const [file, setFile] = useState(null)
@@ -14,13 +15,18 @@ const ExcelAforeUploader = () => {
   const [progress, setProgress] = useState(0)
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false)
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const openModal = () => setIsModalOpen(true)
+
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
     setError(null)
   }
 
   const handleUpload = async () => {
-    if (!file) {
+    openModal()
+
+    /* if (!file) {
       setError('Por favor, selecciona un archivo Excel.')
       return
     }
@@ -57,7 +63,7 @@ const ExcelAforeUploader = () => {
       setShowForm(true)
     } finally {
       setIsLoading(false)
-    }
+    } */
   }
 
   const readExcel = (file) => {
@@ -111,6 +117,8 @@ const ExcelAforeUploader = () => {
   return (
     <div className="mt-4 p-6 h-[235px] border rounded-lg bg-white shadow-sm relative">
       <h3 className="text-2xl font-bold mb-4 text-center text-sky-900">Consulta masiva AFORE</h3>
+
+      <UsageModal show={isModalOpen} handleClose={() => setIsModalOpen(false)} />
 
       <button
         className="absolute top-2 right-2 font-bold bg-sky-600 text-white py-1 rounded-full hover:bg-sky-700 px-3"
