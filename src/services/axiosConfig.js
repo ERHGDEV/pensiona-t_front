@@ -21,12 +21,32 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      AuthService.logout()
-      window.location.href = '/login'
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response) {
+        if (error.response.status === 403 && originalRequest.url.includes('/refresh-token')) {
+            AuthService.logout();
+            window.location.href = '/login';
+            return Promise.reject(error);
+        }
+
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const accessToken = await AuthService.refreshToken();
+                axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+                return axiosInstance(originalRequest);
+            } catch (refreshError) {
+                AuthService.logout();
+                window.location.href = '/login';
+                return Promise.reject(refreshError);
+            }
+        }
     }
-    return Promise.reject(error)
+
+    return Promise.reject(error);
   }
 )
 
