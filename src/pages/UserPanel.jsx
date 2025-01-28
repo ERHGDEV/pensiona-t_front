@@ -18,18 +18,22 @@ const UserPanel = () => {
 
     const verifyUser = async () => {
         try {
-            const response = await axiosInstance.get("/user")
+            const response = await axiosInstance.get("/user");
             if (!response.data.name) {
-                throw new Error('No se pudo verificar tu sesión')
+                throw new Error('No se pudo verificar tu sesión');
             }
-            showNotification(`Bienvenid@, ${response.data.name}`, 'success')
+            showNotification(`Hola, ${response.data.name}`, 'success');
         } catch (error) {
-            console.error('Error:', error)
-            navigate('/login')
+            if (error.response && error.response.status === 401) {
+                console.warn('Sesión expirada, redirigiendo a login...');
+            } else {
+                console.error('Error desconocido:', error);
+            }
+            navigate('/login');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         verifyUser()
