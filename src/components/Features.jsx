@@ -57,6 +57,16 @@ export default function Features() {
               title="Reportes Detallados"
               description="Obtén informes completos y fáciles de entender sobre tu futura pensión."
             />
+            <FeatureCard
+              icon="📍"
+              title="Localización de Afore"
+              description="Consulta en qué afore te encuentras actualmente."
+            />
+            <FeatureCard
+              icon="📅"
+              title="Soluciones para Asesores"
+              description="Diseñadas para agilizar y simplificar tu trabajo diario."
+            />
           </div>
         </div>
       </div>
