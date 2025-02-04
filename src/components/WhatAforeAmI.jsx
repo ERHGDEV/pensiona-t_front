@@ -3,9 +3,8 @@ import axiosInstance from '../services/axiosConfig'
 import Dots from "./Dots"
 import Button from "./Button"
 import { AFORE_INFO } from '../constants/infoAfore'
-import UsageModal from './UsageModal'
 
-const WhatAforeAmI = () => {
+const WhatAforeAmI = ({ subscription, initialCount }) => {
   const [queryType, setQueryType] = useState('nss')
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -14,8 +13,9 @@ const WhatAforeAmI = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isValidInput, setIsValidInput] = useState(false)
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const openModal = () => setIsModalOpen(true)
+  const [queryCount, setQueryCount] = useState(initialCount);
+
+  const queryLimit = subscription === 'free' ? 1 : subscription === 'pro' ? 10 : Infinity;
 
   useEffect(() => {
     if (queryType === 'nss') {
@@ -27,9 +27,6 @@ const WhatAforeAmI = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    openModal()
-
-    /* e.preventDefault()
     if (!isValidInput) return
 
     setIsLoading(true)
@@ -45,6 +42,7 @@ const WhatAforeAmI = () => {
         if (AFORE_INFO[response.data.claveAfore]) {
           setAfore(AFORE_INFO[response.data.claveAfore])
           setShowForm(false)
+          setQueryCount(prevCount => prevCount + 1);
         } else if (response.data.diagnostico === 'Recuerda que sólamente puedes realizar una consulta por día.') {
           setErrorMessage('Intenta consultar de nuevo mañana')
         } else if (response.data.diagnostico === 'Lo sentimos, tu consulta generó un error, el NSS o CURP no se encuentra registrado.Si tienes alguna duda sobre el proceso denominado Localiza tu AFORE, llama al 55 1328 5000  (sin costo desde todo el país).”') {
@@ -55,12 +53,17 @@ const WhatAforeAmI = () => {
         setIsLoading(false)
       }, 3000)
     } catch (err) {
+      if (err.response && err.response.status === 429) {
+        setErrorMessage('Has alcanzado el límite de consultas diarias')
+        setIsLoading(false)
+      } else {
       setTimeout(() => {
         setErrorMessage('Por favor, intente de nuevo.')
         console.error(err)
         setIsLoading(false)
       }, 3000)
-    } */
+    }
+    }
   }
 
   const handleReset = () => {
@@ -87,15 +90,15 @@ const WhatAforeAmI = () => {
   return (
     <div className="max-w-md h-[340px] mx-auto mt-4 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
-
-      <UsageModal show={isModalOpen} handleClose={() => setIsModalOpen(false)} />
-
       {showForm ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mb-4">
-            <label htmlFor="queryType" className="block text-sm font-medium text-gray-700">
-              Consultar por
-            </label>
+            <div className='flex justify-between'>
+              <label htmlFor="queryType" className="block text-sm font-medium text-gray-700">
+                Consultar por
+              </label>
+              <p className="text-sm text-gray-700">Restantes: <strong>{queryLimit - queryCount} </strong></p>
+            </div>
             <select
               id="queryType"
               value={queryType}
@@ -120,7 +123,7 @@ const WhatAforeAmI = () => {
                 inputValue.length > 0 ? (isValidInput ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
               } text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent`}
               required
-              disabled={isLoading}
+              disabled={isLoading || queryCount >= queryLimit}
               placeholder={queryType === 'nss' ? '11 dígitos' : '18 caracteres'}
             />
           </div>
