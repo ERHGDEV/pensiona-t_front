@@ -60,12 +60,12 @@ export default function Features() {
             <FeatureCard
               icon="📍"
               title="Localización de Afore"
-              description="Consulta en qué afore te encuentras actualmente."
+              description="Consulta en qué afore te encuentras actualmente. Consulta masiva disponible en Plan Unlimited."
             />
             <FeatureCard
               icon="📅"
-              title="Soluciones para Asesores"
-              description="Diseñadas para agilizar y simplificar tu trabajo diario."
+              title="Análisis de semanas cotizadas"
+              description="Obten automáticamente el salario promedio de los últimos 5 años. (Plan Pro y Unlimited)"
             />
           </div>
         </div>
