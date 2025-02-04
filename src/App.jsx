@@ -11,7 +11,8 @@ import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
 import ForgotPassword from './pages/ForgotPassword'
 import Privacity from './pages/Privacity'
-import Suscriptions from './pages/Suscriptions'
+import Subscriptions from './pages/Subscriptions'
+import PaymentStatus from './pages/PaymentStatus'
 
 function App() {
   return (
@@ -24,12 +25,13 @@ function App() {
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/user" element={<UserPanel />} />
         </Route>
+        <Route path="/status" element={<PaymentStatus />} />
         <Route path='/register' element={<Register />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/password" element={<ForgotPassword />} />
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/privacity" element={<Privacity />} />
-        <Route path="/pricing" element={<Suscriptions />} />
+        <Route path="/pricing" element={<Subscriptions />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
