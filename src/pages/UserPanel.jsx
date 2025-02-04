@@ -8,10 +8,12 @@ import Calculator from "../components/Calculator"
 import WhatAforeAmI from "../components/WhatAforeAmI"
 import ExcelAforeUploader from "../components/ExcelAforeUploader"
 import Notification from "../components/Notification"
+import UsageModal from "../components/UsageModal"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
     const [activeSection, setActiveSection] = useState('calculadora')
+    const [showUsageModal, setShowUsageModal] = useState(true)
     
     const { showNotification } = useNotificationContext()
     const navigate = useNavigate()
@@ -32,6 +34,7 @@ const UserPanel = () => {
             navigate('/login');
         } finally {
             setLoading(false);
+            setShowUsageModal(true)
         }
     };
 
@@ -54,6 +57,7 @@ const UserPanel = () => {
         <>
             <Header />
             <Notification />
+            <UsageModal show={showUsageModal} handleClose={() => setShowUsageModal(false)} /> 
             <main className="max-w-md mx-auto px-4 py-4">
 
                 <div className="flex justify-center">
