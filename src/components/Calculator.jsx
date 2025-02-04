@@ -5,8 +5,10 @@ import { calculateAll } from '../utils/calculatePension'
 import ResultsTable from './ResultsTable'
 import PDFUploader from './PDFUploader'
 
-const Calculator = () => {
-    const [activeSection, setActiveSection] = useState('flowSelection')
+const Calculator = ({ subscription }) => {
+    const [activeSection, setActiveSection] = useState(
+        subscription === 'free' ? 'calculatorForm' : 'flowSelection'
+    )
     const [dataExtracted, setDataExtracted] = useState(null)
     const [results, setResults] = useState(null)
 
@@ -21,7 +23,7 @@ const Calculator = () => {
 
     const handleCalculatorBack = () => {
         setDataExtracted(null)
-        handleActiveSection('flowSelection')
+        handleActiveSection(subscription === 'free' ? 'calculatorForm' : 'flowSelection')
     }
 
     const handleCalculate = (data, salarioMinimo) => {
@@ -37,7 +39,7 @@ const Calculator = () => {
             case 'pdfUploader':
                 return <PDFUploader onPDFBack={handleCalculatorBack} onDataExtracted={hangleDataExtracted} />
             case 'calculatorForm':
-                return <CalculatorForm onCalculatorBack={handleCalculatorBack} onCalculate={handleCalculate} data={dataExtracted} />
+                return <CalculatorForm onCalculatorBack={handleCalculatorBack} onCalculate={handleCalculate} data={dataExtracted} subscription='free' />
             case 'resultsTable':
                 return <ResultsTable onCalculatorBack={handleCalculatorBack} data={results} />
             default:
