@@ -69,12 +69,9 @@ export default function Header() {
                   </Link>
                 )}
                 {userRole === 'user' && (
-                  <button
-                    onClick={() => setShowProfile(true)}
-                    className="text-base font-medium text-white hover:text-sky-200"
-                  >
-                    Mi Perfil
-                  </button>
+                  <Link to="/user" className="text-base font-medium text-white hover:text-sky-200">
+                  Dashboard
+                </Link>
                 )}
                 <button
                   onClick={handleLogout}
@@ -82,6 +79,7 @@ export default function Header() {
                 >
                   Salir
                 </button>
+
               </>
             ) : (
               <>
@@ -130,11 +128,11 @@ export default function Header() {
                         </Link>
                       )}
                       {userRole === 'user' && (
-                        <div className="-m-3 p-3">
-                          <div className="h-[410px] overflow-y-auto">
-                            <UserProfile isMobile={true} onClose={() => setIsMenuOpen(false)} />
-                          </div>
-                        </div>
+                        <Link to="/user" className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+                          <span className="ml-3 text-base font-medium text-gray-900">
+                            Dashboard
+                          </span>
+                        </Link>
                       )}
                       <button
                         onClick={() => {
