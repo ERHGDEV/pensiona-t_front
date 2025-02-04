@@ -1,0 +1,34 @@
+const PLANS = [
+    {
+      title: 'Free',
+      price: 0,
+      features: [
+        '📊 Proyección de pensión: Ilimitado',
+        '📄 Reporte detallado: Ilimitado',
+        '🔍 Consulta individual de Afore: 1/día',
+      ],
+    },
+    {
+      title: 'Pro',
+      price: 149,
+      features: [
+        '🧮 Análisis de semanas cotizadas: Ilimitado',
+        '📊 Proyección de pensión: Ilimitado',
+        '📄 Reporte detallado: Ilimitado',
+        '🔍 Consulta individual de Afore: 10/día',
+      ],
+    },
+    {
+      title: 'Unlimited',
+      price: 199,
+      features: [
+        '🧮 Análisis de semanas cotizadas: Ilimitado',
+        '📊 Proyección de pensión: Ilimitado',
+        '📄 Reporte detallado: Ilimitado',
+        '🔍 Consulta individual de Afore: Ilimitado',
+        '📂 Consulta masiva de Afore: Ilimitado',
+      ],
+    },
+]
+
+export default PLANS
