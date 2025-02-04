@@ -3,7 +3,7 @@ import axios from 'axios'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import AuthService from '../services/authService'
 import Button from './Button'
-import PLANS from '../constants/suscriptionPlans'
+import PLANS from '../constants/subscriptionPlans'
 import { formatFeature } from '../utils/formatFeaturePricing'
 
 const SubscriptionPayment = () => {
