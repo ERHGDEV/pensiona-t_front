@@ -8,8 +8,11 @@ import Calculator from "../components/Calculator"
 import WhatAforeAmI from "../components/WhatAforeAmI"
 import ExcelAforeUploader from "../components/ExcelAforeUploader"
 import Notification from "../components/Notification"
+import MyAccount from "../components/MyAccount"
+import SubscriptionPayment from "../components/SubscriptionPayment"
 
 const UserPanel = () => {
+    const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [activeSection, setActiveSection] = useState('calculadora')
     
@@ -18,22 +21,23 @@ const UserPanel = () => {
 
     const verifyUser = async () => {
         try {
-            const response = await axiosInstance.get("/user");
+            const response = await axiosInstance.get("/user")
             if (!response.data.name) {
-                throw new Error('No se pudo verificar tu sesión');
+                throw new Error('No se pudo verificar tu sesión')
             }
-            showNotification(`Hola, ${response.data.name}`, 'success');
+            showNotification(`Hola, ${response.data.name}`, 'success')
+            setUser(response.data)
         } catch (error) {
             if (error.response && error.response.status === 401) {
-                console.warn('Sesión expirada, redirigiendo a login...');
+                console.warn('Sesión expirada, redirigiendo a login...')
             } else {
-                console.error('Error desconocido:', error);
+                console.error('Error desconocido:', error)
             }
-            navigate('/login');
+            navigate('/login')
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     useEffect(() => {
         verifyUser()
@@ -56,31 +60,68 @@ const UserPanel = () => {
             <Notification />
             <main className="max-w-md mx-auto px-4 py-4">
 
+                {user.subscription === 'free' && (
+                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 rounded-lg">
+                        <p className="text-yellow-800 font-semibold">Tu cuenta es gratuita</p>
+                        <p className="text-yellow-800">Para acceder a más funcionalidades, considera 
+                            <button 
+                                onClick={() => setActiveSection('subscription')} 
+                                className="text-yellow-800 font-semibold underline hover:text-yellow-900 ml-1"
+                            >suscribirte</button> 
+                        </p>
+                    </div>
+                )}
+
                 <div className="flex justify-center">
                     <button
-                        className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                        className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
                         onClick={() => setActiveSection('calculadora')}
                     >
                         Calculadora
                     </button>
                     <button
-                        className={`px-4 py-2 rounded-lg ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                        className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
                         onClick={() => setActiveSection('afore')}
                     >
-                        ¿En qué Afore estoy?
+                        Afore
+                    </button>
+                    <button
+                        className={`px-4 py-2 rounded-full ${activeSection === 'cuenta' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                        onClick={() => setActiveSection('cuenta')}
+                    >
+                        Mi cuenta
                     </button>
                 </div>
 
                 {activeSection === 'calculadora' ? (
+                    <Calculator subscription='free' />
+                ) : activeSection === 'afore' ? (
                     <>
-                        <Calculator />
+                        <WhatAforeAmI subscription='free' initialCount={null} />
+                        {user.subscription === 'unlimited' ? (
+                                <ExcelAforeUploader />
+                        )
+                        : (
+                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 mt-4 rounded-lg">
+                                <p className="text-yellow-800">Para acceder a la consulta masiva de Afore, considera 
+                                    <button 
+                                        onClick={() => setActiveSection('subscription')} 
+                                        className="text-yellow-800 font-semibold underline hover:text-yellow-900 ml-1"
+                                    >suscribirte</button> 
+                                </p>
+                            </div>
+                        )}
                     </>
-                ) : (
+                ) : activeSection === 'cuenta' ? (
                     <>
-                        <WhatAforeAmI />
-                        <ExcelAforeUploader />
+                        <MyAccount user={user} />
                     </>
-                )}
+                ): activeSection === 'subscription' ? (
+                    <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                        <SubscriptionPayment />
+                    </div>
+                    
+                ) : null}
             </main>
         </>
     )
