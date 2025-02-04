@@ -7,7 +7,7 @@ export const formatFeature = (feature, planTitle) => {
     }
   
     // Negrita para "Ilimitado" y "Consulta masiva de Afore:" en Unlimited
-    if (planTitle === 'Unlimited') {
+    if (planTitle === 'Unlimited' || planTitle === 'Free' || planTitle === 'Pro') {
       formattedFeature = formattedFeature.replace(/(Ilimitado|Consulta masiva de Afore:)/g, (match) => `<strong>${match}</strong>`)
     }
   
