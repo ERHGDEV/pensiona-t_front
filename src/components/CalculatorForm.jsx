@@ -5,7 +5,7 @@ import { validateInputs } from "../utils/userFormValidation"
 import axiosInstance from "../services/axiosConfig"
 import Dots from "./Dots"
 
-const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
+const CalculatorForm = ({ onCalculatorBack, onCalculate, data, subscription }) => {
     const [formData, setFormData] = useState({
         averageSalary: data?.salarioPromedio || '',
         weeksContributed: data?.totalSemanas || '',
@@ -269,9 +269,10 @@ const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
                 )}
             </form>
             <div className="mt-4 flex flex-row gap-4 max-w-fit mx-auto">
-                <Button order="primary" onClick={onCalculatorBack}>
+                {subscription != 'free' && 
+                 <Button order="primary" onClick={onCalculatorBack}>
                     Volver
-                </Button>
+                </Button>}
                 <Button onClick={handleCalculate} disabled={isCalculating}>
                     {isCalculating ? (
                         <span>
