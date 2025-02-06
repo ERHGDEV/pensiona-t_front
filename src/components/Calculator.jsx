@@ -39,7 +39,7 @@ const Calculator = ({ subscription }) => {
             case 'pdfUploader':
                 return <PDFUploader onPDFBack={handleCalculatorBack} onDataExtracted={hangleDataExtracted} />
             case 'calculatorForm':
-                return <CalculatorForm onCalculatorBack={handleCalculatorBack} onCalculate={handleCalculate} data={dataExtracted} subscription='free' />
+                return <CalculatorForm onCalculatorBack={handleCalculatorBack} onCalculate={handleCalculate} data={dataExtracted} />
             case 'resultsTable':
                 return <ResultsTable onCalculatorBack={handleCalculatorBack} data={results} />
             default:
