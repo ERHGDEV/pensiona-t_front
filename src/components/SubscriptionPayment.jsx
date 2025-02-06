@@ -18,7 +18,7 @@ const SubscriptionPayment = () => {
     try {
         const token = AuthService.getToken()
         const response = await axios.post(
-            "http://localhost:5000/api/create_preference",
+            `${import.meta.env.VITE_URL}/create_preference`,
             {
                 title: `Suscripción ${selectedPlan.title} a Pensiona-T`,
                 quantity: 1,
