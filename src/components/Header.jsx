@@ -117,46 +117,38 @@ export default function Header() {
                 </div>
               </div>
               <div className="mt-6">
-                <nav className="grid gap-y-8">
+                <nav className="grid text-right">
                   {isLoggedIn ? (
                     <>
                       {userRole === 'admin' && (
-                        <Link to="/admin" className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                          <span className="ml-3 text-base font-medium text-gray-900">
-                            Dashboard
-                          </span>
+                        <Link to="/admin" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                          <span className="text-base font-medium text-gray-900">Ir a Dashboard</span>
                         </Link>
                       )}
                       {userRole === 'user' && (
-                        <Link to="/user" className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                          <span className="ml-3 text-base font-medium text-gray-900">
-                            Dashboard
-                          </span>
+                        <Link to="/user" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                          <span className="text-base font-medium text-gray-900">Ir a Dashboard</span>
                         </Link>
                       )}
-                      <button
-                        onClick={() => {
-                          handleLogout()
-                          setIsMenuOpen(false)
-                        }}
-                        className="py-3 flex items-center rounded-md hover:bg-gray-50 w-full text-right"
-                      >
-                        <span className="w-full text-base font-medium text-gray-900">
+                      <div className="flex justify-end">
+                        <button
+                          onClick={() => {
+                            handleLogout()
+                            setIsMenuOpen(false)
+                          }}
+                          className="py-4 px-3 flex items-center rounded-md hover:bg-gray-50 text-base font-medium text-gray-900"
+                        >
                           Cerrar sesión
-                        </span>
-                      </button>
+                        </button>
+                      </div>
                     </>
                   ) : (
                     <>
-                      <Link to="/login" className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                        <span className="ml-3 text-base font-medium text-gray-900">
-                          Iniciar sesión
-                        </span>
+                      <Link to="/login" className="-m-3 p-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                        <span className="text-base font-medium text-gray-900">Iniciar sesión</span>
                       </Link>
-                      <Link to="/register" className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                        <span className="ml-3 text-base font-medium text-gray-900">
-                          Registrarse
-                        </span>
+                      <Link to="/register" className="-m-3 p-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                        <span className="text-base font-medium text-gray-900">Registrarse</span>
                       </Link>
                     </>
                   )}
