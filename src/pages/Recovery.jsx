@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSearchParams } from 'react-router-dom'
-import URL from '../constants/url'
 import Dots from '../components/Dots'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -21,7 +20,7 @@ const Recovery = () => {
         
         const validateToken = async () => {
             try {
-                await axios.get(`${URL}/recovery?token=${token}`)
+                await axios.get(`${import.meta.env.VITE_URL}/recovery?token=${token}`)
                 setTimeout(() => {
                     setStatus({ message: 'Token verificado', success: true })
                     setIsLoading(false)
@@ -62,7 +61,7 @@ const Recovery = () => {
 
         try {
             const token = searchParams.get('token')
-            const response = await axios.post(`${URL}/reset-password`, { token, newPassword })
+            const response = await axios.post(`${import.meta.env.VITE_URL}/reset-password`, { token, newPassword })
             setTimeout(() => {
                 setStatus({ message: 'Contraseña actualizada con éxito', success: true })
                 setIsSubmitting(false)
@@ -94,14 +93,14 @@ const Recovery = () => {
                         <div className="text-center">
                             <p className="mb-5">{status.message}</p>
                             <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                                <Button to="/" order="primary" children="Volver al inicio" />
+                                <Button to="/" order="primary" >Volver al inicio</Button>
                             </div>
                         </div>
                     ) : status.success === true && status.message === 'Contraseña actualizada con éxito' ? (
                         <div className="text-center mt-8">
                             <p>{status.message}</p>
                             <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                                <Button to="/login" order="primary" children="Iniciar sesión" />
+                                <Button to="/login" order="primary" >Iniciar sesión</Button>
                             </div>
                         </div>
                     ) : (
@@ -175,7 +174,7 @@ const Recovery = () => {
                             </div>
                             
                             <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                                <Button type="submit" order="primary" children="Cambiar contraseña" />
+                                <Button type="submit" order="primary" >Cambiar contraseña</Button>
                             </div>
                             {error && <p className="mt-8 text-center">{error}</p>}
                             {isSubmitting && (

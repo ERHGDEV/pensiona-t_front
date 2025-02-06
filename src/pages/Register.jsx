@@ -1,6 +1,5 @@
 import { useState } from "react"
 import axios from "axios"
-import URL from "../constants/url"
 import Notification from "../components/Notification"
 import { useNotificationContext } from "../context/NotificationContext"
 import Button from "../components/Button"
@@ -44,7 +43,7 @@ const Register = () => {
         setStatusMessage("Registrando usuario")
     
         try {
-            const response = await axios.post(`${URL}/register`, {
+            const response = await axios.post(`${import.meta.env.VITE_URL}/register`, {
                 name: newUser.name,
                 email: (newUser.email).toLowerCase(),
                 password: newUser.password
@@ -87,7 +86,7 @@ const Register = () => {
                                 <strong> @gmail.com</strong> para asegurar que recibas el correo de verificación.
                             </p>
                             <div className='mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
-                                <Button onClick={() => setShowModal(false)} order="secundary" children="Aceptar" />
+                                <Button onClick={() => setShowModal(false)} order="secundary" >Aceptar</Button>
                             </div>
                         </div>
                     </div>    
@@ -228,7 +227,7 @@ const Register = () => {
                             </label>
                         </div>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                            <Button type="submit" order="primary" children="Registrarme" />
+                            <Button type="submit" order="primary" >Registrarme</Button>
                         </div>
                         {isSubmitting && (
                             <div className="text-center mt-8">
@@ -241,7 +240,7 @@ const Register = () => {
                     <div className="text-center mt-48">
                         <p className="mb-5 max-w-sm mx-auto">{statusMessage}</p>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                            <Button to="/" order="primary" children="Volver al inicio" />
+                            <Button to="/" order="primary" >Volver al inicio</Button>
                         </div>
                     </div>
                 )}

@@ -1,9 +1,8 @@
 import axios from 'axios'
 import AuthService from './authService'
-import URL from '../constants/url'
 
 const axiosInstance = axios.create({
-  baseURL: URL
+  baseURL: import.meta.env.VITE_URL
 })
 
 axiosInstance.interceptors.request.use(

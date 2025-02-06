@@ -1,9 +1,8 @@
 import axios from 'axios'
-import URL from '../constants/url'
 
 class AuthService {
   async login(email, password) {
-    const response = await axios.post(`${URL}/login`, { email, password })
+    const response = await axios.post(`${import.meta.env.VITE_URL}/login`, { email, password })
     if (response.data.token && response.data.refreshToken) {
       this.setToken(response.data.token)
       this.setRefreshToken(response.data.refreshToken)
@@ -37,7 +36,7 @@ class AuthService {
     if (!refreshToken) throw new Error('No refresh token available');
     
     try {
-        const response = await axios.post(`${URL}/refresh-token`, { refreshToken });
+        const response = await axios.post(`${import.meta.env.VITE_URL}/refresh-token`, { refreshToken });
         if (response.data.accessToken) {
             this.setToken(response.data.accessToken);
             return response.data.accessToken;
