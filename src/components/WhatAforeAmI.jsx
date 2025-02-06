@@ -4,7 +4,7 @@ import Dots from "./Dots"
 import Button from "./Button"
 import { AFORE_INFO } from '../constants/infoAfore'
 
-const WhatAforeAmI = ({ subscription, initialCount }) => {
+const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
   const [queryType, setQueryType] = useState('nss')
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -13,9 +13,9 @@ const WhatAforeAmI = ({ subscription, initialCount }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isValidInput, setIsValidInput] = useState(false)
 
-  const [queryCount, setQueryCount] = useState(initialCount);
+  const [queryCount, setQueryCount] = useState(initialCount)
 
-  const queryLimit = subscription === 'free' ? 1 : subscription === 'pro' ? 10 : Infinity;
+  const queryLimit = subscription === 'free' ? 1 : subscription === 'pro' ? 10 : Infinity
 
   useEffect(() => {
     if (queryType === 'nss') {
@@ -24,6 +24,12 @@ const WhatAforeAmI = ({ subscription, initialCount }) => {
       setIsValidInput(/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/.test(inputValue.toUpperCase()))
     }
   }, [inputValue, queryType])
+
+  useEffect(() => {
+    if (queryLimit - queryCount <= 0) {
+      setErrorMessage("Acabaste las consultas disponibles de hoy")
+    }
+  }, [queryCount, queryLimit])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -42,7 +48,8 @@ const WhatAforeAmI = ({ subscription, initialCount }) => {
         if (AFORE_INFO[response.data.claveAfore]) {
           setAfore(AFORE_INFO[response.data.claveAfore])
           setShowForm(false)
-          setQueryCount(prevCount => prevCount + 1);
+          setQueryCount(prevCount => prevCount + 1)
+          onConsult(counter => counter + 1)
         } else if (response.data.diagnostico === 'Recuerda que sólamente puedes realizar una consulta por día.') {
           setErrorMessage('Intenta consultar de nuevo mañana')
         } else if (response.data.diagnostico === 'Lo sentimos, tu consulta generó un error, el NSS o CURP no se encuentra registrado.Si tienes alguna duda sobre el proceso denominado Localiza tu AFORE, llama al 55 1328 5000  (sin costo desde todo el país).”') {
@@ -97,7 +104,9 @@ const WhatAforeAmI = ({ subscription, initialCount }) => {
               <label htmlFor="queryType" className="block text-sm font-medium text-gray-700">
                 Consultar por
               </label>
-              <p className="text-sm text-gray-700">Restantes: <strong>{queryLimit - queryCount} </strong></p>
+              {subscription !== 'unlimited' && (
+                <p className="text-sm text-gray-700">Restantes: <strong>{queryLimit - queryCount <= 0 ? "0" : queryLimit - queryCount} </strong></p>
+              )}
             </div>
             <select
               id="queryType"
@@ -161,7 +170,7 @@ const WhatAforeAmI = ({ subscription, initialCount }) => {
         </p>
       )}
 
-      {errorMessage && (
+      {showForm && errorMessage &&  (
         <div className="text-red-500 text-center text-sm mt-2">
           <p>{errorMessage}</p>
         </div>
