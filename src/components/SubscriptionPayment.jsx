@@ -11,7 +11,7 @@ const SubscriptionPayment = () => {
   const [selectedPlan, setSelectedPlan] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  initMercadoPago('APP_USR-eb6253b5-cdbe-4f3a-b05f-7cccca59aca0', { locale: 'es-MX' })
+  initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, { locale: 'es-MX' })
 
   const createPreference = async () => {
     setIsLoading(true)
