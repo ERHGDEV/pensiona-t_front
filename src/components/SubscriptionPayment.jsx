@@ -50,7 +50,7 @@ const SubscriptionPayment = () => {
   const filteredPlans = PLANS.filter((plan) => plan.title !== 'Free')
 
   return (
-    <main className="max-w-7xl mx-auto text-sky-950 pt-4 font-sans">
+    <main className="max-w-7xl mx-auto mt-2 text-sky-950 font-sans">
         {!selectedPlan ? (
             <>
                 <p className='text-sm font-semibold pb-2'>Selecciona uno de los siguientes planes:</p>
