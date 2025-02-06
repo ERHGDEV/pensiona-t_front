@@ -1,14 +1,9 @@
-const UserProfile = ({ user }) => {
+import { useUserContext } from "../context/UserContext"
+import { formatDate } from "../utils/formatDate"
+
+const UserProfile = () => {
+  const { user } = useUserContext()
   const { name, email, created, subscription, expiration, profileImage, pdfAnalizados, calculosRealizados, reportesGenerados, aforesConsultadas } = user
-  
-  const formatDate = (dateString) => {
-      const date = new Date(dateString)
-      return date.toLocaleDateString('es-MX', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-  }
 
   return (
     <>
@@ -22,11 +17,11 @@ const UserProfile = ({ user }) => {
         <p className="text-gray-600 mb-1">{email}</p>
         <p className="text-gray-500 text-sm mb-1">Miembro desde: {formatDate(created)}</p>
         {subscription === 'free' ? (
-          <p className="text-gray-500 font-semibold text-sm mb-3">No tienes una suscripción activa</p>
+          <p className="text-gray-500 font-semibold text-md mb-3">No tienes una suscripción activa</p>
         ) : (
           <>
-            <p className="text-gray-500 font-semibold text-sm mb-1">Plan: {subscription}</p>
-            <p className="text-gray-500 text-sm mb-3">Expira: <strong>{formatDate(expiration)}</strong></p>
+            <p className="text-gray-500 font-semibold text-md mb-1">Plan: {subscription}</p>
+            <p className="text-gray-500 text-sm mb-3">Vence: <strong>{formatDate(expiration)}</strong></p>
           </>
         )}
       </div>
