@@ -97,14 +97,14 @@ const UserPanel = () => {
                         : (
                             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 mt-4 rounded-lg">
                                 <p className="text-yellow-800">
-                                    Para acceder a la <span className="font-semibold">Consulta Masiva de Afore</span> 
+                                    Para acceder a la <span className="font-semibold">Consulta Masiva de Afore{" "}</span> 
                                     <button 
                                         onClick={() => setActiveSection('subscription')} 
-                                        className="text-yellow-800 font-semibold underline hover:text-yellow-900 mx-1"
+                                        className="text-yellow-800 font-semibold underline hover:text-yellow-900"
                                     >
                                         suscribirte
                                     </button> 
-                                    en el plan <span className="font-semibold">Unlimited</span>
+                                    {" "}en el plan <span className="font-semibold">Unlimited</span>
                                 </p>
                             </div>
                         )}
