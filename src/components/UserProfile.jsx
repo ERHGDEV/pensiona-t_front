@@ -1,5 +1,6 @@
 import { useUserContext } from "../context/UserContext"
 import { formatDate } from "../utils/formatDate"
+import { subscriptionNormalize } from "../utils/subscriptionNormalize"
 
 const UserProfile = () => {
   const { user } = useUserContext()
@@ -20,7 +21,7 @@ const UserProfile = () => {
           <p className="text-gray-500 font-semibold text-md mb-3">No tienes una suscripción activa</p>
         ) : (
           <>
-            <p className="text-gray-500 font-semibold text-md mb-1">Plan: {subscription}</p>
+            <p className="text-gray-500 font-semibold text-md mb-1">Plan: {subscriptionNormalize(subscription)}</p>
             <p className="text-gray-500 text-sm mb-3">Vence: <strong>{formatDate(expiration)}</strong></p>
           </>
         )}
