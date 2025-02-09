@@ -12,6 +12,7 @@ import Notification from "../components/Notification"
 import MyAccount from "../components/MyAccount"
 import SubscriptionPayment from "../components/SubscriptionPayment"
 import SubscriptionBar from "../components/SubscriptionBar"
+import InviteToUnlimited from "../components/InviteToUnlimited"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
@@ -95,18 +96,7 @@ const UserPanel = () => {
                                 <ExcelAforeUploader />
                         )
                         : (
-                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 mt-4 rounded-lg">
-                                <p className="text-yellow-800">
-                                    Para acceder a la <span className="font-semibold">Consulta Masiva de Afore{" "}</span> 
-                                    <button 
-                                        onClick={() => setActiveSection('subscription')} 
-                                        className="text-yellow-800 font-semibold underline hover:text-yellow-900"
-                                    >
-                                        suscribirte
-                                    </button> 
-                                    {" "}en el plan <span className="font-semibold">Unlimited</span>
-                                </p>
-                            </div>
+                            <InviteToUnlimited onSelection={setActiveSection} />
                         )}
                     </>
                 ) : activeSection === 'perfil' ? (
