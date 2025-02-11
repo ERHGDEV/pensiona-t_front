@@ -83,7 +83,7 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link to="/login" className="text-base font-medium text-white hover:text-sky-200">
+                <Link to="/login" className=" text-base font-medium text-white hover:text-sky-200">
                   Iniciar sesión
                 </Link>
                 <Link to="/register" className="text-base font-medium text-white hover:text-sky-200">
@@ -144,10 +144,10 @@ export default function Header() {
                     </>
                   ) : (
                     <>
-                      <Link to="/login" className="-m-3 p-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                      <Link to="/login" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
                         <span className="text-base font-medium text-gray-900">Iniciar sesión</span>
                       </Link>
-                      <Link to="/register" className="-m-3 p-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                      <Link to="/register" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
                         <span className="text-base font-medium text-gray-900">Registrarse</span>
                       </Link>
                     </>
