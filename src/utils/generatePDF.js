@@ -2,6 +2,7 @@ import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 import { MONTHS as months } from '../constants/calculateData'
 import { PERCENTAGES as percentages } from '../constants/calculateData'
+import { formatCurrency } from './formatCurrency'
 
 const getFormattedDate = () => {
   const date = new Date()
@@ -58,19 +59,19 @@ const generatePDF = (results) => {
   doc.text(`Edad:  ${results.age}`, 15, height + 25)
 
   const dataNuevaTabla = [
-    [{ content: 'Salario mínimo vigente:', styles: { fontStyle: 'normal', halign: 'right' } }, { content: '$' + results.salarioMinimo.toFixed(2), styles: { fontStyle: 'normal' } }, '', 'Cálculo Mensual'],
-    [{ content: 'Salario mensual promedio últimos 5 años:', colSpan: 3 }, `${'$' + (parseInt(results.averageSalary)).toFixed(2)}`],
-    [{ content: 'Porcentaje de Cuantía:', colSpan: 2 }, `${results.pensionResults.normalResults.porcentajeCuantia.toFixed(2)}%`, `${'$' + results.pensionResults.normalResults.cuantiaBasica.toFixed(2)}`],
+    [{ content: 'Salario mínimo vigente:', styles: { fontStyle: 'normal', halign: 'right' } }, { content: formatCurrency(results.salarioMinimo), styles: { fontStyle: 'normal' } }, '', 'Cálculo Mensual'],
+    [{ content: 'Salario mensual promedio últimos 5 años:', colSpan: 3 }, `${formatCurrency((parseInt(results.averageSalary)))}`],
+    [{ content: 'Porcentaje de Cuantía:', colSpan: 2 }, `${results.pensionResults.normalResults.porcentajeCuantia.toFixed(2)}%`, `${formatCurrency(results.pensionResults.normalResults.cuantiaBasica)}`],
     [{ content: 'Semanas Cotizadas', rowSpan: 3 }, 'Total:', `${results.pensionResults.normalResults.semanasTotales}`, { content: '', rowSpan: 4 }],
     ['Requisito:', '500'],
     ['Excedentes:', `${results.pensionResults.normalResults.semanasExcedentes}`],
     [{ content: 'Incrementos por años excedentes:', colSpan: 2 }, `${results.pensionResults.normalResults.aniosExcedentes}`],
-    [{ content: 'Porcentaje de incremento:', colSpan: 2 }, `${results.pensionResults.normalResults.porcentajeIncremento.toFixed(2)}%`, `${'$' + results.pensionResults.normalResults.incremento.toFixed(2)}`],
-    [{ content: 'Suma de cuantía e incrementos:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.pensionResults.normalResults.sumaCuantiaIncrementos.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
-    [{ content: 'Asignaciones familiares', rowSpan: 2 }, 'Esposa (o):', '15%', `${'$' + results.pensionResults.normalResults.asignacionEsposa.toFixed(2)}`],
-    ['Hijos:', '10% c/u', `${'$' + results.pensionResults.normalResults.asignacionHijos.toFixed(2)}`],
-    [{ content: 'Ayuda asistencial (15% a 20%):', colSpan: 2 }, '15%', `${'$' + results.pensionResults.normalResults.ayudaAsistencial.toFixed(2)}`],
-    [{ content: 'Total de cuantía básica:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: '$' + results.pensionResults.normalResults.totalCuantiaBasica.toFixed(2), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    [{ content: 'Porcentaje de incremento:', colSpan: 2 }, `${results.pensionResults.normalResults.porcentajeIncremento.toFixed(2)}%`, `${formatCurrency(results.pensionResults.normalResults.incremento)}`],
+    [{ content: 'Suma de cuantía e incrementos:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: formatCurrency(results.pensionResults.normalResults.sumaCuantiaIncrementos), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    [{ content: 'Asignaciones familiares', rowSpan: 2 }, 'Esposa (o):', '15%', `${formatCurrency(results.pensionResults.normalResults.asignacionEsposa)}`],
+    ['Hijos:', '10% c/u', `${formatCurrency(results.pensionResults.normalResults.asignacionHijos)}`],
+    [{ content: 'Ayuda asistencial (15% a 20%):', colSpan: 2 }, '15%', `${formatCurrency(results.pensionResults.normalResults.ayudaAsistencial)}`],
+    [{ content: 'Total de cuantía básica:', colSpan: 3, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, { content: formatCurrency(results.pensionResults.normalResults.totalCuantiaBasica), styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
   ]
 
   const stylesPDF = {
@@ -110,7 +111,7 @@ const generatePDF = (results) => {
     ...results.pensionResults.normalResults.pensionPorEdad.map(r => [
       `${r.age} años`,
       `${r.percentage.toFixed(0)}%`,
-      `$${r.pension.toFixed(2)}`  
+      `${formatCurrency(r.pension)}`  
     ])
   ]
   
@@ -155,9 +156,9 @@ const generatePDF = (results) => {
     const baseY = height + 20 
     const lineSpacing = 5 
 
-    doc.text(`Salario a registrar: $${(parseInt(results.salaryModalidad40)).toFixed(2)}`, column1X, baseY)
+    doc.text(`Salario a registrar: ${formatCurrency(parseInt(results.salaryModalidad40))}`, column1X, baseY)
     doc.setFont("helvetica", "bold") 
-    doc.text(`Salario promedio final: $${results.pensionResults.modalidad40Results.salarioPromedioModalidad40.toFixed(2)}`, column1X, baseY + lineSpacing)
+    doc.text(`Salario promedio final: ${formatCurrency(results.pensionResults.modalidad40Results.salarioPromedioModalidad40)}`, column1X, baseY + lineSpacing)
     doc.setFont("helvetica", "normal") 
 
     const anosTexto = `Se pagará por: `
@@ -178,9 +179,9 @@ const generatePDF = (results) => {
       ['Edad de retiro', 'Pensión Normal', 'Pensión Mod 40', 'Diferencia'],
       ...results.pensionResults.normalResults.pensionPorEdad.map((r, index) => [
         `${r.age} años`,
-        `$${r.pension.toFixed(2)}`,
-        { content: '$' + results.pensionResults.modalidad40Results.pensionModalidad40[index].pension.toFixed(2), styles: { fontStyle: 'bold' } },
-        `$${(results.pensionResults.modalidad40Results.pensionModalidad40[index].pension - r.pension).toFixed(2)}`
+        `${formatCurrency(r.pension)}`,
+        { content: formatCurrency(results.pensionResults.modalidad40Results.pensionModalidad40[index].pension), styles: { fontStyle: 'bold' } },
+        `${formatCurrency(results.pensionResults.modalidad40Results.pensionModalidad40[index].pension - r.pension)}`
       ])
     ]
 
@@ -221,8 +222,8 @@ const generatePDF = (results) => {
         year.toString(),
         { content: `${percentage.toFixed(3)}%`, styles: { fontStyle: 'bold' } }, 
         meses.toString(),
-        { content: `$${costoMensual.toFixed(2)}`, styles: { fontStyle: 'bold' } }, 
-        `$${gastoAnualizado.toFixed(2)}`
+        { content: `${formatCurrency(costoMensual)}`, styles: { fontStyle: 'bold' } }, 
+        `${formatCurrency(gastoAnualizado)}`
       ])
 
       totalGastoAnualizado += gastoAnualizado
@@ -234,7 +235,7 @@ const generatePDF = (results) => {
       { content: '', styles: { fillColor: [8, 47, 73] } }, 
       { content: '', styles: { fillColor: [8, 47, 73] } }, 
       { content: 'Inversión total', styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }, 
-      { content: `$${totalGastoAnualizado.toFixed(2)}`, styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }
+      { content: `${formatCurrency(totalGastoAnualizado)}`, styles: { fontStyle: 'bold', fillColor: [8, 47, 73], textColor: [255, 255, 255] } }
     ])
     
     doc.autoTable({
