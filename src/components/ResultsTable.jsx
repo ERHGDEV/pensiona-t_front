@@ -3,6 +3,7 @@ import generatePDF from "../utils/generatePDF"
 import Button from "./Button"
 import Dots from "./Dots"
 import axiosInstance from "../services/axiosConfig"
+import { formatCurrency } from "../utils/formatCurrency"
 
 const ResultsTable = ({ data, onCalculatorBack }) => {
     const [isGenerating, setIsGenerating] = useState(false)
@@ -50,10 +51,10 @@ const ResultsTable = ({ data, onCalculatorBack }) => {
                             >
                                 <td className="px-2 py-3 whitespace-nowrap font-semibold">{result.age}</td>
                                 <td className="px-2 py-3 whitespace-nowrap">{result.percentage}%</td>
-                                <td className="px-4 py-3 whitespace-nowrap font-semibold">${result.pension.toFixed(2)}</td>
+                                <td className="px-4 py-3 whitespace-nowrap font-semibold">{formatCurrency(result.pension)}</td>
                                 {pensionModalidad40 && (
                                     <td className="px-4 py-3 whitespace-nowrap font-bold text-sky-800">
-                                        ${pensionModalidad40[index].pension.toFixed(2)}
+                                        {formatCurrency(pensionModalidad40[index].pension)}
                                     </td>
                                 )}
                             </tr>
