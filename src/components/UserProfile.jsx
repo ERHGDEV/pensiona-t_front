@@ -18,10 +18,10 @@ const UserProfile = () => {
         <p className="text-gray-600 mb-1">{email}</p>
         <p className="text-gray-500 text-sm mb-1">Miembro desde: {formatDate(created)}</p>
         {subscription === 'free' ? (
-          <p className="text-gray-500 font-semibold text-md mb-3">No tienes una suscripción activa</p>
+          <p className="text-gray-500 font-semibold text-md mt-2 mb-3">No tienes una suscripción activa</p>
         ) : (
           <>
-            <p className="text-gray-500 font-semibold text-md mb-1">Plan: {subscriptionNormalize(subscription)}</p>
+            <p className="text-gray-500 font-semibold text-md mt-2 mb-1">Plan: {subscriptionNormalize(subscription)}</p>
             <p className="text-gray-500 text-sm mb-3">Vence: <strong>{formatDate(expiration)}</strong></p>
           </>
         )}

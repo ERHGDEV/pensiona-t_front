@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNotificationContext } from "../context/NotificationContext"
 import generatePDF from "../utils/generatePDF"
 import Button from "./Button"
 import Dots from "./Dots"
@@ -8,7 +9,9 @@ import { formatCurrency } from "../utils/formatCurrency"
 const ResultsTable = ({ data, onCalculatorBack }) => {
     const [isGenerating, setIsGenerating] = useState(false)
     const pensionPorEdad = data.pensionResults.normalResults.pensionPorEdad
-    const pensionModalidad40 = data?.pensionResults?.modalidad40Results?.pensionModalidad40 || null;
+    const pensionModalidad40 = data?.pensionResults?.modalidad40Results?.pensionModalidad40 || null
+
+    const { showNotification } = useNotificationContext()
     
     const incrementReportsCount = async () => {
         try {
@@ -25,6 +28,7 @@ const ResultsTable = ({ data, onCalculatorBack }) => {
             generatePDF(data)
             incrementReportsCount()
             setIsGenerating(false)
+            showNotification('PDF generado con éxito', 'success')
         }, 3000)
     }
 

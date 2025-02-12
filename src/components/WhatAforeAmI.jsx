@@ -77,7 +77,11 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
     setInputValue('')
     setAfore(null)
     setShowForm(true)
-    setErrorMessage('')
+    if (queryLimit - queryCount <= 0) {
+      setErrorMessage("Acabaste las consultas disponibles de hoy")
+    } else {
+      setErrorMessage('')
+    }
     setIsValidInput(false)
   }
 
