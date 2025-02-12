@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNotificationContext } from '../context/NotificationContext'
 import * as XLSX from 'xlsx'
 import axiosInstance from '../services/axiosConfig'
 import Button from './Button'
@@ -13,6 +14,8 @@ const ExcelAforeUploader = () => {
   const [showForm, setShowForm] = useState(true)
   const [progress, setProgress] = useState(0)
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false)
+
+  const { showNotification } = useNotificationContext()
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
@@ -83,16 +86,26 @@ const ExcelAforeUploader = () => {
 
   const handleDownload = () => {
     if (!results) return
-
-    const worksheet = XLSX.utils.json_to_sheet(
-      results.map(({ nss, afore }) => ({
-        NSS: nss,
-        AFORE: AFORE_INFO[afore] ? AFORE_INFO[afore].name : afore
-      }))
-    )
+  
     const workbook = XLSX.utils.book_new()
+    const worksheet = XLSX.utils.aoa_to_sheet([
+      ['NSS', 'AFORE'],
+      ...results.map(({ nss, afore }) => [
+        nss,
+        AFORE_INFO[afore] ? AFORE_INFO[afore].name : afore
+      ])
+    ])
+  
+    // Ancho de columnas (ajustado para mejor visibilidad)
+    worksheet['!cols'] = [{ wch: 15 }, { wch: 15 }]
+  
+    // Agregar la hoja de cálculo al libro
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Resultados AFORE')
+  
+    // Guardar el archivo
     XLSX.writeFile(workbook, 'resultados_afore.xlsx')
+  
+    showNotification('Archivo descargado con éxito', 'success')
   }
 
   const handleReset = () => {
