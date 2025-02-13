@@ -20,7 +20,7 @@ const SubscriptionPayment = () => {
         const response = await axios.post(
             `${import.meta.env.VITE_URL}/create_preference`,
             {
-                title: `Suscripción ${selectedPlan.title} a Pensiona-T`,
+                title: `Suscripción ${selectedPlan.title} de Pensiona-T`,
                 quantity: 1,
                 unit_price: Number(selectedPlan.price),
             },

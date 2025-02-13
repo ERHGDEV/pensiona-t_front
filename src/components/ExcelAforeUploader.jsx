@@ -182,7 +182,7 @@ const ExcelAforeUploader = () => {
               Crea un nuevo documento de Excel y pega los números de seguridad social que deseas consultar (hasta 100 por consulta).
             </p>
             <p className="mb-4 text-pretty">
-              Guarda el documento de excel y adjuntalo oprimiendo en "Elegir archivo".
+              Guarda el documento de excel y adjuntalo oprimiendo en {"Elegir archivo"}.
             </p>
             <div className="border rounded-md p-4 bg-gray-100">
               <p>Ejemplo:</p>

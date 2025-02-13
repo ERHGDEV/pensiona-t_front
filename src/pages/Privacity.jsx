@@ -16,7 +16,7 @@ const Privacity = () => {
                     <strong>Última actualización:</strong> 15 de enero del 2025
                 </p>
                 <p className="text-gray-700 mb-6">
-                    En <strong>Pensiona-T</strong> (en adelante, "el Sitio"), estamos
+                    En <strong>Pensiona-T</strong> (en adelante, {"el Sitio"}), estamos
                     comprometidos con la protección de los datos personales de nuestros
                     usuarios. Este Aviso de Privacidad explica cómo recopilamos, utilizamos
                     y protegemos su información personal, así como los derechos que tiene

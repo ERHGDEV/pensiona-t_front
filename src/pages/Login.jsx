@@ -137,7 +137,7 @@ const Login = () => {
               Olvidé mi contraseña
           </a>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-            <Button type="submit" order="primary" children="Entrar" />
+            <Button type="submit" order="primary">Entrar</Button>
           </div>
         </form>
         {loading && (

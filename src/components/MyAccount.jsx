@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import UserProfile from './UserProfile'
-import SubscriptionPayment from './SubscriptionPayment'
 import ActiveSuscription from './ActiveSubscription'
 
-const MyAccount = ({ history }) => {
+const MyAccount = () => {
     const [activeSection, setActiveSection] = useState('profile')
 
     return (

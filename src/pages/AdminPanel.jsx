@@ -9,7 +9,6 @@ import { useNotificationContext } from "../context/NotificationContext"
 import AuthService from "../services/authService"
 import axiosInstance from "../services/axiosConfig"
 import CalculatorParameters from "../components/CalculatorParameters"
-import AdminEmailForm from "../components/AdminEmailForm"
 import UserGrowth from "../components/UserGrowth"
 import PaymentList from "../components/PaymentList"
 
@@ -121,7 +120,6 @@ const AdminPanel = () => {
           <>
             <UserGrowth users={users} />
             <UserActivity />
-            {/* <AdminEmailForm /> */}
           </>
         ) : (
           <PaymentList payments={payments}/>
