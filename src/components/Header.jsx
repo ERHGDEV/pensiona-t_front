@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axiosInstance from '../services/axiosConfig'
 import AuthService from '../services/authService'
 import UserProfile from './UserProfile'
+import ComponentTransition from './ComponentTransition'
 
 export default function Header() {
   const navigate = useNavigate()
@@ -96,6 +97,7 @@ export default function Header() {
       </div>
 
       {isMenuOpen && (
+        <ComponentTransition >
         <div className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
           <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
             <div className="pt-5 pb-6 px-5">
@@ -121,14 +123,28 @@ export default function Header() {
                   {isLoggedIn ? (
                     <>
                       {userRole === 'admin' && (
-                        <Link to="/admin" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                        <button 
+                          onClick={
+                            () => {
+                              setIsMenuOpen(false)
+                              navigate('/admin')
+                            }} 
+                          className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
+                        >
                           <span className="text-base font-medium text-gray-900">Ir a Dashboard</span>
-                        </Link>
+                        </button>
                       )}
                       {userRole === 'user' && (
-                        <Link to="/user" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                        <button 
+                          onClick={
+                            () => {
+                              setIsMenuOpen(false)
+                              navigate('/user')
+                            }} 
+                          className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
+                        >
                           <span className="text-base font-medium text-gray-900">Ir a Dashboard</span>
-                        </Link>
+                        </button>
                       )}
                       <div className="flex justify-end">
                         <button
@@ -144,12 +160,26 @@ export default function Header() {
                     </>
                   ) : (
                     <>
-                      <Link to="/login" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                      <button
+                        onClick={
+                          () => {
+                            setIsMenuOpen(false)
+                            navigate('/login')
+                          }}
+                        className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
+                      >
                         <span className="text-base font-medium text-gray-900">Iniciar sesión</span>
-                      </Link>
-                      <Link to="/register" className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50">
+                      </button>
+                      <button
+                        onClick={
+                          () => {
+                            setIsMenuOpen(false)
+                            navigate('/register')
+                          }}
+                        className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
+                      >
                         <span className="text-base font-medium text-gray-900">Registrarse</span>
-                      </Link>
+                      </button>
                     </>
                   )}
                 </nav>
@@ -157,6 +187,7 @@ export default function Header() {
             </div>
           </div>
         </div>
+        </ComponentTransition>
       )}
 
       {showProfile && !isMobile && (

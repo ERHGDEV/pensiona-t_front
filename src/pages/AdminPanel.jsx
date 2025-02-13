@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import Header from "../components/Header"
 import UserList from "../components/UserList"
 import Notification from "../components/Notification"
 import Dots from "../components/Dots"
@@ -78,7 +77,6 @@ const AdminPanel = () => {
   
   return (
     <div className="min-h-screen">
-      <Header />
       <Notification />
       <main className="mx-auto max-w-7xl px-4 py-8">
         <div className="flex justify-between items-center mb-6">

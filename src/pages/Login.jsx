@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import authService from "../services/authService"
-import Header from "../components/Header"
 import Dots from "../components/Dots"
 import Button from "../components/Button"
 import Footer from "../components/Footer"
@@ -56,7 +55,6 @@ const Login = () => {
 
   return (
     <>
-      <Header />
       <main>
         <form
           onSubmit={handleSubmit} 

@@ -13,6 +13,7 @@ import MyAccount from "../components/MyAccount"
 import SubscriptionPayment from "../components/SubscriptionPayment"
 import SubscriptionBar from "../components/SubscriptionBar"
 import InviteToUnlimited from "../components/InviteToUnlimited"
+import ComponentTransition from "../components/ComponentTransition"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
@@ -51,7 +52,6 @@ const UserPanel = () => {
     if (loading) {
         return(
             <>
-                <Header />
                 <div className="flex flex-col justify-center items-center h-screen" >
                     <p className="mb-8">Cargando</p>
                     <Dots />
@@ -61,7 +61,6 @@ const UserPanel = () => {
     }
     return (
         <>
-            <Header />
             <Notification />
             <main className="max-w-md mx-auto px-4 py-4">
                 <SubscriptionBar onSelection={setActiveSection} />
@@ -87,28 +86,40 @@ const UserPanel = () => {
                     </button>
                 </div>
 
-                {activeSection === 'calculadora' ? (
-                    <Calculator subscription={user.subscription} />
-                ) : activeSection === 'afore' ? (
-                    <>
-                        <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter}/>
-                        {user.subscription === 'unlimited' ? (
-                                <ExcelAforeUploader />
-                        )
-                        : (
+                <div className="relative overflow-hidden">
+                    {activeSection === 'calculadora' && (
+                        <ComponentTransition>
+                        <Calculator subscription={user.subscription} />
+                        </ComponentTransition>
+                    )}
+
+                    {activeSection === 'afore' && (
+                        <ComponentTransition>
+                        <>
+                            <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter} />
+                            {user.subscription === 'unlimited' ? (
+                            <ExcelAforeUploader />
+                            ) : (
                             <InviteToUnlimited onSelection={setActiveSection} />
-                        )}
-                    </>
-                ) : activeSection === 'perfil' ? (
-                    <>
+                            )}
+                        </>
+                        </ComponentTransition>
+                    )}
+
+                    {activeSection === 'perfil' && (
+                        <ComponentTransition>
                         <MyAccount subscription={user.subscription} />
-                    </>
-                ): activeSection === 'subscription' ? (
-                    <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
-                        <SubscriptionPayment />
-                    </div>
-                    
-                ) : null}
+                        </ComponentTransition>
+                    )}
+
+                    {activeSection === 'subscription' && (
+                        <ComponentTransition>
+                        <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                            <SubscriptionPayment />
+                        </div>
+                        </ComponentTransition>
+                    )}
+                </div>
             </main>
         </>
     )

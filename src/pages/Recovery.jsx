@@ -3,7 +3,6 @@ import axios from 'axios'
 import { useSearchParams } from 'react-router-dom'
 import Dots from '../components/Dots'
 import Footer from '../components/Footer'
-import Header from '../components/Header'
 import Button from '../components/Button'
 
 const Recovery = () => {
@@ -81,7 +80,6 @@ const Recovery = () => {
 
     return (
         <>
-            <Header />
             <main>
                 <div className="max-w-sm mx-auto mt-48">
                     {isLoading ? (

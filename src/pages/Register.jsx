@@ -4,7 +4,6 @@ import Notification from "../components/Notification"
 import { useNotificationContext } from "../context/NotificationContext"
 import Button from "../components/Button"
 import Footer from "../components/Footer"
-import Header from "../components/Header"
 import Dots from "../components/Dots"
 
 const Register = () => {
@@ -75,7 +74,6 @@ const Register = () => {
 
     return (
         <>
-            <Header />
             <Notification />
             <main>
                 {showModal && (

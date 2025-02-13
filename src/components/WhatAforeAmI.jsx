@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { AnimatePresence } from 'framer-motion'
+import ComponentTransition from './ComponentTransition'
 import axiosInstance from '../services/axiosConfig'
 import Dots from "./Dots"
 import Button from "./Button"
@@ -101,70 +103,78 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
   return (
     <div className="max-w-md h-[340px] mx-auto mt-4 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
-      {showForm ? (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="mb-4">
-            <div className='flex justify-between'>
-              <label htmlFor="queryType" className="block text-sm font-medium text-gray-700">
-                Consultar por
-              </label>
-              {subscription !== 'unlimited' && (
-                <p className="text-sm text-gray-700">Restantes: <strong>{queryLimit - queryCount <= 0 ? "0" : queryLimit - queryCount} </strong></p>
-              )}
+      <AnimatePresence mode="wait">
+        {showForm ? (
+          <ComponentTransition key="form">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="mb-4">
+                <div className='flex justify-between'>
+                  <label htmlFor="queryType" className="block text-sm font-medium text-gray-700">
+                    Consultar por
+                  </label>
+                  {subscription !== 'unlimited' && (
+                    <p className="text-sm text-gray-700">
+                      Restantes: <strong>{queryLimit - queryCount <= 0 ? "0" : queryLimit - queryCount}</strong>
+                    </p>
+                  )}
+                </div>
+                <select
+                  id="queryType"
+                  value={queryType}
+                  onChange={handleQueryTypeChange}
+                  className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
+                >
+                  <option value="nss">Número de Seguridad Social</option>
+                  <option value="curp">CURP</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="inputValue" className="block text-sm font-medium text-gray-700">
+                  {queryType === 'nss' ? 'Número de Seguridad Social' : 'CURP'}
+                </label>
+                <input
+                  type="text"
+                  id="inputValue"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  className={`mt-2 w-full px-3 py-2 border rounded-md ${
+                    inputValue.length > 0 ? (isValidInput ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
+                  } text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent`}
+                  required
+                  disabled={isLoading || queryCount >= queryLimit}
+                  placeholder={queryType === 'nss' ? '11 dígitos' : '18 caracteres'}
+                />
+              </div>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+                <Button variant="primary" type="submit" disabled={isLoading || !isValidInput}>
+                  {isLoading ? (
+                    <span>
+                      Consultando
+                      <Dots />
+                    </span>
+                  ) : (
+                    "Consultar"
+                  )}
+                </Button>
+              </div>
+            </form>
+          </ComponentTransition>
+        ) : (
+          <ComponentTransition key="result">
+            <div className="text-sky-950 text-center mt-6">
+              <p className="text-xl font-semibold mb-8">Tu AFORE actual es:</p>
+              <img src={afore.logo} alt={afore.name} className="mx-auto mb-8 h-24" />
+              <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+                <Button variant="secondary" onClick={handleReset} disabled={isLoading}>
+                  Volver
+                </Button>
+              </div>
             </div>
-            <select
-              id="queryType"
-              value={queryType}
-              onChange={handleQueryTypeChange}
-              className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
-            >
-              <option value="nss">Número de Seguridad Social</option>
-              <option value="curp">CURP</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="inputValue" className="block text-sm font-medium text-gray-700">
-              {queryType === 'nss' ? 'Número de Seguridad Social' : 'CURP'}
-            </label>
-            <input
-              type="text"
-              id="inputValue"
-              value={inputValue}
-              onChange={handleInputChange}
-              className={`mt-2 w-full px-3 py-2 border rounded-md ${
-                inputValue.length > 0 ? (isValidInput ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
-              } text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent`}
-              required
-              disabled={isLoading || queryCount >= queryLimit}
-              placeholder={queryType === 'nss' ? '11 dígitos' : '18 caracteres'}
-            />
-          </div>
-
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-            <Button variant="primary" type="submit" disabled={isLoading || !isValidInput}>
-              {isLoading ? (
-                <span>
-                    Consultando
-                    <Dots />
-                </span>
-              ): (
-                "Consultar"
-              )}
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <div className="text-sky-950 text-center mt-6">
-          <p className="text-xl font-semibold mb-8">Tu AFORE actual es:</p>
-          <img src={afore.logo} alt={afore.name} className="mx-auto mb-8 h-24" />
-          <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-            <Button variant="secondary" onClick={handleReset} disabled={isLoading}>
-              Volver
-            </Button>
-          </div>
-        </div>
-      )}
+          </ComponentTransition>
+        )}
+      </AnimatePresence>
 
       {inputValue.length > 0 && !isValidInput && (
         <p className="mt-2 text-center w-full text-sm text-red-500">

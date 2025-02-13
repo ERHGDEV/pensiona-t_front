@@ -1,7 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
 import Footer from "../components/Footer"
-import Header from "../components/Header"
 import Button from "../components/Button"
 import Dots from "../components/Dots"
 
@@ -42,7 +41,6 @@ const ForgotPassword = () => {
 
     return (
         <>
-            <Header />
             <main>
                 {showForm ? (
                     <form onSubmit={handleSubmit} autoComplete="off" className="max-w-sm mx-auto mt-48">

@@ -4,6 +4,7 @@ import CalculatorForm from './CalculatorForm'
 import { calculateAll } from '../utils/calculatePension'
 import ResultsTable from './ResultsTable'
 import PDFUploader from './PDFUploader'
+import ComponentTransition from './ComponentTransition'
 
 const Calculator = ({ subscription }) => {
     const [activeSection, setActiveSection] = useState(
@@ -35,13 +36,39 @@ const Calculator = ({ subscription }) => {
     const renderActiveSection = () => {
         switch (activeSection) {
             case 'flowSelection':
-                return <FlowSelection onSelection={handleActiveSection} />
+                return (
+                    <ComponentTransition key="flowSelection">
+                        <FlowSelection onSelection={handleActiveSection} />
+                    </ComponentTransition>
+                )
             case 'pdfUploader':
-                return <PDFUploader onPDFBack={handleCalculatorBack} onDataExtracted={hangleDataExtracted} />
+                return (
+                    <ComponentTransition key="pdfUploader">
+                        <PDFUploader
+                            onPDFBack={handleCalculatorBack}
+                            onDataExtracted={hangleDataExtracted}
+                        />
+                    </ComponentTransition>
+                )
             case 'calculatorForm':
-                return <CalculatorForm onCalculatorBack={handleCalculatorBack} onCalculate={handleCalculate} data={dataExtracted} />
+                return (
+                    <ComponentTransition key="calculatorForm">
+                        <CalculatorForm
+                            onCalculatorBack={handleCalculatorBack}
+                            onCalculate={handleCalculate}
+                            data={dataExtracted}
+                        />
+                    </ComponentTransition>
+                )
             case 'resultsTable':
-                return <ResultsTable onCalculatorBack={handleCalculatorBack} data={results} />
+                return (
+                    <ComponentTransition key="resultsTable">
+                        <ResultsTable
+                            onCalculatorBack={handleCalculatorBack}
+                            data={results}
+                        />
+                    </ComponentTransition>
+                )
             default:
                 return null
         }
