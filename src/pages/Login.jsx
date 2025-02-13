@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import authService from "../services/authService"
 import Header from "../components/Header"
@@ -13,6 +13,15 @@ const Login = () => {
   const [statusMessage, setStatusMessage] = useState('')
 
   const navigate = useNavigate()
+  const userIsAuthenticated = authService.isAuthenticated()
+
+  useEffect(() => {
+    if (userIsAuthenticated) {
+      const role = authService.getUserRole()
+      if (role === 'admin') navigate('/admin')
+      else navigate('/user')
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
