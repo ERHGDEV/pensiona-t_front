@@ -16,6 +16,7 @@ import Subscriptions from './pages/Subscriptions'
 import PaymentStatus from './pages/PaymentStatus'
 import PageTransition from './components/PageTransition'
 import Header from './components/Header'
+import AboutUs from './pages/AboutUs'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -38,6 +39,7 @@ function AnimatedRoutes() {
         <Route path="/recovery" element={<PageTransition><Recovery /></PageTransition>} />
         <Route path="/privacity" element={<PageTransition><Privacity /></PageTransition>} />
         <Route path="/pricing" element={<PageTransition><Subscriptions /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><AboutUs /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
