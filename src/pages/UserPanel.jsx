@@ -99,9 +99,9 @@ const UserPanel = () => {
                             <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter} />
                             {user.subscription === 'unlimited' ? (
                             <ExcelAforeUploader />
-                            ) : (
+                            ) : user.subscription === 'fre' ? (
                             <InviteToUnlimited onSelection={setActiveSection} />
-                            )}
+                            ) : null}
                         </>
                         </ComponentTransition>
                     )}
