@@ -6,9 +6,9 @@ const Notification = () => {
   if (!show) return null
 
   const typeStyles = {
-    error: 'bg-red-100 text-red-600 border border-red-500',
-    success: 'bg-green-100 text-green-800 border border-green-500',
-    info: 'bg-sky-100 text-sky-800 border border-sky-500',
+    error: 'bg-gray-50 text-red-600 border border-red-500',
+    success: 'bg-gray-50 text-green-800 border border-green-500',
+    info: 'bg-gray-50 text-sky-800 border border-sky-500',
   }
 
   return (
