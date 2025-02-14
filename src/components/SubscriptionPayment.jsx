@@ -3,6 +3,7 @@ import axios from 'axios'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import AuthService from '../services/authService'
 import Button from './Button'
+import Dots from './Dots'
 import PLANS from '../constants/subscriptionPlans'
 import { formatFeature } from '../utils/formatFeaturePricing'
 
@@ -13,16 +14,16 @@ const SubscriptionPayment = () => {
 
   initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, { locale: 'es-MX' })
 
-  const createPreference = async () => {
+  const createPreference = async (plan) => {
     setIsLoading(true)
     try {
         const token = AuthService.getToken()
         const response = await axios.post(
             `${import.meta.env.VITE_URL}/create_preference`,
             {
-                title: `Suscripción ${selectedPlan.title} de Pensiona-T`,
+                title: `Suscripción ${plan.title} de Pensiona-T`,
                 quantity: 1,
-                unit_price: Number(selectedPlan.price),
+                unit_price: Number(plan.price),
             },
             {
                 headers: {
@@ -30,21 +31,17 @@ const SubscriptionPayment = () => {
                 },
             }
         )
-          const { id } = response.data;
-          return id
+          setPreferenceId(response.data.id)
         } catch (error) {
-          console.error('Error al crear la preferencia:', error);
-          throw error;
+          console.error('Error al crear la preferencia:', error)
         } finally {
-          setIsLoading(false);
+          setIsLoading(false)
         }
     }
 
-    const onSubmit = async () => {
-        const id = await createPreference()
-        if (id) {
-            setPreferenceId(id)
-        }
+    const handleSelectPlan = async (plan) => {
+      setSelectedPlan(plan)
+      await createPreference(plan)
     }
 
   const filteredPlans = PLANS.filter((plan) => plan.title !== 'Free')
@@ -85,7 +82,7 @@ const SubscriptionPayment = () => {
                         </ul>
                         </div>
                         <div className="mt-4 gap-4 max-w-fit">
-                            <Button onClick={() => setSelectedPlan(plan)}>
+                            <Button onClick={() => handleSelectPlan(plan)}>
                                 {isLoading ? 'Procesando...' : `Elegir ${plan.title}`}
                             </Button>
                         </div>
@@ -110,13 +107,11 @@ const SubscriptionPayment = () => {
               ))}
             </ul>
             <div className="mt-4">
-              {preferenceId ? (
-                <Wallet initialization={{ preferenceId }} />
-              ) : (
-                <div className="mt-8 gap-4 max-w-fit">
-                <Button onClick={() => onSubmit()}>Continuar al pago</Button>
-                </div>
-              )}
+              {preferenceId 
+                ? <Wallet initialization={{ preferenceId }} /> 
+                : <div className="flex justify-center items-center mt-16">
+                    <Dots color='true'/>
+                  </div>}
             </div>
         </div>
       )}
