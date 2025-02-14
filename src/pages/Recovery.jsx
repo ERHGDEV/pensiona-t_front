@@ -81,7 +81,7 @@ const Recovery = () => {
     return (
         <>
             <main>
-                <div className="max-w-sm mx-auto mt-48">
+                <div className="max-w-sm mx-auto flex flex-col justify-center h-[calc(100vh-80px)]">
                     {isLoading ? (
                         <div className="text-center">
                             <p className="mb-5">{status.message}</p>

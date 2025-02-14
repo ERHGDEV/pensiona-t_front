@@ -43,7 +43,7 @@ const ForgotPassword = () => {
         <>
             <main>
                 {showForm ? (
-                    <form onSubmit={handleSubmit} autoComplete="off" className="max-w-sm mx-auto mt-48">
+                    <form onSubmit={handleSubmit} autoComplete="off" className="max-w-sm mx-auto flex flex-col justify-center h-[calc(100vh-80px)]">
                         <p className="text-xl mb-5">Recupera tu contraseña</p>
                         <div className="relative z-0 w-full mb-5 group">
                             <input 

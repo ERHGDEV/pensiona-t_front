@@ -13,12 +13,14 @@ const Footer = ({ variant }) => {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row place-content-center">
-          <Link to="/privacity">
-            <p className="">Aviso de privacidad</p>
-          </Link>
-          <Link to="/about">
-            <p className="sm:ml-8 mt-2 sm:mt-0">Acerca de</p>
-          </Link>
+          <div className='flex flex-row mx-auto sm:mx-0'>
+            <Link to="/privacity">
+              <p className="">Aviso de privacidad</p>
+            </Link>
+            <Link to="/about">
+              <p className="ml-8">Acerca de</p>
+            </Link>
+          </div>
           <p className='sm:ml-8 mt-2 sm:mt-0'>&copy; {new Date().getFullYear()} Pensiona-T</p>
         </div>
         <div className="mt-4 flex justify-center space-x-6">
