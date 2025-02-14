@@ -4,7 +4,6 @@ import { useNotificationContext } from "../context/NotificationContext"
 import { useUserContext } from "../context/UserContext"
 import Dots from "../components/Dots"
 import axiosInstance from "../services/axiosConfig"
-import Header from "../components/Header"
 import Calculator from "../components/Calculator"
 import WhatAforeAmI from "../components/WhatAforeAmI"
 import ExcelAforeUploader from "../components/ExcelAforeUploader"
@@ -52,7 +51,7 @@ const UserPanel = () => {
     if (loading) {
         return(
             <>
-                <div className="flex flex-col justify-center items-center h-screen" >
+                <div className="flex flex-col justify-center items-center h-[calc(100vh-80px)]" >
                     <p className="mb-8">Cargando</p>
                     <Dots />
                 </div>
@@ -85,7 +84,7 @@ const UserPanel = () => {
                         Perfil
                     </button>
                 </div>
-
+                
                 <div className="relative overflow-hidden">
                     {activeSection === 'calculadora' && (
                         <ComponentTransition>
