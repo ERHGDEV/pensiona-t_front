@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axiosInstance from '../services/axiosConfig'
 import AuthService from '../services/authService'
-import UserProfile from './UserProfile'
 import ComponentTransition from './ComponentTransition'
 
 export default function Header() {
@@ -11,18 +10,7 @@ export default function Header() {
   const userRole = AuthService.getUserRole()
   const email = AuthService.getUsername()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [showProfile, setShowProfile] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-  const menuRef = useRef(null) // Referencia al menú desplegable
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  const menuRef = useRef(null)
 
   useEffect(() => {
     if (!isMenuOpen) return
