@@ -7,7 +7,6 @@ import axiosInstance from "../services/axiosConfig"
 import Calculator from "../components/Calculator"
 import WhatAforeAmI from "../components/WhatAforeAmI"
 import ExcelAforeUploader from "../components/ExcelAforeUploader"
-import Notification from "../components/Notification"
 import MyAccount from "../components/MyAccount"
 import SubscriptionPayment from "../components/SubscriptionPayment"
 import SubscriptionBar from "../components/SubscriptionBar"
@@ -59,68 +58,65 @@ const UserPanel = () => {
         )
     }
     return (
-        <>
-            <Notification />
-            <main className="max-w-md mx-auto px-4 py-4">
-                <SubscriptionBar onSelection={setActiveSection} />
+        <main className="max-w-md mx-auto px-4 py-4">
+            <SubscriptionBar onSelection={setActiveSection} />
 
-                <div className="flex justify-center">
-                    <button
-                        className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
-                        onClick={() => setActiveSection('calculadora')}
-                    >
-                        Calculadora
-                    </button>
-                    <button
-                        className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
-                        onClick={() => setActiveSection('afore')}
-                    >
-                        Afore
-                    </button>
-                    <button
-                        className={`px-4 py-2 rounded-full ${activeSection === 'perfil' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
-                        onClick={() => setActiveSection('perfil')}
-                    >
-                        Perfil
-                    </button>
-                </div>
-                
-                <div className="relative overflow-hidden">
-                    {activeSection === 'calculadora' && (
-                        <ComponentTransition>
-                        <Calculator subscription={user.subscription} />
-                        </ComponentTransition>
-                    )}
+            <nav className="flex justify-center">
+                <button
+                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                    onClick={() => setActiveSection('calculadora')}
+                >
+                    Calculadora
+                </button>
+                <button
+                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                    onClick={() => setActiveSection('afore')}
+                >
+                    Afore
+                </button>
+                <button
+                    className={`px-4 py-2 rounded-full ${activeSection === 'perfil' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                    onClick={() => setActiveSection('perfil')}
+                >
+                    Perfil
+                </button>
+            </nav>
+            
+            <section>
+                {activeSection === 'calculadora' && (
+                    <ComponentTransition>
+                    <Calculator subscription={user.subscription} />
+                    </ComponentTransition>
+                )}
 
-                    {activeSection === 'afore' && (
-                        <ComponentTransition>
-                        <>
-                            <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter} />
-                            {user.subscription === 'unlimited' ? (
-                            <ExcelAforeUploader />
-                            ) : user.subscription === 'fre' ? (
-                            <InviteToUnlimited onSelection={setActiveSection} />
-                            ) : null}
-                        </>
-                        </ComponentTransition>
-                    )}
+                {activeSection === 'afore' && (
+                    <ComponentTransition>
+                    <>
+                        <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter} />
+                        {user.subscription === 'unlimited' ? (
+                        <ExcelAforeUploader />
+                        ) : user.subscription === 'fre' ? (
+                        <InviteToUnlimited onSelection={setActiveSection} />
+                        ) : null}
+                    </>
+                    </ComponentTransition>
+                )}
 
-                    {activeSection === 'perfil' && (
-                        <ComponentTransition>
-                        <MyAccount subscription={user.subscription} />
-                        </ComponentTransition>
-                    )}
+                {activeSection === 'perfil' && (
+                    <ComponentTransition>
+                    <MyAccount subscription={user.subscription} />
+                    </ComponentTransition>
+                )}
 
-                    {activeSection === 'subscription' && (
-                        <ComponentTransition>
-                        <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
-                            <SubscriptionPayment />
-                        </div>
-                        </ComponentTransition>
-                    )}
-                </div>
-            </main>
-        </>
+                {activeSection === 'subscription' && (
+                    <ComponentTransition>
+                    <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                        <SubscriptionPayment />
+                    </div>
+                    </ComponentTransition>
+                )}
+            </section>
+        </main>
     )
 }
 

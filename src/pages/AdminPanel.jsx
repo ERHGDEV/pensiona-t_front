@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import UserList from "../components/UserList"
 import Dots from "../components/Dots"
@@ -91,11 +91,17 @@ const AdminPanel = () => {
             Estadísticas
         </button>
         <button
-            className={`px-4 py-2 rounded-lg ${activeSection === 'payments' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+            className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'payments' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
             onClick={() => setActiveSection('payments')}
         >
             Ingresos
         </button>
+        <Link
+          className={`px-4 py-2 rounded-lg ${activeSection === 'user' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+          to='/user'
+        >
+            Ver como usuario
+        </Link>
       </nav>
       <section className="px-4">
         {activeSection === 'home' ? (
