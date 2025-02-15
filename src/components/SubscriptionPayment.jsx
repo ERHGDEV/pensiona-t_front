@@ -106,7 +106,7 @@ const SubscriptionPayment = () => {
               ></li>
               ))}
             </ul>
-            <div className="mt-4">
+            <div className="mt-2">
               {preferenceId 
                 ? <Wallet initialization={{ preferenceId }} /> 
                 : <div className="flex justify-center items-center mt-16">

@@ -46,7 +46,7 @@ const Verify = () => {
 
   return (
     <div className="min-h-screen">
-      <main className="container mx-auto px-4 py-16">
+      <main className="mx-auto px-4 flex flex-col justify-center h-[calc(100vh-80px)]">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

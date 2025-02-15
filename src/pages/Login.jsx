@@ -4,6 +4,7 @@ import authService from "../services/authService"
 import Dots from "../components/Dots"
 import Button from "../components/Button"
 import Footer from "../components/Footer"
+import { useNotificationContext } from "../context/NotificationContext"
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -11,6 +12,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const [statusMessage, setStatusMessage] = useState('')
 
+  const { showNotification } = useNotificationContext()
   const navigate = useNavigate()
   const userIsAuthenticated = authService.isAuthenticated()
 
@@ -40,6 +42,7 @@ const Login = () => {
             }
         } else {
             setStatusMessage(response.message)
+            showNotification(response.message, 'error')
         }
       }, 3000)
     } catch (error) {
@@ -47,8 +50,10 @@ const Login = () => {
       setLoading(false)
       if (error.response && error.response.status === 429) {
         setStatusMessage('Demasiados intentos, regresa más tarde')
+        showNotification('Demasiados intentos, regresa más tarde', 'error')
       } else {
         setStatusMessage('Error en el servidor')
+        showNotification('Error en el servidor', 'error')
       }
     }
   }
@@ -135,20 +140,18 @@ const Login = () => {
               Olvidé mi contraseña
           </a>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-            <Button type="submit" order="primary">Entrar</Button>
+            <Button type="submit" order="primary" disabled={loading}>
+              {loading ? (
+                <span className="text-center">
+                  {statusMessage}
+                  <Dots color='true' />
+                </span>
+              ) : (
+                'Entrar'
+              )}
+            </Button>
           </div>
         </form>
-        {loading && (
-          <div className="mt-8 text-center">
-            <p>{statusMessage}</p>
-            <Dots />
-          </div>
-        )}
-        {!loading && statusMessage && (
-          <div className="mt-8 text-center">
-            <p>{statusMessage}</p>
-          </div>
-        )}
       </main>
 
       <Footer variant="fixed"/>

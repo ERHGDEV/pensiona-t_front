@@ -67,7 +67,7 @@ const ResultsTable = ({ data, onCalculatorBack }) => {
                 </table>
             </div>
             <p className="text-xs text-center text-sky-800 mt-4">
-                Haz clic en <span className="font-bold">"Detalle"</span> para ver la tabla completa
+                Haz clic en <span className="font-bold">{"Detalle"}</span> para ver la tabla completa
             </p>
             <div className="mt-4 flex flex-row gap-4 max-w-fit mx-auto">
                 <Button order="primary" onClick={onCalculatorBack}>

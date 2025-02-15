@@ -3,7 +3,6 @@ import axios from "axios"
 import Notification from "../components/Notification"
 import { useNotificationContext } from "../context/NotificationContext"
 import Button from "../components/Button"
-import Footer from "../components/Footer"
 import Dots from "../components/Dots"
 
 const Register = () => {
@@ -225,18 +224,22 @@ const Register = () => {
                             </label>
                         </div>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                            <Button type="submit" order="primary" >Registrarme</Button>
+                            <Button type="submit" order="primary" >
+                                {isSubmitting ? (
+                                    <span className="text-center">
+                                        Registrando 
+                                        <Dots />
+                                    </span>
+                                ) : (
+                                    'Registrarme'
+                                )}
+                            </Button>
                         </div>
-                        {isSubmitting && (
-                            <div className="text-center mt-8">
-                                <p>Registrando usuario...</p>
-                                <Dots />
-                            </div>
-                        )}
+                        
                     </form>
                 ) : (
-                    <div className="text-center mt-48">
-                        <p className="mb-5 max-w-sm mx-auto">{statusMessage}</p>
+                    <div className="flex flex-col justify-center h-[calc(100vh-80px)]">
+                        <p className="mb-5 max-w-sm mx-auto text-pretty text-center">{statusMessage}</p>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
                             <Button to="/" order="primary" >Volver al inicio</Button>
                         </div>

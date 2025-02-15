@@ -17,6 +17,7 @@ import PaymentStatus from './pages/PaymentStatus'
 import PageTransition from './components/PageTransition'
 import Header from './components/Header'
 import AboutUs from './pages/AboutUs'
+import Notification from './components/Notification'
 
 function AnimatedRoutes() {
   const location = useLocation()
@@ -50,6 +51,7 @@ function App() {
   return (
     <Router>
       <Header />
+      <Notification />
       <AnimatedRoutes />
     </Router>
   )

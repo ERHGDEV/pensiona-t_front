@@ -79,17 +79,21 @@ const ForgotPassword = () => {
                             </label>
                         </div>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                            <Button type="submit" order="primary" >Recuperar contraseña</Button>
+                            <Button type="submit" order="primary" disable={isSubmitting}>
+                                {isSubmitting ? (
+                                    <span className="text-center">
+                                        Solicitando
+                                        <Dots color='true' />
+                                    </span>
+                                ) : (
+                                    'Recuperar contraseña'
+                                )}
+                            </Button>
                         </div>
-                        {isSubmitting && (
-                            <div className="text-center mt-8">
-                                <p className="mt-4">Solicitando recuperación...</p>
-                                <Dots />
-                            </div>
-                        )}
+                        
                     </form>
                 ) : (
-                    <div className="text-center mt-48">
+                    <div className="text-center flex flex-col justify-center h-[calc(100vh-80px)]">
                         <p className="mb-5 max-w-sm mx-auto">{status}</p>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
                             <Button to="/" order="primary" >Volver al inicio</Button>

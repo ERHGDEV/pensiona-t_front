@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import Dots from '../components/Dots'
 import Footer from '../components/Footer'
 import Button from '../components/Button'
+import { useNotificationContext } from '../context/NotificationContext'
 
 const Recovery = () => {
     const [searchParams] = useSearchParams()
@@ -12,7 +13,8 @@ const Recovery = () => {
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setConfirmNewPassword] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const [error, setError] = useState('')
+
+    const { showNotification } = useNotificationContext()
 
     useEffect(() => {
         const token = searchParams.get('token')
@@ -49,12 +51,16 @@ const Recovery = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         
+        if (newPassword.length < 8 || confirmNewPassword.length < 8) {
+            showNotification('La contraseña debe tener al menos 8 caracteres', 'error')
+            return
+        }
+
         if (newPassword !== confirmNewPassword) {
-            setError('Las contraseñas no coinciden')
+            showNotification('Las contraseñas no coinciden', 'error')
             return
         }
         
-        setError('')
         setIsSubmitting(true)
         setStatus({ message: 'Actualizando contraseña', success: null })
 
@@ -172,15 +178,17 @@ const Recovery = () => {
                             </div>
                             
                             <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                                <Button type="submit" order="primary" >Cambiar contraseña</Button>
-                            </div>
-                            {error && <p className="mt-8 text-center">{error}</p>}
-                            {isSubmitting && (
-                                <div className="text-center mt-8">
-                                    <p>Actualizando contraseña...</p>
-                                    <Dots />
-                                </div>
-                            )}
+                                <Button type="submit" order="primary" disable={isSubmitting}>
+                                    {isSubmitting ? (
+                                        <span className="text-center">
+                                            Actualizando
+                                            <Dots color='true' />
+                                        </span>
+                                    ): (
+                                        'Cambiar contraseña'
+                                    )}
+                                </Button>
+                            </div>                            
                         </form>
                     )}
                 </div>
