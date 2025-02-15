@@ -4,9 +4,12 @@ import CalculatorForm from './CalculatorForm'
 import { calculateAll } from '../utils/calculatePension'
 import ResultsTable from './ResultsTable'
 import PDFUploader from './PDFUploader'
+import ComponentTransition from './ComponentTransition'
 
-const Calculator = () => {
-    const [activeSection, setActiveSection] = useState('flowSelection')
+const Calculator = ({ subscription }) => {
+    const [activeSection, setActiveSection] = useState(
+        subscription === 'free' ? 'calculatorForm' : 'flowSelection'
+    )
     const [dataExtracted, setDataExtracted] = useState(null)
     const [results, setResults] = useState(null)
 
@@ -21,7 +24,7 @@ const Calculator = () => {
 
     const handleCalculatorBack = () => {
         setDataExtracted(null)
-        handleActiveSection('flowSelection')
+        handleActiveSection(subscription === 'free' ? 'calculatorForm' : 'flowSelection')
     }
 
     const handleCalculate = (data, salarioMinimo) => {
@@ -33,13 +36,39 @@ const Calculator = () => {
     const renderActiveSection = () => {
         switch (activeSection) {
             case 'flowSelection':
-                return <FlowSelection onSelection={handleActiveSection} />
+                return (
+                    <ComponentTransition key="flowSelection">
+                        <FlowSelection onSelection={handleActiveSection} />
+                    </ComponentTransition>
+                )
             case 'pdfUploader':
-                return <PDFUploader onPDFBack={handleCalculatorBack} onDataExtracted={hangleDataExtracted} />
+                return (
+                    <ComponentTransition key="pdfUploader">
+                        <PDFUploader
+                            onPDFBack={handleCalculatorBack}
+                            onDataExtracted={hangleDataExtracted}
+                        />
+                    </ComponentTransition>
+                )
             case 'calculatorForm':
-                return <CalculatorForm onCalculatorBack={handleCalculatorBack} onCalculate={handleCalculate} data={dataExtracted} />
+                return (
+                    <ComponentTransition key="calculatorForm">
+                        <CalculatorForm
+                            onCalculatorBack={handleCalculatorBack}
+                            onCalculate={handleCalculate}
+                            data={dataExtracted}
+                        />
+                    </ComponentTransition>
+                )
             case 'resultsTable':
-                return <ResultsTable onCalculatorBack={handleCalculatorBack} data={results} />
+                return (
+                    <ComponentTransition key="resultsTable">
+                        <ResultsTable
+                            onCalculatorBack={handleCalculatorBack}
+                            data={results}
+                        />
+                    </ComponentTransition>
+                )
             default:
                 return null
         }

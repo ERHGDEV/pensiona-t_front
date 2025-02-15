@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import authService from "../services/authService"
-import Header from "../components/Header"
 import Dots from "../components/Dots"
 import Button from "../components/Button"
 import Footer from "../components/Footer"
+import { useNotificationContext } from "../context/NotificationContext"
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -12,7 +12,17 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const [statusMessage, setStatusMessage] = useState('')
 
+  const { showNotification } = useNotificationContext()
   const navigate = useNavigate()
+  const userIsAuthenticated = authService.isAuthenticated()
+
+  useEffect(() => {
+    if (userIsAuthenticated) {
+      const role = authService.getUserRole()
+      if (role === 'admin') navigate('/admin')
+      else navigate('/user')
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,6 +42,7 @@ const Login = () => {
             }
         } else {
             setStatusMessage(response.message)
+            showNotification(response.message, 'error')
         }
       }, 3000)
     } catch (error) {
@@ -39,20 +50,21 @@ const Login = () => {
       setLoading(false)
       if (error.response && error.response.status === 429) {
         setStatusMessage('Demasiados intentos, regresa más tarde')
+        showNotification('Demasiados intentos, regresa más tarde', 'error')
       } else {
         setStatusMessage('Error en el servidor')
+        showNotification('Error en el servidor', 'error')
       }
     }
   }
 
   return (
     <>
-      <Header />
       <main>
         <form
           onSubmit={handleSubmit} 
           autoComplete='off' 
-          className="max-w-sm mx-auto mt-48"
+          className="max-w-sm mx-auto flex flex-col justify-center h-[calc(100vh-80px)]"
         >
           <p className='text-xl mb-5'>Inicia sesión</p>
           <div className="relative z-0 w-full mb-5 group">
@@ -128,20 +140,18 @@ const Login = () => {
               Olvidé mi contraseña
           </a>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-            <Button type="submit" order="primary" children="Entrar" />
+            <Button type="submit" order="primary" disabled={loading}>
+              {loading ? (
+                <span className="text-center">
+                  {statusMessage}
+                  <Dots color='true' />
+                </span>
+              ) : (
+                'Entrar'
+              )}
+            </Button>
           </div>
         </form>
-        {loading && (
-          <div className="mt-8 text-center">
-            <p>{statusMessage}</p>
-            <Dots />
-          </div>
-        )}
-        {!loading && statusMessage && (
-          <div className="mt-8 text-center">
-            <p>{statusMessage}</p>
-          </div>
-        )}
       </main>
 
       <Footer variant="fixed"/>

@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSearchParams } from 'react-router-dom'
-import Header from '../components/Header'
 import Button from '../components/Button'
-import URL from "../constants/url"
 import { motion } from 'framer-motion'
 import Dots from '../components/Dots'
 import Footer from '../components/Footer'
@@ -18,7 +16,7 @@ const Verify = () => {
   
     const verifyUser = async () => {
       try {
-        const response = await axios.get(`${URL}/verify?token=${token}`)
+        const response = await axios.get(`${import.meta.env.VITE_URL}/verify?token=${token}`)
         setTimeout(() => {
           setStatus({ verified: true, message: response.data.message })
           setIsLoading(false)
@@ -48,9 +46,7 @@ const Verify = () => {
 
   return (
     <div className="min-h-screen">
-      <Header />
-
-      <main className="container mx-auto px-4 py-16">
+      <main className="mx-auto px-4 flex flex-col justify-center h-[calc(100vh-80px)]">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -79,7 +75,7 @@ const Verify = () => {
                   className="mt-6"
                 >
                   <div className='className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto'>
-                    <Button to="/login" children="Iniciar sesión" />
+                    <Button to="/login" >Iniciar sesión</Button>
                   </div>
                 </motion.div>
               ) : (
@@ -91,7 +87,7 @@ const Verify = () => {
                 >
                   <p className='mb-4'>Por favor, contacta a <a className="font-bold" href="mailto:pensionat.calculadora@gmail.com">soporte</a>.</p>
                   <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                    <Button to="/" order="primary" children="Volver al inicio" />
+                    <Button to="/" order="primary" >Volver al inicio</Button>
                   </div>
                 </motion.p>
               )}

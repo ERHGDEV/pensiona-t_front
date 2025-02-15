@@ -1,5 +1,4 @@
 import { useState } from "react"
-import Header from "../components/Header"
 import Footer from "../components/Footer"
 
 const Privacity = () => {
@@ -7,7 +6,6 @@ const Privacity = () => {
 
     return (
         <>
-            <Header />
             <div className="bg-gray-50 text-pretty mt-4 py-10 px-6 sm:px-10 lg:px-20 max-w-5xl mx-auto rounded-lg shadow-lg">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
                     Aviso de Privacidad
@@ -16,7 +14,7 @@ const Privacity = () => {
                     <strong>Última actualización:</strong> 15 de enero del 2025
                 </p>
                 <p className="text-gray-700 mb-6">
-                    En <strong>Pensiona-T</strong> (en adelante, "el Sitio"), estamos
+                    En <strong>Pensiona-T</strong> (en adelante, {"el Sitio"}), estamos
                     comprometidos con la protección de los datos personales de nuestros
                     usuarios. Este Aviso de Privacidad explica cómo recopilamos, utilizamos
                     y protegemos su información personal, así como los derechos que tiene

@@ -57,6 +57,16 @@ export default function Features() {
               title="Reportes Detallados"
               description="Obtén informes completos y fáciles de entender sobre tu futura pensión."
             />
+            <FeatureCard
+              icon="📍"
+              title="Localización de Afore"
+              description="Consulta en qué afore te encuentras actualmente. Consulta masiva disponible en Plan Unlimited."
+            />
+            <FeatureCard
+              icon="📅"
+              title="Análisis de semanas cotizadas"
+              description="Obten automáticamente el salario promedio de los últimos 5 años. Disponible en el plan Plan Pro y Unlimited"
+            />
           </div>
         </div>
       </div>

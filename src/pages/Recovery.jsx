@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSearchParams } from 'react-router-dom'
-import URL from '../constants/url'
 import Dots from '../components/Dots'
 import Footer from '../components/Footer'
-import Header from '../components/Header'
 import Button from '../components/Button'
+import { useNotificationContext } from '../context/NotificationContext'
 
 const Recovery = () => {
     const [searchParams] = useSearchParams()
@@ -14,14 +13,15 @@ const Recovery = () => {
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setConfirmNewPassword] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const [error, setError] = useState('')
+
+    const { showNotification } = useNotificationContext()
 
     useEffect(() => {
         const token = searchParams.get('token')
         
         const validateToken = async () => {
             try {
-                await axios.get(`${URL}/recovery?token=${token}`)
+                await axios.get(`${import.meta.env.VITE_URL}/recovery?token=${token}`)
                 setTimeout(() => {
                     setStatus({ message: 'Token verificado', success: true })
                     setIsLoading(false)
@@ -51,18 +51,22 @@ const Recovery = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         
+        if (newPassword.length < 8 || confirmNewPassword.length < 8) {
+            showNotification('La contraseña debe tener al menos 8 caracteres', 'error')
+            return
+        }
+
         if (newPassword !== confirmNewPassword) {
-            setError('Las contraseñas no coinciden')
+            showNotification('Las contraseñas no coinciden', 'error')
             return
         }
         
-        setError('')
         setIsSubmitting(true)
         setStatus({ message: 'Actualizando contraseña', success: null })
 
         try {
             const token = searchParams.get('token')
-            const response = await axios.post(`${URL}/reset-password`, { token, newPassword })
+            const response = await axios.post(`${import.meta.env.VITE_URL}/reset-password`, { token, newPassword })
             setTimeout(() => {
                 setStatus({ message: 'Contraseña actualizada con éxito', success: true })
                 setIsSubmitting(false)
@@ -82,9 +86,8 @@ const Recovery = () => {
 
     return (
         <>
-            <Header />
             <main>
-                <div className="max-w-sm mx-auto mt-48">
+                <div className="max-w-sm mx-auto flex flex-col justify-center h-[calc(100vh-80px)]">
                     {isLoading ? (
                         <div className="text-center">
                             <p className="mb-5">{status.message}</p>
@@ -94,14 +97,14 @@ const Recovery = () => {
                         <div className="text-center">
                             <p className="mb-5">{status.message}</p>
                             <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                                <Button to="/" order="primary" children="Volver al inicio" />
+                                <Button to="/" order="primary" >Volver al inicio</Button>
                             </div>
                         </div>
                     ) : status.success === true && status.message === 'Contraseña actualizada con éxito' ? (
                         <div className="text-center mt-8">
                             <p>{status.message}</p>
                             <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                                <Button to="/login" order="primary" children="Iniciar sesión" />
+                                <Button to="/login" order="primary" >Iniciar sesión</Button>
                             </div>
                         </div>
                     ) : (
@@ -175,15 +178,17 @@ const Recovery = () => {
                             </div>
                             
                             <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-                                <Button type="submit" order="primary" children="Cambiar contraseña" />
-                            </div>
-                            {error && <p className="mt-8 text-center">{error}</p>}
-                            {isSubmitting && (
-                                <div className="text-center mt-8">
-                                    <p>Actualizando contraseña...</p>
-                                    <Dots />
-                                </div>
-                            )}
+                                <Button type="submit" order="primary" disable={isSubmitting}>
+                                    {isSubmitting ? (
+                                        <span className="text-center">
+                                            Actualizando
+                                            <Dots color='true' />
+                                        </span>
+                                    ): (
+                                        'Cambiar contraseña'
+                                    )}
+                                </Button>
+                            </div>                            
                         </form>
                     )}
                 </div>

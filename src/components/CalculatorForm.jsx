@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useUserContext } from "../context/UserContext"
 import Button from "./Button"
 import { MONTHS as months } from '../constants/calculateData'
 import { validateInputs } from "../utils/userFormValidation"
@@ -6,6 +7,9 @@ import axiosInstance from "../services/axiosConfig"
 import Dots from "./Dots"
 
 const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
+    const { user } = useUserContext()
+    const { subscription, salarioMinimo, uma } = user
+
     const [formData, setFormData] = useState({
         averageSalary: data?.salarioPromedio || '',
         weeksContributed: data?.totalSemanas || '',
@@ -18,30 +22,11 @@ const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
         startMonth: (new Date().getMonth() + 1).toString(),
         startYear: new Date().getFullYear().toString()
     })
-    const [salarioMinimo, setSalarioMinimo] = useState(0)
-    const [uma, setUma] = useState(0)
     const [errors, setErrors] = useState({})
     const [isCalculating, setIsCalculating] = useState(false)
 
     const currentYear = new Date().getFullYear()
     const yearRange = Array.from({ length: 16 }, (_, i) => currentYear -5 + i)
-
-    useEffect(() => {
-        getValues()
-    }, [])
-    
-    const getValues = async () => {
-        try {
-            const response = await axiosInstance.get("/values")
-            if (!response.data.salarioMinimo || !response.data.uma) {
-                throw new Error('No se pudieron obtener los valores actualizados de salario mínimo y UMA')
-            }
-            setSalarioMinimo(response.data.salarioMinimo)
-            setUma(response.data.uma)
-        } catch (error) {
-            console.error('Error:', error)
-        }
-    }
 
     const incrementCalculationCount = async () => {
         try {
@@ -269,9 +254,10 @@ const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
                 )}
             </form>
             <div className="mt-4 flex flex-row gap-4 max-w-fit mx-auto">
-                <Button order="primary" onClick={onCalculatorBack}>
+                {subscription != 'free' && 
+                 <Button order="primary" onClick={onCalculatorBack}>
                     Volver
-                </Button>
+                </Button>}
                 <Button onClick={handleCalculate} disabled={isCalculating}>
                     {isCalculating ? (
                         <span>

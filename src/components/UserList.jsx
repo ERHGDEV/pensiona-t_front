@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { parseISO, format } from 'date-fns'
 import UserForm from './UserForm'
 import AdminButton from './AdminButton'
+import { subscriptionNormalize } from '../utils/subscriptionNormalize'
 
 const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => {
     const [search, setSearch] = useState('')
@@ -107,16 +108,23 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                             <th
                                 className="py-3 px-4 text-left cursor-pointer"
                                 style={{ width: '5%' }}
-                                onClick={() => handleSort('expiration')}
+                                onClick={() => handleSort('lastLogin')}
                             >
-                                Vigenc
+                                Último
+                            </th>
+                            <th 
+                                className="py-3 px-4 text-left cursor-pointer" 
+                                style={{ width: '5%' }}
+                                onClick={() => handleSort('subscription')}
+                            >
+                                Subscrip
                             </th>
                             <th
                                 className="py-3 px-4 text-left cursor-pointer"
                                 style={{ width: '5%' }}
-                                onClick={() => handleSort('lastLogin')}
+                                onClick={() => handleSort('expiration')}
                             >
-                                Último
+                                Vigenc
                             </th>
                             <th
                                 className="py-3 px-4 text-left cursor-pointer"
@@ -162,8 +170,9 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{user.name}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{user.email}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.created)}</td>
-                                <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.lastLogin)}</td>
+                                <td className='py-3 px-4 text-left whitespace-nowrap'>{subscriptionNormalize(user.subscription)}</td>
+                                <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
                                 <td className="py-3 px-4 text-center">{user.verified ? '✅' : ''}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{user.pdfAnalizados}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{user.calculosRealizados}</td>

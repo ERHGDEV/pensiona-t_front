@@ -1,13 +1,17 @@
 import { useState } from "react"
+import { useNotificationContext } from "../context/NotificationContext"
 import generatePDF from "../utils/generatePDF"
 import Button from "./Button"
 import Dots from "./Dots"
 import axiosInstance from "../services/axiosConfig"
+import { formatCurrency } from "../utils/formatCurrency"
 
 const ResultsTable = ({ data, onCalculatorBack }) => {
     const [isGenerating, setIsGenerating] = useState(false)
     const pensionPorEdad = data.pensionResults.normalResults.pensionPorEdad
-    const pensionModalidad40 = data?.pensionResults?.modalidad40Results?.pensionModalidad40 || null;
+    const pensionModalidad40 = data?.pensionResults?.modalidad40Results?.pensionModalidad40 || null
+
+    const { showNotification } = useNotificationContext()
     
     const incrementReportsCount = async () => {
         try {
@@ -24,6 +28,7 @@ const ResultsTable = ({ data, onCalculatorBack }) => {
             generatePDF(data)
             incrementReportsCount()
             setIsGenerating(false)
+            showNotification('PDF generado con éxito', 'success')
         }, 3000)
     }
 
@@ -50,10 +55,10 @@ const ResultsTable = ({ data, onCalculatorBack }) => {
                             >
                                 <td className="px-2 py-3 whitespace-nowrap font-semibold">{result.age}</td>
                                 <td className="px-2 py-3 whitespace-nowrap">{result.percentage}%</td>
-                                <td className="px-4 py-3 whitespace-nowrap font-semibold">${result.pension.toFixed(2)}</td>
+                                <td className="px-4 py-3 whitespace-nowrap font-semibold">{formatCurrency(result.pension)}</td>
                                 {pensionModalidad40 && (
                                     <td className="px-4 py-3 whitespace-nowrap font-bold text-sky-800">
-                                        ${pensionModalidad40[index].pension.toFixed(2)}
+                                        {formatCurrency(pensionModalidad40[index].pension)}
                                     </td>
                                 )}
                             </tr>
@@ -62,7 +67,7 @@ const ResultsTable = ({ data, onCalculatorBack }) => {
                 </table>
             </div>
             <p className="text-xs text-center text-sky-800 mt-4">
-                Haz clic en <span className="font-bold">"Detalle"</span> para ver la tabla completa
+                Haz clic en <span className="font-bold">{"Detalle"}</span> para ver la tabla completa
             </p>
             <div className="mt-4 flex flex-row gap-4 max-w-fit mx-auto">
                 <Button order="primary" onClick={onCalculatorBack}>
