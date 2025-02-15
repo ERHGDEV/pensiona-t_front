@@ -4,6 +4,7 @@ import authService from "../services/authService"
 import Dots from "../components/Dots"
 import Button from "../components/Button"
 import Footer from "../components/Footer"
+import { Link } from "react-router-dom"
 import { useNotificationContext } from "../context/NotificationContext"
 
 const Login = () => {
@@ -133,12 +134,12 @@ const Login = () => {
               Password
             </label>
           </div>
-          <a 
+          <Link 
             className="text-sm text-gray-300 hover:text-white active:text-gray-500
               transition duration-300 ease-in-out cursor-pointer" 
-            href="/password">
+            to="/password">
               Olvidé mi contraseña
-          </a>
+          </Link>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
             <Button type="submit" order="primary" disabled={loading}>
               {loading ? (
