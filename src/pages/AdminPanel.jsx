@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import UserList from "../components/UserList"
-import Notification from "../components/Notification"
 import Dots from "../components/Dots"
 import UserActivity from "../components/UserActivity"
 import { useNotificationContext } from "../context/NotificationContext"
@@ -68,7 +67,7 @@ const AdminPanel = () => {
   
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen">
+      <div className="flex flex-col justify-center items-center h-[calc(100vh-80px)]">
         <p className="mb-8">Cargando</p>
         <Dots />
       </div>
@@ -76,34 +75,29 @@ const AdminPanel = () => {
   }
   
   return (
-    <div className="min-h-screen">
-      <Notification />
-      <main className="mx-auto max-w-7xl px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Panel de Administrador</h1>
-
-          <div className="flex justify-center">
-            <button
-                className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'home' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
-                onClick={() => setActiveSection('home')}
-            >
-                Home
-            </button>
-            <button
-                className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'statistics' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
-                onClick={() => setActiveSection('statistics')}
-            >
-                Estadísticas
-            </button>
-            <button
-                className={`px-4 py-2 rounded-lg ${activeSection === 'payments' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
-                onClick={() => setActiveSection('payments')}
-            >
-                Ingresos
-            </button>
-          </div>
-        </div>
-
+    <main className="mx-auto max-w-7xl p-4">
+      <h1 className="text-3xl text-center font-bold mb-4">Panel de Administrador</h1>
+      <nav className="flex justify-center">
+        <button
+            className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'home' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+            onClick={() => setActiveSection('home')}
+        >
+            Home
+        </button>
+        <button
+            className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'statistics' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+            onClick={() => setActiveSection('statistics')}
+        >
+            Estadísticas
+        </button>
+        <button
+            className={`px-4 py-2 rounded-lg ${activeSection === 'payments' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+            onClick={() => setActiveSection('payments')}
+        >
+            Ingresos
+        </button>
+      </nav>
+      <section className="px-4">
         {activeSection === 'home' ? (
           <>
             <CalculatorParameters />
@@ -123,9 +117,8 @@ const AdminPanel = () => {
           <PaymentList payments={payments}/>
         )
         }
-
-      </main>
-    </div>
+      </section>
+    </main>
   )
 }
 
