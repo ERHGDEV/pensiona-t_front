@@ -60,7 +60,7 @@ export default function Features() {
             <FeatureCard
               icon="📍"
               title="Localización de Afore"
-              description="Consulta en qué afore te encuentras actualmente. Consulta masiva disponible en Plan Unlimited."
+              description="Consulta en qué afore te encuentras actualmente. Consulta masiva disponible en plan Unlimited."
             />
             <FeatureCard
               icon="📅"
