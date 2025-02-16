@@ -65,7 +65,7 @@ export default function Features() {
             <FeatureCard
               icon="📅"
               title="Análisis de semanas cotizadas"
-              description="Obten automáticamente el salario promedio de los últimos 5 años. Disponible en el plan Plan Pro y Unlimited"
+              description="Obten automáticamente el salario promedio de los últimos 5 años. Disponible en el plan Pro y Unlimited"
             />
           </div>
         </div>
