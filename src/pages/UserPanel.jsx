@@ -10,6 +10,7 @@ import ExcelAforeUploader from "../components/ExcelAforeUploader"
 import MyAccount from "../components/MyAccount"
 import SubscriptionPayment from "../components/SubscriptionPayment"
 import SubscriptionBar from "../components/SubscriptionBar"
+import UpdatePayment from "../components/UpdatePayment"
 import InviteToUnlimited from "../components/InviteToUnlimited"
 import ComponentTransition from "../components/ComponentTransition"
 
@@ -112,6 +113,14 @@ const UserPanel = () => {
                     <ComponentTransition>
                     <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
                         <SubscriptionPayment />
+                    </div>
+                    </ComponentTransition>
+                )}
+
+                {activeSection === 'update' && (
+                    <ComponentTransition>
+                    <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                        <UpdatePayment />
                     </div>
                     </ComponentTransition>
                 )}
