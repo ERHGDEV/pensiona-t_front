@@ -5,6 +5,7 @@ import { statusNormalize } from '../utils/statusPaymentNormalize'
 const PaymentList = ({ payments }) => {
     const [search, setSearch] = useState('')
     const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'desc' })
+    const [statusFilter, setStatusFilter] = useState('')
 
     const formatDate = (dateString) => format(parseISO(dateString), 'dd/MM/yy')
 
@@ -15,19 +16,15 @@ const PaymentList = ({ payments }) => {
         }))
     }
 
-    // Filtrar duplicados por external_reference
-    const uniquePayments = payments?.reduce((acc, payment) => {
-        if (!acc.some(p => p.external_reference === payment.external_reference)) {
-            acc.push(payment)
-        }
-        return acc
-    }, []) || []
-
-    const filteredPayments = uniquePayments?.filter((payment) =>
-        payment.user.toLowerCase().includes(search.toLowerCase()) ||
-        payment.email.toLowerCase().includes(search.toLowerCase()) ||
-        payment.amount.toString().includes(search.toLowerCase())
-    ) || []
+    const filteredPayments = payments?.filter((payment) => {
+        const normalizedStatus = statusNormalize(payment.status)
+        return (
+            (payment.user.toLowerCase().includes(search.toLowerCase()) ||
+            payment.email.toLowerCase().includes(search.toLowerCase()) ||
+            payment.amount.toString().includes(search.toLowerCase())) &&
+            (statusFilter ? normalizedStatus === statusFilter : true)
+        )
+    }) || []
 
     const sortedPayments = [...filteredPayments].sort((a, b) => {
         if (!sortConfig.key) return 0
@@ -44,10 +41,21 @@ const PaymentList = ({ payments }) => {
             <input
                 type="text"
                 placeholder="Buscar"
-                className="w-full p-2 border rounded border-gray-300 text-gray-800 focus:outline-none focus:border-sky-500 mb-4"
+                className="w-full p-2 border rounded border-gray-300 text-gray-800 focus:outline-none focus:border-sky-500 mb-2"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
+            <div className="flex space-x-2 mb-2">
+                {['Todos', 'Aprobado', 'Rechazado'].map((status) => (
+                    <button
+                        key={status}
+                        className={`px-4 py-2 rounded ${statusFilter === status || (status === 'Todos' && statusFilter === '') ? 'bg-sky-700 text-white font-semibold' : 'bg-gray-300 text-gray-800'}`}
+                        onClick={() => setStatusFilter(status === 'Todos' ? '' : status)}
+                    >
+                        {status}
+                    </button>
+                ))}
+            </div>
             <div className="max-h-80 h-80 overflow-x-auto">
                 <table className="min-w-full">
                     <thead className="bg-sky-700 text-gray-100 uppercase text-sm leading-normal">
