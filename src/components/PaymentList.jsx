@@ -58,7 +58,7 @@ const PaymentList = ({ payments }) => {
             </div>
             <div className="max-h-80 h-80 overflow-x-auto">
                 <table className="min-w-full">
-                    <thead className="bg-sky-700 text-gray-100 uppercase text-sm leading-normal">
+                    <thead className="bg-sky-700 text-gray-100 uppercase text-sm leading-normal sticky top-0">
                         <tr>
                             <th className="py-3 px-4 text-left" style={{ width: '30%' }}>Usuario</th>
                             <th className="py-3 px-4 text-left" style={{ width: '30%' }}>Email</th>
