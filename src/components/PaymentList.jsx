@@ -70,7 +70,7 @@ const PaymentList = ({ payments }) => {
                     </thead>
                     <tbody className="text-sky-950 text-sm font-light">
                         {sortedPayments.map((payment) => (
-                            <tr key={payment.external_reference} className="border-b border-gray-500 hover:bg-gray-300">
+                            <tr key={payment.id} className="border-b border-gray-500 hover:bg-gray-300">
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{payment.user}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{payment.email}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">${payment.amount}</td>
