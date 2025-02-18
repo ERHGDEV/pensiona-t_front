@@ -15,9 +15,18 @@ const PaymentList = ({ payments }) => {
         }))
     }
 
-    const filteredPayments = payments?.filter((payment) =>
+    // Filtrar duplicados por external_reference
+    const uniquePayments = payments?.reduce((acc, payment) => {
+        if (!acc.some(p => p.external_reference === payment.external_reference)) {
+            acc.push(payment)
+        }
+        return acc
+    }, []) || []
+
+    const filteredPayments = uniquePayments?.filter((payment) =>
         payment.user.toLowerCase().includes(search.toLowerCase()) ||
-        payment.email.toLowerCase().includes(search.toLowerCase())
+        payment.email.toLowerCase().includes(search.toLowerCase()) ||
+        payment.amount.toString().includes(search.toLowerCase())
     ) || []
 
     const sortedPayments = [...filteredPayments].sort((a, b) => {
