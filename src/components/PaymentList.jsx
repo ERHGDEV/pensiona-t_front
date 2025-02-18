@@ -16,6 +16,9 @@ const PaymentList = ({ payments }) => {
         }))
     }
 
+    const approvedCount = payments.filter(payment => statusNormalize(payment.status) === 'Aprobado').length
+    const rejectedCount = payments.filter(payment => statusNormalize(payment.status) === 'Rechazado').length
+
     const filteredPayments = payments?.filter((payment) => {
         const normalizedStatus = statusNormalize(payment.status)
         return (
@@ -46,15 +49,24 @@ const PaymentList = ({ payments }) => {
                 onChange={(e) => setSearch(e.target.value)}
             />
             <div className="flex space-x-2 mb-2">
-                {['Todos', 'Aprobado', 'Rechazado'].map((status) => (
-                    <button
-                        key={status}
-                        className={`px-4 py-2 rounded ${statusFilter === status || (status === 'Todos' && statusFilter === '') ? 'bg-sky-700 text-white font-semibold' : 'bg-gray-300 text-gray-800'}`}
-                        onClick={() => setStatusFilter(status === 'Todos' ? '' : status)}
-                    >
-                        {status}
-                    </button>
-                ))}
+                <button
+                    className={`px-4 py-2 rounded ${statusFilter === '' ? 'bg-sky-700 text-white font-semibold' : 'bg-gray-300 text-gray-800'}`}
+                    onClick={() => setStatusFilter('')}
+                >
+                    Todos
+                </button>
+                <button
+                    className={`px-4 py-2 rounded ${statusFilter === 'Aprobado' ? 'bg-sky-700 text-white font-semibold' : 'bg-gray-300 text-gray-800'}`}
+                    onClick={() => setStatusFilter('Aprobado')}
+                >
+                    Aprobado ({approvedCount})
+                </button>
+                <button
+                    className={`px-4 py-2 rounded ${statusFilter === 'Rechazado' ? 'bg-sky-700 text-white font-semibold' : 'bg-gray-300 text-gray-800'}`}
+                    onClick={() => setStatusFilter('Rechazado')}
+                >
+                    Rechazado ({rejectedCount})
+                </button>
             </div>
             <div className="max-h-80 h-80 overflow-x-auto">
                 <table className="min-w-full">
