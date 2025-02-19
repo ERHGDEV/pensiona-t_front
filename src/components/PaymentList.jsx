@@ -39,7 +39,7 @@ const PaymentList = ({ payments }) => {
     })
 
     return (
-        <div className="bg-gray-50 rounded shadow-md p-4 mt-8">
+        <div className="bg-gray-50 rounded shadow-md p-4 mt-4">
             <h2 className="text-2xl text-sky-950 font-bold mb-4">Pagos Realizados</h2>
             <input
                 type="text"

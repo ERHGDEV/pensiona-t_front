@@ -56,7 +56,7 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
     const formatDate = (dateString) => dateString ? format(parseISO(dateString), 'dd/MM/yy') : 'N/A';
 
     return (
-        <div className="bg-gray-50 rounded shadow-md p-4 mt-8">
+        <div className="bg-gray-50 rounded shadow-md p-4 mt-4">
             <div className="flex justify-between items-end mb-4">
                 <h2 className="text-2xl text-sky-950 font-bold w-full">
                     Usuarios<span className="ml-2 text-sm text-gray-500"> ({sortedUsers.length})</span>

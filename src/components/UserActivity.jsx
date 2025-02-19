@@ -58,7 +58,7 @@ const UserActivity = () => {
   }
 
   return (
-    <div className="bg-gray-50 rounded shadow-md p-4 mt-8 h-[400px]">
+    <div className="bg-gray-50 rounded shadow-md p-4 mt-4 h-[400px]">
         <div className="mb-4 flex justify-between items-center">
             <h2 className="text-2xl font-bold mb-4 text-sky-950">Actividad de Usuarios</h2>
             <input

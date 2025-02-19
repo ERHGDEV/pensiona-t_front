@@ -77,33 +77,33 @@ const AdminPanel = () => {
   return (
     <main className="mx-auto max-w-7xl p-4">
       <h1 className="text-3xl text-center font-bold mb-4">Panel de Administrador</h1>
-      <nav className="flex justify-center">
+      <nav className="flex gap-4 overflow-x-scroll">
         <button
-            className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'home' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+            className={`px-4 py-2 h-full rounded-lg ${activeSection === 'home' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
             onClick={() => setActiveSection('home')}
         >
             Home
         </button>
         <button
-            className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'statistics' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+            className={`px-4 py-2 h-full rounded-lg ${activeSection === 'statistics' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
             onClick={() => setActiveSection('statistics')}
         >
             Estadísticas
         </button>
         <button
-            className={`px-4 py-2 mr-4 rounded-lg ${activeSection === 'payments' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+            className={`px-4 py-2 h-full rounded-lg ${activeSection === 'payments' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
             onClick={() => setActiveSection('payments')}
         >
             Ingresos
         </button>
         <Link
-          className={`px-4 py-2 rounded-lg ${activeSection === 'user' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+          className={`px-4 py-2 h-full text-nowrap rounded-lg ${activeSection === 'user' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
           to='/user'
         >
             Ver como usuario
         </Link>
       </nav>
-      <section className="px-4">
+      <section>
         {activeSection === 'home' ? (
           <>
             <CalculatorParameters />

@@ -52,7 +52,7 @@ const UserGrowthChart = ({ users }) => {
   }
 
   return (
-    <div className="bg-gray-50 rounded shadow-md p-4 mt-8 h-[400px]">
+    <div className="bg-gray-50 rounded shadow-md p-4 mt-4 h-[400px]">
       <h2 className="text-2xl font-bold text-sky-950 mb-4">Crecimiento de Usuarios</h2>
       {chartData && (
         <div className="h-80">

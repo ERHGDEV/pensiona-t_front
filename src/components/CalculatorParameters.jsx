@@ -50,7 +50,7 @@ const CalculatorParameters = () => {
     }
 
     return (
-        <div className="bg-gray-50 p-4 mt-8 rounded shadow-md">
+        <div className="bg-gray-50 p-4 mt-4 rounded shadow-md">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-sky-950">Parámetros de calculadora</h2>
                 <div>
