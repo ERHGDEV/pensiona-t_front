@@ -9,6 +9,7 @@ import axiosInstance from "../services/axiosConfig"
 import CalculatorParameters from "../components/CalculatorParameters"
 import UserGrowth from "../components/UserGrowth"
 import PaymentList from "../components/PaymentList"
+import PaymentActivity from "../components/PaymentActivity"
 
 const AdminPanel = () => {
   const [loading, setLoading] = useState(true)
@@ -120,7 +121,10 @@ const AdminPanel = () => {
             <UserActivity />
           </>
         ) : (
-          <PaymentList payments={payments}/>
+          <>
+            <PaymentActivity payments={payments}/>
+            <PaymentList payments={payments}/>
+          </>
         )
         }
       </section>
