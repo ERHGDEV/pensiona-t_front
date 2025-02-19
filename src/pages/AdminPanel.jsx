@@ -76,8 +76,8 @@ const AdminPanel = () => {
   
   return (
     <main className="mx-auto max-w-7xl p-4">
-      <h1 className="text-3xl text-center font-bold mb-4">Panel de Administrador</h1>
-      <nav className="flex gap-4 overflow-x-scroll">
+      <h1 className="text-3xl font-bold mb-4 sm:px-4">Panel de Administrador</h1>
+      <nav className="flex gap-4 overflow-x-auto sm:px-4">
         <button
             className={`px-4 py-2 h-full rounded-lg ${activeSection === 'home' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
             onClick={() => setActiveSection('home')}
@@ -103,7 +103,7 @@ const AdminPanel = () => {
             Ver como usuario
         </Link>
       </nav>
-      <section>
+      <section className="sm:px-4">
         {activeSection === 'home' ? (
           <>
             <CalculatorParameters />
