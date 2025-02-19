@@ -31,31 +31,45 @@ const PaymentActivity = ({ payments }) => {
     const prepareChartData = () => {
         let labels = []
         let amounts = []
-        
+    
+        const approvedPayments = payments.filter(p => p.status === 'approved')
+    
         if (viewType === 'day') {
-            const start = showAll ? new Date(Math.min(...payments.map(p => new Date(p.date)))) : startOfMonth(selectedDate)
-            const end = showAll ? new Date(Math.max(...payments.map(p => new Date(p.date)))) : endOfMonth(selectedDate)
+            const start = showAll
+                ? new Date(Math.min(...approvedPayments.map(p => new Date(p.date))))
+                : startOfMonth(selectedDate)
+            const end = showAll
+                ? new Date(Math.max(...approvedPayments.map(p => new Date(p.date))))
+                : endOfMonth(selectedDate)
+    
             const days = eachDayOfInterval({ start, end })
             labels = days.map(day => format(day, 'dd-MMM', { locale: es }))
+    
             amounts = days.map(day => {
-                const total = payments
+                const total = approvedPayments
                     .filter(p => format(new Date(p.date), 'yyyy-MM-dd') === format(day, 'yyyy-MM-dd'))
                     .reduce((sum, p) => sum + p.amount, 0)
                 return total
             })
         } else if (viewType === 'month') {
-            const start = showAll ? new Date(Math.min(...payments.map(p => new Date(p.date)))) : startOfYear(selectedDate)
-            const end = showAll ? new Date(Math.max(...payments.map(p => new Date(p.date)))) : endOfYear(selectedDate)
+            const start = showAll
+                ? new Date(Math.min(...approvedPayments.map(p => new Date(p.date))))
+                : startOfYear(selectedDate)
+            const end = showAll
+                ? new Date(Math.max(...approvedPayments.map(p => new Date(p.date))))
+                : endOfYear(selectedDate)
+    
             const months = eachMonthOfInterval({ start, end })
             labels = months.map(month => format(month, 'MMM-yyyy', { locale: es }))
+    
             amounts = months.map(month => {
-                const total = payments
+                const total = approvedPayments
                     .filter(p => format(new Date(p.date), 'yyyy-MM') === format(month, 'yyyy-MM'))
                     .reduce((sum, p) => sum + p.amount, 0)
                 return total
             })
         }
-
+    
         setChartData({
             labels,
             datasets: [
@@ -68,7 +82,7 @@ const PaymentActivity = ({ payments }) => {
                 },
             ],
         })
-    }
+    }    
 
     return (
         <div className="bg-gray-50 rounded shadow-md p-4 mt-4 h-[460px]">
