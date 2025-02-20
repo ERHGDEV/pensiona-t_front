@@ -29,9 +29,11 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
 
   useEffect(() => {
     if (queryLimit - queryCount <= 0) {
-      setErrorMessage("Acabaste las consultas disponibles de hoy")
+      setTimeout(() => {
+        setErrorMessage("Acabaste las consultas disponibles de hoy")
+      }, 2000)
     }
-  }, [queryCount, queryLimit])
+  }, [queryCount, queryLimit])  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -79,13 +81,16 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
     setInputValue('')
     setAfore(null)
     setShowForm(true)
+    setErrorMessage('')
+    
     if (queryLimit - queryCount <= 0) {
-      setErrorMessage("Acabaste las consultas disponibles de hoy")
-    } else {
-      setErrorMessage('')
+      setTimeout(() => {
+        setErrorMessage("Acabaste las consultas disponibles de hoy")
+      }, 2000)
     }
+    
     setIsValidInput(false)
-  }
+  }  
 
   const handleInputChange = (e) => {
     const value = e.target.value.replace(/\s/g, '').slice(0, queryType === 'nss' ? 11 : 18)
@@ -101,7 +106,9 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
   }
 
   return (
-    <div className="max-w-md min-h-[340px] mx-auto mt-4 p-6 bg-white rounded-lg shadow-xl">
+    <div className={`max-w-md min-h-[340px] mx-auto mt-4 p-6 
+      ${inputValue.length > 0 && !isValidInput || showForm && errorMessage ? 'pb-2' : 'pb-6'}
+      bg-white rounded-lg shadow-xl`}>
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
       <AnimatePresence mode="wait">
         {showForm ? (
@@ -134,7 +141,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                   {queryType === 'nss' ? 'Número de Seguridad Social' : 'CURP'}
                 </label>
                 <input
-                  type="text"
+                  type={`${queryType === 'nss' ? 'number' : 'text'}`}
                   id="inputValue"
                   value={inputValue}
                   onChange={handleInputChange}
@@ -142,6 +149,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                     inputValue.length > 0 ? (isValidInput ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
                   } text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent`}
                   required
+                  autoComplete="off"
                   disabled={isLoading || queryCount >= queryLimit}
                   placeholder={queryType === 'nss' ? '11 dígitos' : '18 caracteres'}
                 />
@@ -180,17 +188,21 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
       </AnimatePresence>
 
       {inputValue.length > 0 && !isValidInput && (
+        <ComponentTransition>
         <p className="mt-2 text-center w-full text-sm text-red-500">
           {queryType === 'nss'
             ? 'El NSS debe tener 11 dígitos'
             : 'El CURP debe tener 18 caracteres'}
         </p>
+        </ComponentTransition>
       )}
 
       {showForm && errorMessage &&  (
+        <ComponentTransition>
         <div className="text-red-500 text-center text-sm mt-2">
           <p>{errorMessage}</p>
         </div>
+        </ComponentTransition>
       )}
     </div>
   )
