@@ -33,7 +33,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
         setErrorMessage("Acabaste las consultas disponibles de hoy")
       }, 2000)
     }
-  }, [queryCount, queryLimit])  
+  }, [queryCount, queryLimit, queryType])  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
