@@ -10,12 +10,14 @@ import CalculatorParameters from "../components/CalculatorParameters"
 import UserGrowth from "../components/UserGrowth"
 import PaymentList from "../components/PaymentList"
 import PaymentActivity from "../components/PaymentActivity"
+import PreferencesList from "../components/PreferencesList"
 
 const AdminPanel = () => {
   const [loading, setLoading] = useState(true)
   const [activeSection, setActiveSection] = useState('home')
   const [users, setUsers] = useState([])
   const [payments, setPayments] = useState([])
+  const [preferences, setPreferences] = useState([])
   const { showNotification } = useNotificationContext()
   
   const navigate = useNavigate()
@@ -25,6 +27,7 @@ const AdminPanel = () => {
       const response = await axiosInstance.get('/admin')
       setUsers(response.data.users)
       setPayments(response.data.payments)
+      setPreferences(response.data.preferences)
     } catch (error) {
       console.error('Error fetching users:', error)
       showNotification('Error al obtener la lista de usuarios', 'error')
@@ -124,6 +127,7 @@ const AdminPanel = () => {
           <>
             <PaymentActivity payments={payments}/>
             <PaymentList payments={payments}/>
+            <PreferencesList preferences={preferences}/>
           </>
         )
         }
