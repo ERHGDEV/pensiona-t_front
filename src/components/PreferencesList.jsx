@@ -79,7 +79,7 @@ const PreferencesList = ({ preferences }) => {
                     </thead>
                     <tbody className="text-sky-950 text-sm font-light">
                         {sortedPreferences.map((pref) => (
-                            <tr key={pref.email} className="border-b border-gray-500 hover:bg-gray-300">
+                            <tr key={pref.id} className="border-b border-gray-500 hover:bg-gray-300">
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{pref.email}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">${pref.total_amount}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(pref.date_created)}</td>
