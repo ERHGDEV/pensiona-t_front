@@ -75,6 +75,7 @@ const PreferencesList = ({ preferences }) => {
                             <th className="py-3 px-4 text-left cursor-pointer" style={{ width: '20%' }} onClick={() => handleSort('total_amount')}>Monto Total</th>
                             <th className="py-3 px-4 text-left cursor-pointer" style={{ width: '20%' }} onClick={() => handleSort('date_created')}>Fecha Creación</th>
                             <th className="py-3 px-4 text-left cursor-pointer" style={{ width: '20%' }} onClick={() => handleSort('status')}>Estado</th>
+                            <th className='py-3 px-4 text-left' style={{ width: '10%' }}>Preference ID</th>
                         </tr>
                     </thead>
                     <tbody className="text-sky-950 text-sm font-light">
@@ -84,6 +85,7 @@ const PreferencesList = ({ preferences }) => {
                                 <td className="py-3 px-4 text-left whitespace-nowrap">${pref.total_amount}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(pref.date_created)}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{statusNormalize(pref.status)}</td>
+                                <td className="py-3 px-4 text-left whitespace-nowrap">{pref.id}</td>
                             </tr>
                         ))}
                     </tbody>
