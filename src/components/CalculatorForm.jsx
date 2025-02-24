@@ -18,7 +18,7 @@ const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
         children: 'No',
         modalidad40: false, 
         salaryModalidad40: '', 
-        yearsModalidad40: '',
+        yearsModalidad40: '1',
         startMonth: (new Date().getMonth() + 1).toString(),
         startYear: new Date().getFullYear().toString()
     })
