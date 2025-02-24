@@ -17,9 +17,10 @@ const calculatePension = (
   const monthlySalary = parseFloat(averageSalary)
   const dailySalary = monthlySalary / 30.4
   const salaryInVSM = dailySalary / salarioMinimo
+  const salaryFixed = Math.floor(salaryInVSM * 100) / 100
 
   const range = TABULADOR.find(
-    (r) => salaryInVSM >= r.min && salaryInVSM <= r.max
+    (r) => salaryFixed >= r.min && salaryFixed <= r.max
   )
 
   const basicAmount = (range.cuantiaBasica / 100) * monthlySalary
