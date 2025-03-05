@@ -13,6 +13,7 @@ import SubscriptionBar from "../components/SubscriptionBar"
 import UpdatePayment from "../components/UpdatePayment"
 import InviteToUnlimited from "../components/InviteToUnlimited"
 import ComponentTransition from "../components/ComponentTransition"
+import { AnimatePresence } from "framer-motion"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
@@ -83,48 +84,32 @@ const UserPanel = () => {
                 </button>
             </nav>
             
-            <section>
-                {activeSection === 'calculadora' && (
-                    <ComponentTransition>
-                    <Calculator subscription={user.subscription} />
-                    </ComponentTransition>
-                )}
-
-                {activeSection === 'afore' && (
-                    <ComponentTransition>
-                    <>
-                        <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter} />
-                        {user.subscription === 'unlimited' ? (
-                        <ExcelAforeUploader />
-                        ) : user.subscription === 'fre' ? (
-                        <InviteToUnlimited onSelection={setActiveSection} />
-                        ) : null}
-                    </>
-                    </ComponentTransition>
-                )}
-
-                {activeSection === 'perfil' && (
-                    <ComponentTransition>
-                    <MyAccount subscription={user.subscription} />
-                    </ComponentTransition>
-                )}
-
-                {activeSection === 'subscription' && (
-                    <ComponentTransition>
-                    <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
-                        <SubscriptionPayment />
-                    </div>
-                    </ComponentTransition>
-                )}
-
-                {activeSection === 'update' && (
-                    <ComponentTransition>
-                    <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
-                        <UpdatePayment />
-                    </div>
-                    </ComponentTransition>
-                )}
-            </section>
+            <AnimatePresence mode="wait">
+                <ComponentTransition key={activeSection}>
+                    {activeSection === 'calculadora' && <Calculator subscription={user.subscription} />}
+                    {activeSection === 'afore' && (
+                        <>
+                            <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter} />
+                            {user.subscription === 'unlimited' ? (
+                                <ExcelAforeUploader />
+                            ) : user.subscription === 'free' ? (
+                                <InviteToUnlimited onSelection={setActiveSection} />
+                            ) : null}
+                        </>
+                    )}
+                    {activeSection === 'perfil' && <MyAccount subscription={user.subscription} />}
+                    {activeSection === 'subscription' && (
+                        <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                            <SubscriptionPayment />
+                        </div>
+                    )}
+                    {activeSection === 'update' && (
+                        <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                            <UpdatePayment />
+                        </div>
+                    )}
+                </ComponentTransition>
+            </AnimatePresence>
         </main>
     )
 }

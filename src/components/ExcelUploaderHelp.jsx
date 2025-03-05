@@ -1,10 +1,8 @@
 import { createPortal } from "react-dom"
 import Button from "./Button"
-import ComponentTransition from "./ComponentTransition"
 
 const ExcelUploaderHelp = ({ onClose }) => {
     return createPortal(
-        <ComponentTransition >
           <div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
             >
@@ -28,7 +26,6 @@ const ExcelUploaderHelp = ({ onClose }) => {
                 
               </div>
           </div>
-        </ComponentTransition>
     , document.body
     )
 }

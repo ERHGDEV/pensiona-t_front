@@ -35,9 +35,9 @@ const SuscriptionBar = ({ onSelection }) => {
                             onClick={() => onSelection('update')} 
                             className="text-yellow-100 text-center mt-2 font-semibold underline hover:text-sky-100"
                         >
-                            Actualizar a Unlimited por $50.00 MXN
+                            Actualiza a plan Unlimited por $50.00 MXN
                         </button>
-                        <p className="mt-2 text-center">Actualización disponible hasta el {formatDate(availableUntil)}</p>
+                        <p className="mt-2 text-center">hasta el {formatDate(availableUntil)}</p>
                     </div>
                 )}
             </div>

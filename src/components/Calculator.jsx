@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import FlowSelection from './FlowSelection'
 import CalculatorForm from './CalculatorForm'
 import { calculateAll } from '../utils/calculatePension'
@@ -29,29 +30,31 @@ const Calculator = ({ subscription }) => {
 
     const handleCalculate = (data, salarioMinimo) => {
         const pensionResults = calculateAll(data, salarioMinimo)
-        setResults({ ...data , salarioMinimo, pensionResults})
+        setResults({ ...data, salarioMinimo, pensionResults })
         handleActiveSection('resultsTable')
     }
 
-    const renderActiveSection = () => {
-        switch (activeSection) {
-            case 'flowSelection':
-                return (
+    return (
+        <div className="max-w-md mx-auto mt-4 p-6 bg-white rounded-lg shadow-xl">
+            <h2 className="text-2xl font-bold mb-4 text-center text-sky-900">
+                Calculadora de Pensión
+            </h2>
+
+            <AnimatePresence mode="wait">
+                {activeSection === 'flowSelection' && (
                     <ComponentTransition key="flowSelection">
                         <FlowSelection onSelection={handleActiveSection} />
                     </ComponentTransition>
-                )
-            case 'pdfUploader':
-                return (
+                )}
+                {activeSection === 'pdfUploader' && (
                     <ComponentTransition key="pdfUploader">
                         <PDFUploader
                             onPDFBack={handleCalculatorBack}
                             onDataExtracted={hangleDataExtracted}
                         />
                     </ComponentTransition>
-                )
-            case 'calculatorForm':
-                return (
+                )}
+                {activeSection === 'calculatorForm' && (
                     <ComponentTransition key="calculatorForm">
                         <CalculatorForm
                             onCalculatorBack={handleCalculatorBack}
@@ -59,25 +62,13 @@ const Calculator = ({ subscription }) => {
                             data={dataExtracted}
                         />
                     </ComponentTransition>
-                )
-            case 'resultsTable':
-                return (
+                )}
+                {activeSection === 'resultsTable' && (
                     <ComponentTransition key="resultsTable">
-                        <ResultsTable
-                            onCalculatorBack={handleCalculatorBack}
-                            data={results}
-                        />
+                        <ResultsTable onCalculatorBack={handleCalculatorBack} data={results} />
                     </ComponentTransition>
-                )
-            default:
-                return null
-        }
-    }
-
-    return (
-        <div className="max-w-md mx-auto mt-4 p-6 bg-white rounded-lg shadow-xl">
-            <h2 className="text-2xl font-bold mb-4 text-center text-sky-900" >Calculadora de Pensión</h2>
-            {renderActiveSection()}
+                )}
+            </AnimatePresence>
         </div>
     )
 }

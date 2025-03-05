@@ -12,7 +12,7 @@ const ComponentTransition = ({ children }) => (
     animate="animate"
     exit="exit"
     variants={pageVariants}
-    transition={{ duration: 0.5, ease: "easeInOut" }}
+    transition={{ duration: 0.2, ease: "easeInOut" }}
   >
     {children}
   </motion.div>

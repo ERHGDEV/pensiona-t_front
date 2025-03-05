@@ -134,55 +134,61 @@ const ExcelAforeUploader = () => {
         ?
       </button>
 
-      {showForm && (
-        <ComponentTransition>
-          <input
-            type="file"
-            accept=".xlsx, .xls"
-            onChange={handleFileChange}
-            className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
-          />
-          <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
-            <Button
-              variant="primary"
-              onClick={handleUpload}
-              disabled={!file || isLoading}
-            >
-              {isLoading ? 'Procesando...' : 'Procesar'}
-            </Button>
-          </div>
-        </ComponentTransition>
-      )}
+      <AnimatePresence mode="wait">
+        {showForm && (
+          <ComponentTransition key="form">
+            <input
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleFileChange}
+              className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
+            />
+            <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+              <Button
+                variant="primary"
+                onClick={handleUpload}
+                disabled={!file || isLoading}
+              >
+                {isLoading ? 'Procesando...' : 'Procesar'}
+              </Button>
+            </div>
+          </ComponentTransition>
+        )}
 
-      {isLoading && (
-        <ComponentTransition >
-          <div className="text-center mt-8">
-            <p className="text-sky-950 mb-4">Procesando ({Math.round(progress)}%)</p>
-            <Dots color={true} />
-          </div>
-        </ComponentTransition>
-      )}
+        {isLoading && (
+          <ComponentTransition key="loading">
+            <div className="text-center mt-8">
+              <p className="text-sky-950 mb-4">Procesando ({Math.round(progress)}%)</p>
+              <Dots color={true} />
+            </div>
+          </ComponentTransition>
+        )}
 
-      {error && 
-        <p className="text-center text-red-500 text-sm mt-2">{error}</p>}
+        {results.length > 0 && !isLoading && (
+          <ComponentTransition key="results">
+            <p className="text-sky-950 text-center mt-8">Resultados obtenidos para {getSuccessfulResultsCount()} NSS</p>
+            <div className="mt-8 flex gap-4 max-w-fit mx-auto">
+              <Button order="primary" onClick={handleReset}>
+                Volver
+              </Button>
+              <Button onClick={handleDownload}>
+                Descargar
+              </Button>
+            </div>
+          </ComponentTransition>
+        )}
+      </AnimatePresence>
 
-      {results.length > 0 && !isLoading && (
-        <ComponentTransition>
-          <p className="text-sky-950 text-center mt-8">Resultados obtenidos para {getSuccessfulResultsCount()} NSS</p>
-          <div className="mt-8 flex gap-4 max-w-fit mx-auto">
-            <Button order="primary" onClick={handleReset}>
-              Volver
-            </Button>
-            <Button onClick={handleDownload}>
-              Descargar
-            </Button>
-          </div>
-        </ComponentTransition>
-      )}
+      {error && <p className="text-center text-red-500 text-sm mt-2">{error}</p>}
 
-      {isHelpModalOpen && (
-        <ExcelUploaderHelp onClose={() => setIsHelpModalOpen(false)} />
-      )}
+      <AnimatePresence >
+        {isHelpModalOpen && (
+          <ComponentTransition key="help-modal">
+            <ExcelUploaderHelp onClose={() => setIsHelpModalOpen(false)} />
+          </ComponentTransition>
+        )}
+      </AnimatePresence>
+
     </div>
   )
 }
