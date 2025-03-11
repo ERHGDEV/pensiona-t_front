@@ -8,7 +8,7 @@ const AboutUs = () => {
     <>
       <div className="bg-gray-50 text-pretty mt-4 py-10 px-6 sm:px-10 lg:px-20 max-w-5xl mx-auto rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Acerca de Pensiona-T</h1>
-        <p className="text-gray-700 mb-6 text-justify">
+        <p className="text-gray-700 mb-6">
           <strong>Pensiona-T</strong> es una plataforma diseñada para ayudar a los trabajadores del 
           IMSS bajo la <strong>Ley 73</strong> a proyectar su pensión y tomar decisiones informadas 
           sobre su retiro. Permite calcular la diferencia entre una pensión normal y una con 
@@ -25,13 +25,13 @@ const AboutUs = () => {
             </ul>
             
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Nuestra Misión</h2>
-            <p className="text-gray-700 mb-6 text-justify">
+            <p className="text-gray-700 mb-6">
               Brindar asesoría confiable para que los trabajadores puedan planear su retiro con seguridad y tranquilidad, 
               optimizando su pensión de acuerdo con su situación personal.
             </p>
 
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Nuestra Visión</h2>
-            <p className="text-gray-700 mb-6 text-justify">
+            <p className="text-gray-700 mb-6">
               Ser la plataforma líder en información y gestión de pensiones en México, ayudando a miles de trabajadores 
               a tomar decisiones financieras inteligentes para su futuro.
             </p>

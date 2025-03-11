@@ -155,7 +155,7 @@ const Login = () => {
         </form>
       </main>
 
-      <Footer variant="fixed"/>
+      {/* <Footer variant="fixed"/> */}
     </>
   )
 }
