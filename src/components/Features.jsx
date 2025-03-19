@@ -1,29 +1,9 @@
-import { useEffect, useRef } from 'react'
 import FeatureCard from "./FeatureCard"
 
 export default function Features() {
-  const featuresRef = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up')
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    const features = featuresRef.current?.querySelectorAll('.feature-card')
-    features?.forEach((feature) => observer.observe(feature))
-
-    return () => observer.disconnect()
-  }, [])
 
   return (
-    <section ref={featuresRef} className="py-20 bg-sky-800">
+    <section className="py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
           <h2 className="text-base text-sky-300 font-semibold tracking-wide uppercase">Características</h2>

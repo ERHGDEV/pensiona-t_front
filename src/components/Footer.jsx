@@ -7,18 +7,18 @@ const Footer = ({ variant }) => {
     <footer
       className={
         isFixed
-          ? "fixed bottom-0 text-center text-sky-200 flex py-8 justify-center w-full"
-          : "bg-sky-900 py-8 text-center text-sky-200"
+          ? "fixed bottom-0 text-center text-sky-200 flex py-8 justify-center w-full animate-fade-in-up"
+          : "bg-sky-900 py-8 text-center text-sky-200 animate-fade-in-up"
       }
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row place-content-center">
           <div className='flex flex-row mx-auto sm:mx-0'>
             <Link to="/privacity">
-              <p className="">Aviso de privacidad</p>
+              <p className="hover:text-white transition-colors duration-300">Aviso de privacidad</p>
             </Link>
             <Link to="/about">
-              <p className="ml-8">Acerca de</p>
+              <p className="ml-8 hover:text-white transition-colors duration-300">Acerca de</p>
             </Link>
           </div>
           <p className='sm:ml-8 mt-2 sm:mt-0'>&copy; {new Date().getFullYear()} Pensiona-T</p>
@@ -28,11 +28,11 @@ const Footer = ({ variant }) => {
             href="https://www.facebook.com/calculadora.pensionat"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sky-200 hover:text-white"
+            className="text-sky-200 hover:text-white transition-colors duration-300"
           >
             <span className="sr-only">Facebook</span>
             <svg
-              className="h-6 w-6"
+              className="h-6 w-6 hover:scale-110 transition-transform duration-300"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -48,11 +48,11 @@ const Footer = ({ variant }) => {
             href="https://www.instagram.com/pensiona_t"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sky-200 hover:text-white"
+            className="text-sky-200 hover:text-white transition-colors duration-300"
           >
             <span className="sr-only">Instagram</span>
             <svg
-              className="h-6 w-6"
+              className="h-6 w-6 hover:scale-110 transition-transform duration-300"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"

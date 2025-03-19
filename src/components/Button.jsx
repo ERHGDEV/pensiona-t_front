@@ -7,8 +7,8 @@ const Button = ({ children, order, onClick, type, to }) => {
         flex items-center justify-center sm:max-w-fit sm:mx-auto`
     const orderClasses =
         order === 'primary'
-        ? 'bg-white hover:bg-sky-500 active:bg-sky-700 text-lg text-sky-900 hover:text-white'
-        : 'bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-lg text-white'
+        ? 'bg-white hover:bg-sky-600 active:bg-sky-700 text-lg text-sky-900 hover:text-white'
+        : 'bg-sky-600 hover:bg-white active:bg-sky-700 text-lg text-white hover:text-sky-900 active:text-white'
 
     if (to) {
         return (
