@@ -263,6 +263,151 @@ const generatePDF = (results) => {
     addFooter()
   }
 
+  doc.addPage()
+  addHeader('Derechos de Seguridad Social')
+  doc.text(`como trabajador`, doc.internal.pageSize.width / 2, 26, { align: 'center' })
+  
+  const socialRightsTable = [
+    [' ', 'Derechos', 'LSS73', 'LSS97'],
+    [{ content: 'Dinero', rowSpan: 13 }, 'Pensión por riesgos de trabajo', 'X', 'X'],
+    ['Pensión por invalidez y vida', 'X', 'X'],
+    ['Pensión por cesantía en edad avanzada', 'X', 'X'],
+    ['Pensión por vejez', 'X', 'X'],
+    ['Retiro anticipado', '', 'X'],
+    ['Negativa de pensión', '', 'X'],
+    ['Pensión garantizada', '', 'X'],
+    ['Cuenta individual', 'X', 'X'],
+    ['Ahorro voluntario', 'X', 'X'],
+    ['Vivienda', 'X', 'X'],
+    ['Ayuda por desempleo', 'X', 'X'],
+    ['Ayuda para gastos de matrimonio', 'X', 'X'],
+    ['Portabilidad', 'X', 'X'],
+    [{ content: 'Especie', rowSpan: 5}, 'Asistencia médica', 'X', 'X'],
+    ['Guarderías y prestaciones sociales', 'X', 'X'],
+    ['Enfermedades y maternidad', 'X', 'X'],
+    ['Ayuda para gastos de funeral', 'X', 'X'],
+    ['Continuación voluntaria', 'X', 'X']
+  ]
+  
+  doc.autoTable({
+    head: [socialRightsTable[0]],
+    body: socialRightsTable.slice(1),
+    startY: 30,
+    theme: 'grid',
+    styles: {
+      fontSize: 10,
+      lineWidth: 0.1,
+      lineColor: [8, 47, 73],
+      cellPadding: 4, 
+      valign: 'middle',
+      halign: 'center',
+      fontStyle: 'normal',
+      textColor: [33, 53, 71],
+      fillStyle: 'F',
+      cellWidth: 'auto' 
+    },
+    headStyles: {
+      fillColor: [8, 47, 73],
+      fontStyle: 'bold',
+      textColor: [255, 255, 255],
+    },
+    columnStyles: {
+      0: { 
+        halign: 'center', 
+        fontStyle: 'bold', 
+        fillColor: [226, 239, 243] 
+      },
+      1: { halign: 'center' }, 
+      2: { 
+        halign: 'center',
+        fillColor: [241, 240, 240] 
+      }, 
+      3: { halign: 'center' }, 
+    }
+  })
+
+  
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(120, 120, 120); 
+  doc.text(
+    'LSS73: Ley del Seguro Social de 1973     -     LSS97: Ley del Seguro Social de 1997', 
+    15, doc.lastAutoTable.finalY + 7
+  )
+  
+  addFooter()  
+
+  doc.addPage()
+  addHeader('Diagnóstico de Datos Personales')
+
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(10)
+  doc.text(
+    'Antes de iniciar cualquier trámite de pensión asegúrate que tus datos personales están escritos correctamente.', 
+    15, 30
+  )
+  doc.text(
+    'A continuación, encontrarás una guía de los datos y las instituciones que debes validar:', 
+    15, 35
+  )
+
+  const personalDataTable = [
+    ['Datos Personales', 'Estado de cuenta AFORE', 'IFE', 'Infonavit', 'Renapo', 'IMSS*'],
+    ['Nombre\ncomo aparece en acta de nacimiento.', 'X', 'X', 'X', 'X', 'X'],
+    ['Fecha de nacimiento\ncomo aparece en acta de nacimiento.', '', '', 'X', 'X', 'X'],
+    ['Número de Seguro Social\ncomo aparece en hoja rosa, Afil-02 o credencial ADIMSS.', 'X', '', '', 'X', 'X'],
+    ['CURP\n18 posiciones como aparece en la cédula.', 'X', 'X', '', '', 'X'],
+    ['RFC\n13 posiciones con homoclave, como aparece en la cédula fiscal.', 'X', '', 'X', '', 'X'],
+    ['Semanas cotizadas\nun año equivale a 52 semanas.', '', '', '', '', 'X'],
+    ['Domicilio\ncomo aparece en el recibo de agua, luz, teléfono, predial, etc.', 'X', 'X', '', '', '']
+  ]
+
+  doc.autoTable({
+    head: [personalDataTable[0]],
+    body: personalDataTable.slice(1),
+    startY: 40,
+    theme: 'grid',
+    styles: {
+      fontSize: 10,
+      lineWidth: 0.2, 
+      lineColor: [8, 47, 73],
+      cellPadding: 4, 
+      halign: 'center',
+      valign: 'middle',
+      fontStyle: 'normal',
+      textColor: [33, 53, 71],
+      fillStyle: 'F',
+      cellWidth: 'auto'
+    },
+    headStyles: {
+      fillColor: [8, 47, 73],
+      fontStyle: 'bold',
+      textColor: [255, 255, 255],
+    },
+    columnStyles: {
+      0: { halign: 'left', fontStyle: 'bold', cellWidth: 73 }, 
+      1: { fillColor: [241, 240, 240] }, 
+      2: { fillColor: [255, 255, 255] }, 
+      3: { fillColor: [241, 240, 240] }, 
+      4: { fillColor: [255, 255, 255] }, 
+      5: { fillColor: [241, 240, 240] }, 
+    }
+  })  
+
+  
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(120, 120, 120); 
+  doc.text(
+    '* Documento IMSS: Hoja rosa, Credencial ADIMSS o algún documento emitido por el IMSS.', 
+    15, doc.lastAutoTable.finalY + 10
+  );
+  doc.text(
+    'En caso de presentarse algún error, deberás acudir a la Institución correspondiente y solicitar la corrección.', 
+    15, doc.lastAutoTable.finalY + 15
+  );
+  
+  doc.setTextColor(255, 255, 255)
+  addFooter()
+
   doc.save('Proyección.pdf')
 }
 
