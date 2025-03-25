@@ -14,6 +14,17 @@ const SubscriptionPayment = () => {
 
   initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, { locale: 'es-MX' })
 
+  const customization = {
+    theme: 'default',
+    texts: {
+      action: 'pay',
+      valueProp: 'security_safety',
+    },
+    customStyle: {
+      hideValueProp: true,
+    },
+  }
+
   const createPreference = async (plan) => {
     setIsLoading(true)
     try {
@@ -106,15 +117,14 @@ const SubscriptionPayment = () => {
               ></li>
               ))}
             </ul>
-            <div className="mt-6">
+            <div className="mt-4">
+              <p className='text-sm font-semibold text-center'>Pagar con</p>
               {preferenceId 
                 ? <Wallet 
                     initialization={{ preferenceId }}
-                    customization={{
-                      theme: 'default',
-                    }}
+                    customization={ customization }
                   /> 
-                : <div className="flex justify-center items-center mt-16">
+                : <div className="flex justify-center items-center mt-8">
                     <Dots color='true'/>
                   </div>}
             </div>
