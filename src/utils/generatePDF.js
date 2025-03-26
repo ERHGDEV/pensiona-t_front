@@ -138,9 +138,6 @@ const generateFirstPage = (doc, results) => {
       textColor: [255, 255, 255],
     },
     columnStyles: {
-      0: { 
-        fillColor: [241, 240, 240] 
-      },
       2: { 
         fontStyle: 'bold',
         fillColor: [241, 240, 240] 
@@ -334,11 +331,22 @@ const generateModalidad40Page = (doc, results) => {
 const generateSocialRightsPage = (doc) => {
   doc.addPage()
   addHeader(doc, 'Derechos de Seguridad Social')
-  doc.text(`como trabajador`, doc.internal.pageSize.width / 2, 26, { align: 'center' })
-  
+
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(12)
+  doc.setTextColor(33, 53, 71)
+  doc.text('Como trabajador', doc.internal.pageSize.width / 2, 26, { align: 'center' })
+
+  doc.setFontSize(10)
+  doc.text(
+    'Si iniciaste a cotizar antes del 1ero de julio de 1997 te corresponden los beneficios de la columna LSS73.', 
+    15, 35, { maxWidth: 180 }
+  )
+
   const socialRightsTable = [
     [' ', 'Derechos', 'LSS73', 'LSS97'],
-    [{ content: 'Dinero', rowSpan: 13 }, 'Pensión por riesgos de trabajo', 'X', 'X'],
+    [{ content: 'Dinero', rowSpan: 13, styles: { halign: 'center', fontStyle: 'bold', fillColor: [241, 240, 240] } }, 
+      'Pensión por riesgos de trabajo', 'X', 'X'],
     ['Pensión por invalidez y vida', 'X', 'X'],
     ['Pensión por cesantía en edad avanzada', 'X', 'X'],
     ['Pensión por vejez', 'X', 'X'],
@@ -351,64 +359,54 @@ const generateSocialRightsPage = (doc) => {
     ['Ayuda por desempleo', 'X', 'X'],
     ['Ayuda para gastos de matrimonio', 'X', 'X'],
     ['Portabilidad', 'X', 'X'],
-    [{ content: 'Especie', rowSpan: 5}, 'Asistencia médica', 'X', 'X'],
+    [{ content: 'Especie', rowSpan: 5, styles: { halign: 'center', fontStyle: 'bold', fillColor: [241, 240, 240] } }, 
+      'Asistencia médica', 'X', 'X'],
     ['Guarderías y prestaciones sociales', 'X', 'X'],
     ['Enfermedades y maternidad', 'X', 'X'],
     ['Ayuda para gastos de funeral', 'X', 'X'],
     ['Continuación voluntaria', 'X', 'X']
   ]
-  
+
   doc.autoTable({
     head: [socialRightsTable[0]],
     body: socialRightsTable.slice(1),
-    startY: 30,
+    startY: 40,
     theme: 'grid',
     styles: {
       fontSize: 10,
       lineWidth: 0.2,
       lineColor: [8, 47, 73],
-      cellPadding: 3, 
+      cellPadding: 3,
       valign: 'middle',
       halign: 'center',
       fontStyle: 'normal',
       textColor: [33, 53, 71],
-      fillStyle: 'F',
-      cellWidth: 'auto' 
+      fillStyle: 'F'
     },
     headStyles: {
       fillColor: [8, 47, 73],
       fontStyle: 'bold',
-      textColor: [255, 255, 255],
+      textColor: [255, 255, 255]
+    },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245]
     },
     columnStyles: {
-      0: { 
-        halign: 'center', 
-        fontStyle: 'bold', 
-        fillColor: [241, 240, 240] 
-      },
-      1: { halign: 'center' }, 
-      2: { 
-        halign: 'center',
-        fillColor: [241, 240, 240] 
-      }, 
-      3: { halign: 'center' }, 
+      0: { halign: 'center', fontStyle: 'bold', fillColor: [230, 230, 230] },
+      1: { halign: 'left' },
+      2: { halign: 'center', fillColor: [241, 240, 240] },
+      3: { halign: 'center' }
     }
   })
 
-  const bottomRectY = doc.internal.pageSize.height - lineHeight
+  const bottomRectY = doc.internal.pageSize.height - 20
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(9)
+  doc.setTextColor(120, 120, 120)
+  doc.text('• LSS73: Ley del Seguro Social de 1973', 15, bottomRectY - 8)
+  doc.text('• LSS97: Ley del Seguro Social de 1997', 15, bottomRectY - 3)
 
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(120, 120, 120); 
-  doc.text(
-    '• LSS73: Ley del Seguro Social de 1973', 
-    15, bottomRectY - 10
-  )
-  doc.text(
-    '• LSS97: Ley del Seguro Social de 1997', 
-    15, bottomRectY - 5
-  )
-
-  addFooter(doc)  
+  addFooter(doc)
 }
 
 const generateDiagnosticTablePage = (doc) => {
@@ -417,17 +415,18 @@ const generateDiagnosticTablePage = (doc) => {
 
   doc.setFont("helvetica", "normal")
   doc.setFontSize(10)
+  doc.setTextColor(33, 53, 71)
   doc.text(
-    'Antes de iniciar cualquier trámite de pensión asegúrate que tus datos personales están escritos correctamente.', 
-    15, 30
+    'Antes de iniciar cualquier trámite de pensión, asegúrate de que tus datos personales están escritos correctamente.', 
+    15, 30, { maxWidth: 180 }
   )
   doc.text(
     'A continuación, encontrarás una guía de los datos y las instituciones que debes validar:', 
-    15, 35
+    15, 38, { maxWidth: 180 }
   )
 
   const personalDataTable = [
-    ['Datos Personales', 'Estado de cuenta AFORE', 'IFE', 'Infonavit', 'Renapo', 'IMSS*'],
+    ['Datos Personales', 'AFORE', '   IFE   ', 'Infonavit', 'Renapo', ' IMSS* '],
     ['Nombre\ncomo aparece en acta de nacimiento.', 'X', 'X', 'X', 'X', 'X'],
     ['Fecha de nacimiento\ncomo aparece en acta de nacimiento.', '', '', 'X', 'X', 'X'],
     ['Número de Seguro Social\ncomo aparece en hoja rosa, Afil-02 o credencial ADIMSS.', 'X', '', '', 'X', 'X'],
@@ -440,48 +439,39 @@ const generateDiagnosticTablePage = (doc) => {
   doc.autoTable({
     head: [personalDataTable[0]],
     body: personalDataTable.slice(1),
-    startY: 40,
+    startY: 45,
     theme: 'grid',
     styles: {
       fontSize: 10,
-      lineWidth: 0.2, 
+      lineWidth: 0.2,
       lineColor: [8, 47, 73],
-      cellPadding: 4, 
+      cellPadding: 4,
       halign: 'center',
       valign: 'middle',
       fontStyle: 'normal',
       textColor: [33, 53, 71],
-      fillStyle: 'F',
-      cellWidth: 'auto'
+      fillStyle: 'F'
     },
     headStyles: {
       fillColor: [8, 47, 73],
       fontStyle: 'bold',
-      textColor: [255, 255, 255],
+      textColor: [255, 255, 255]
+    },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245]
     },
     columnStyles: {
-      0: { halign: 'left', fontStyle: 'bold', cellWidth: 73 }, 
-      1: { fillColor: [241, 240, 240] }, 
-      2: { fillColor: [255, 255, 255] }, 
-      3: { fillColor: [241, 240, 240] }, 
-      4: { fillColor: [255, 255, 255] }, 
-      5: { fillColor: [241, 240, 240] }, 
+      0: { halign: 'left', fontStyle: 'bold', fillColor: [241, 240, 240], cellWidth: 80 }
     }
-  })  
-  
-  const bottomRectY = doc.internal.pageSize.height - lineHeight
+  })
 
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(120, 120, 120); 
-  doc.text(
-    '* Documento IMSS: Hoja rosa, Credencial ADIMSS o algún documento emitido por el IMSS.', 
-    15, bottomRectY - 10
-  )
-  doc.text(
-    '• En caso de presentarse algún error, deberás acudir a la Institución correspondiente y solicitar la corrección.', 
-    15, bottomRectY - 5
-  )
-  
+  const bottomRectY = doc.internal.pageSize.height - 20
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(9)
+  doc.setTextColor(120, 120, 120)
+  doc.text('* Documento IMSS: Hoja rosa, Credencial ADIMSS o algún documento emitido por el IMSS.', 15, bottomRectY - 8)
+  doc.text('• En caso de presentarse algún error, deberás acudir a la Institución correspondiente y solicitar la corrección.', 15, bottomRectY - 3)
+
   addFooter(doc)
 }
 
@@ -490,11 +480,13 @@ const generateRequirementsPage = (doc) => {
   addHeader(doc, 'Requisitos (1 de 2)')
 
   doc.setFont("helvetica", "bold")
-  doc.setFontSize(12)
-  doc.text('Requisitos para la pensión bajo la LSS 1973:', 15, 30)
+  doc.setFontSize(14)
+  doc.setTextColor(8, 47, 73)
+  doc.text('Requisitos para la pensión bajo la LSS 1973', 15, 30)
 
   doc.setFont("helvetica", "normal")
   doc.setFontSize(10)
+  doc.setTextColor(33, 53, 71)
 
   const requirements = [
     '• Tener al menos 60 años (cesantía) o 65 años (vejez).',
@@ -504,24 +496,25 @@ const generateRequirementsPage = (doc) => {
     '• Estar vigente en derechos o dentro del periodo de conservación.'
   ]
 
-  let y = 37
+  let y = 38
   requirements.forEach(req => {
-    doc.text(req, 15, y)
-    y += 6
+    doc.text(req, 18, y)
+    y += 7
   })
 
-  y += 5
+  y += 8
 
   doc.setFont("helvetica", "bold")
   doc.setFontSize(12)
-  doc.text('Checklist de documentos:', 15, y)
+  doc.setTextColor(8, 47, 73)
+  doc.text('Checklist de documentos para trámite de pensión', 15, y)
 
   const documents = [
-    [{ content: 'Copia simple para integrar el expediente y el original o copia certificada para su cotejo', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    [{ content: 'Copia simple para expediente y original/copia certificada para cotejo', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
     ['Identificación oficial:', 'INE, Pasaporte, Cartilla, Credencial ADIMSS.'],
     ['Comprobante de domicilio:', 'Predial, Teléfono, Agua, Luz, Gas.'],
     ['Documento bancario:', 'Estado de cuenta con número de cuenta y CLABE para pago de pensión.'],
-    [{ content: 'Original o copia certificada que permanecerá en el expediente.', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    [{ content: 'Original o copia certificada para expediente.', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
     ['Acta de nacimiento:', 'Certificada o impresa en línea del Registro Civil.']
   ]
 
@@ -530,7 +523,6 @@ const generateRequirementsPage = (doc) => {
     body: documents,
     startY: y + 5,
     theme: 'grid',
-    
     styles: {
       cellPadding: 4,
       valign: 'middle',
@@ -543,23 +535,25 @@ const generateRequirementsPage = (doc) => {
       textColor: [33, 53, 71],
       fontStyle: 'bold'
     },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245]
+    },
     columnStyles: {
       0: { fontStyle: 'bold', fillColor: [241, 240, 240] }
     }
   })
 
-  const bottomRectY = doc.internal.pageSize.height - lineHeight
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10)
-  doc.setTextColor(120, 120, 120); 
+  const bottomRectY = doc.internal.pageSize.height - 20
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(9)
+  doc.setTextColor(120, 120, 120)
   doc.text(
-    '* El trámite podrán presentarse en la ventanilla del Control de Prestaciones Económicas en la Unidad de Medicina ', 
-    15, bottomRectY - 10
+    '* El trámite puede presentarse en la ventanilla del Control de Prestaciones Económicas en la Unidad de Medicina Familiar de', 
+    15, bottomRectY - 8
   )
   doc.text(
-    '  Familiar de adscripción que le corresponda dentro del horario de 8:00 a 15:00 horas.', 
-    15, bottomRectY - 5
+    '  adscripción que le corresponda dentro del horario de 8:00 a 15:00 horas.', 
+    15, bottomRectY - 3
   )
 
   addFooter(doc)
@@ -570,27 +564,34 @@ const generateFamilyAllowancesPage = (doc) => {
   addHeader(doc, 'Requisitos (2 de 2)')
 
   doc.setFont("helvetica", "bold")
-  doc.setFontSize(12)
-  doc.text('Asignaciones Familiares:', 15, 30)
+  doc.setFontSize(14)
+  doc.setTextColor(8, 47, 73)
+  doc.text('Asignaciones Familiares', 15, 30)
 
   doc.setFont("helvetica", "normal")
   doc.setFontSize(10)
+  doc.setTextColor(33, 53, 71)
   doc.text(
     'Consisten en una ayuda por concepto de carga familiar, que se concede a los beneficiarios del pensionado.',
-    15, 37, { maxWidth: 180 }
+    15, 38, { maxWidth: 180 }
   )
   doc.text(
-    'El solicitante de la pensión indicará si tiene beneficiarios para el otorgamiento de asignaciones familiares',
-    15, 42, { maxWidth: 180 }
+    'El solicitante de la pensión indicará si tiene beneficiarios para el otorgamiento de asignaciones familiares.',
+    15, 45, { maxWidth: 180 }
   )
 
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(12)
+  doc.setTextColor(8, 47, 73)
+  doc.text('Checklist de documentos para otorgamiento de asignaciones familiares', 15, 55)
+
   const beneficiaries = [
-    [{ content: 'Copia simple para integrar el expediente y el original o copia certificada para su cotejo', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
-    ['Identificación oficial:', 'INE, Pasaporte, Cartilla, Credencial ADIMSS. En menores de edad: Credencial ADIMSS, Certificado o Constancia de estudios con fotografía.'],
+    [{ content: 'Copia simple para expediente y original/copia certificada para cotejo', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    ['Identificación oficial:', 'INE, Pasaporte, Cartilla, Credencial ADIMSS. En menores: Credencial ADIMSS, Certificado o Constancia de estudios con foto.'],
     ['Comprobante de domicilio:', 'Predial, Teléfono, Agua, Luz, Gas.'],
-    [{ content: 'Original o copia certificada que permanecerá en el expediente.', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    [{ content: 'Original o copia certificada para expediente.', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
     ['Acta de nacimiento:', 'Certificada o impresa en línea del Registro Civil.'],
-    [{ content: 'Documentos adicionales en original o copia certificada que permanecerá en el expediente.', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
+    [{ content: 'Original o copia certificada para expediente según el tipo de beneficiario.', colSpan: 2, styles: { fillColor: [8, 47, 73], textColor: [255, 255, 255] } }],
     ['Esposa(o):', 'Acta de matrimonio.'],
     ['Concubina(rio):', 'Resolución de acreditación de concubinato (mínimo 5 años o hijos en común).'],
     ['Hijo menor de 16 años:', 'No se requiere documento adicional.'],
@@ -602,10 +603,10 @@ const generateFamilyAllowancesPage = (doc) => {
   doc.autoTable({
     head: [['Documento', 'Ejemplos']],
     body: beneficiaries,
-    startY: 47,
+    startY: 60,
     theme: 'grid',
     styles: {
-      cellPadding: 3,
+      cellPadding: 4,
       valign: 'middle',
       fontSize: 10,
       textColor: [33, 53, 71],
@@ -615,6 +616,9 @@ const generateFamilyAllowancesPage = (doc) => {
       fillColor: [241, 240, 240],
       textColor: [33, 53, 71],
       fontStyle: 'bold'
+    },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245]
     },
     columnStyles: {
       0: { fontStyle: 'bold', fillColor: [241, 240, 240] }
