@@ -4,7 +4,7 @@ const PLANS = [
       price: 0,
       features: [
         '📊 Proyección de pensión: Ilimitado',
-        '📄 Reporte detallado: Ilimitado',
+        '📄 Detalle de proyección: Ilimitado',
         '🔍 Consulta individual de Afore: 1/día',
       ],
     },
@@ -14,7 +14,7 @@ const PLANS = [
       features: [
         '🧮 Análisis de semanas cotizadas: Ilimitado',
         '📊 Proyección de pensión: Ilimitado',
-        '📄 Reporte detallado: Ilimitado',
+        '📄 Detalle de proyección: Ilimitado',
         '🔍 Consulta individual de Afore: 10/día',
       ],
     },
@@ -24,7 +24,7 @@ const PLANS = [
       features: [
         '🧮 Análisis de semanas cotizadas: Ilimitado',
         '📊 Proyección de pensión: Ilimitado',
-        '📄 Reporte detallado: Ilimitado',
+        '📄 Detalle de proyección: Ilimitado',
         '🔍 Consulta individual de Afore: Ilimitado',
         '📂 Consulta masiva de Afore: Ilimitado',
       ],
