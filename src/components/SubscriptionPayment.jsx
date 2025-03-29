@@ -66,8 +66,8 @@ const SubscriptionPayment = () => {
                 {filteredPlans.map((plan, index) => (
                     <div key={index} className="flex flex-col items-center relative">
                     {plan.title === 'Unlimited' && (
-                        <div className="absolute -top-2 bg-yellow-400 text-sky-900 text-sm font-bold px-3 py-1 rounded-full">
-                        El más solicitado
+                        <div className="absolute -top-2 bg-yellow-50 text-yellow-950 text-sm font-bold px-3 py-1 rounded-full">
+                        ⭐ El más solicitado ⭐
                         </div>
                     )}
                     <div
