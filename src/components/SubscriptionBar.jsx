@@ -15,7 +15,7 @@ const SuscriptionBar = ({ onSelection }) => {
         {subscription === 'free' ? (
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 rounded-lg flex justify-between items-center text-md">
                 <p className="text-sky-800">
-                    Plan actual: <span className="font-semibold">{subscriptionNormalize(subscription)}</span>
+                    Plan <span className="font-semibold">{subscriptionNormalize(subscription)}</span>
                 </p>
                 <button 
                         onClick={() => onSelection('subscription')} 
@@ -27,17 +27,17 @@ const SuscriptionBar = ({ onSelection }) => {
         ) : (
             <div className="px-4 mb-4 rounded-lg text-sm">
                 <p className="text-sky-50 text-center">
-                    Plan: <span className="font-semibold">{subscriptionNormalize(subscription)}</span> | Vence: {formatDate(expiration)}
+                    Plan <span className="font-semibold">{subscriptionNormalize(subscription)}</span> | Vence {formatDate(expiration)}
                 </p>
                 {subscription === 'pro' && daysToExpire > 26 && (
                     <div className="flex flex-col justify-center">
                         <button 
                             onClick={() => onSelection('update')} 
-                            className="text-yellow-100 text-center mt-2 font-semibold underline hover:text-sky-100"
+                            className="text-yellow-100 text-center mt-1 font-semibold underline hover:text-sky-100"
                         >
                             Actualiza a plan Unlimited por $50.00 MXN
                         </button>
-                        <p className="mt-2 text-center">hasta el {formatDate(availableUntil)}</p>
+                        <p className="mt-1 text-center">hasta el {formatDate(availableUntil)}</p>
                     </div>
                 )}
             </div>
