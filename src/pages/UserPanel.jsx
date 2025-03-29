@@ -12,10 +12,11 @@ import UpdatePayment from "../components/UpdatePayment"
 import ComponentTransition from "../components/ComponentTransition"
 import Afore from "../components/Afore"
 import { AnimatePresence } from "framer-motion"
+import UserPill from "../components/UserPill"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
-    const [activeSection, setActiveSection] = useState('calculadora')
+    const [activeSection, setActiveSection] = useState('calculator')
     const [counter, setCounter] = useState(0)
     
     const { user, setUser } = useUserContext()
@@ -61,32 +62,17 @@ const UserPanel = () => {
         <main className="max-w-md mx-auto px-4 py-4">
             <SubscriptionBar onSelection={setActiveSection} />
 
-            <nav className="flex justify-center">
-                <button
-                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
-                    onClick={() => setActiveSection('calculadora')}
-                >
-                    Calculadora
-                </button>
-                <button
-                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
-                    onClick={() => setActiveSection('afore')}
-                >
-                    Afore
-                </button>
-                <button
-                    className={`px-4 py-2 rounded-full ${activeSection === 'perfil' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
-                    onClick={() => setActiveSection('perfil')}
-                >
-                    Mi cuenta
-                </button>
+            <nav className="flex justify-center space-x-4">
+                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="calculator" text="Calculadora" />
+                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="afore" text="Afore" />
+                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="myAccount" text="Mi cuenta" />
             </nav>
             
             <AnimatePresence mode="wait">
                 <ComponentTransition key={activeSection}>
-                    {activeSection === 'calculadora' && <Calculator subscription={user.subscription} />}
+                    {activeSection === 'calculator' && <Calculator subscription={user.subscription} />}
                     {activeSection === 'afore' && <Afore subscription={user.subscription} initialCount={counter} onConsult={setCounter} onSelection={setActiveSection}/>}
-                    {activeSection === 'perfil' && <MyAccount subscription={user.subscription} />}
+                    {activeSection === 'myAccount' && <MyAccount subscription={user.subscription} />}
                     {activeSection === 'subscription' && (
                         <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
                             <SubscriptionPayment />
