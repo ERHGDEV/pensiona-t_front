@@ -125,10 +125,11 @@ const ExcelAforeUploader = () => {
   }
 
   return (
-    <div className="mt-4 p-6 h-[235px] border rounded-lg bg-white shadow-sm relative">
-      <h3 className="text-2xl font-bold mb-4 text-center text-sky-900">Consulta masiva AFORE</h3>
+    <div className="mt-4 mb-6 pb-6 h-[205px] rounded-lg bg-white relative">
+      <p className='text-sm font-medium text-gray-700'>Carga tu archivo de Excel</p>
+      <p className='text-sm font-medium text-gray-700'>con hasta 100 nss:</p>
       <button
-        className="absolute top-2 right-2 font-bold bg-sky-600 text-white py-1 rounded-full hover:bg-sky-700 px-3"
+        className="absolute top-1 right-0 font-bold bg-yellow-300 text-sky-900 py-1 rounded-full hover:bg-yellow-500 hover:text-white px-3 transition-all"
         onClick={() => setIsHelpModalOpen(true)}
       >
         ?
@@ -141,7 +142,7 @@ const ExcelAforeUploader = () => {
               type="file"
               accept=".xlsx, .xls"
               onChange={handleFileChange}
-              className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
+              className="mt-4 w-full py-2 text-sky-900"
             />
             <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
               <Button

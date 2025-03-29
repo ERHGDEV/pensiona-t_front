@@ -106,10 +106,9 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
   }
 
   return (
-    <div className={`max-w-md min-h-[340px] mx-auto mt-4 p-6 
+    <div className={`max-w-md min-h-[260px] mx-auto mt-4 overflow-y-auto
       ${inputValue.length > 0 && !isValidInput || showForm && errorMessage ? 'pb-2' : 'pb-6'}
-      bg-white rounded-lg shadow-xl`}>
-      <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>
+      bg-white rounded-lg`}>
       <AnimatePresence mode="wait">
         {showForm ? (
           <ComponentTransition key="form">
@@ -171,7 +170,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
           </ComponentTransition>
         ) : (
           <ComponentTransition key="result">
-            <div className="text-sky-950 text-center mt-6">
+            <div className="text-sky-950 text-center">
               <p className="text-xl font-semibold mb-8">Tu AFORE actual es:</p>
               <img src={afore.logo} alt={afore.name} className="mx-auto mb-8 h-24" />
               <p className="text-sm text-gray-700">{afore.email}</p>
