@@ -12,14 +12,14 @@ const MyAccount = () => {
             {/* Botones de navegación */}
             <div className="flex justify-center mb-6">
                 <button
-                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'profile' ? 'bg-gray-300 text-gray-800 font-semibold' : 'bg-sky-800 text-white'}`}
-                    onClick={() => setActiveSection('profile')}
+                        className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'profile' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
+                        onClick={() => setActiveSection('profile')}
                 >
                     Cuenta
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-full ${activeSection === 'history' ? 'bg-gray-300 text-gray-800 font-semibold' : 'bg-sky-800 text-white'}`}
-                    onClick={() => setActiveSection('history')}
+                        className={`px-4 py-2 rounded-full ${activeSection === 'history' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
+                        onClick={() => setActiveSection('history')}
                 >
                     Historial
                 </button>
