@@ -4,6 +4,7 @@ import InviteToUnlimited from './InviteToUnlimited'
 import ExcelAforeUploader from './ExcelAforeUploader'
 import ComponentTransition from './ComponentTransition'
 import { AnimatePresence } from 'framer-motion'
+import UserPill from './UserPill'
 
 
 const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
@@ -15,20 +16,15 @@ const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
             {subscription === 'unlimited' ? (
                 <>
                 <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">Consulta de Afore</h2>
-                <div className="flex justify-center mb-6">
+                <nav className="flex justify-center space-x-4 mb-6">
+                    <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="individual" text="Individual" />
                     <button
-                        className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'individual' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
-                        onClick={() => setActiveSection('individual')}
-                    >
-                        Individual
-                    </button>
-                    <button
-                        className={`px-4 py-2 rounded-full ${activeSection === 'bulk' ? 'bg-sky-950 text-white font-semibold' : 'bg-yellow-200 text-sky-900 shadow-md' }`}
+                        className={`px-4 py-2 rounded-full hover:scale-110 transition duration-300 ease-in-out ${activeSection === 'bulk' ? 'bg-sky-950 text-white font-semibold' : 'bg-yellow-200 text-sky-900 shadow-md' }`}
                         onClick={() => setActiveSection('bulk')}
                     >
                         Masiva
                     </button>
-                </div>
+                </nav>
                 <AnimatePresence mode="wait">
                 {activeSection === 'individual' && (
                     <ComponentTransition key="individual">
