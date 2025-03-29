@@ -14,12 +14,12 @@ const SuscriptionBar = ({ onSelection }) => {
         <>
         {subscription === 'free' ? (
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 rounded-lg flex justify-between items-center text-md">
-                <p className="text-yellow-800">
+                <p className="text-sky-800">
                     Plan actual: <span className="font-semibold">{subscriptionNormalize(subscription)}</span>
                 </p>
                 <button 
                         onClick={() => onSelection('subscription')} 
-                        className="text-yellow-800 font-semibold underline hover:text-yellow-900"
+                        className="text-sky-800 font-semibold underline hover:text-yellow-900 transition-all"
                     >
                         Quiero suscribirme
                 </button>
