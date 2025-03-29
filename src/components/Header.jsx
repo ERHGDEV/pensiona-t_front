@@ -4,6 +4,8 @@ import axiosInstance from '../services/axiosConfig'
 import AuthService from '../services/authService'
 import ComponentTransition from './ComponentTransition'
 
+const buttonStyles = "py-4 px-3 flex justify-end rounded-md hover:bg-gray-100 font-medium text-gray-900 transition duration-300 ease-in-out"
+
 export default function Header() {
   const navigate = useNavigate()
   const isLoggedIn = AuthService.isAuthenticated()
@@ -123,39 +125,24 @@ export default function Header() {
                   <nav className="grid text-right">
                     {isLoggedIn ? (
                       <>
-                        {userRole === 'admin' && (
-                          <button 
-                            onClick={() => {
-                              setIsMenuOpen(false)
-                              navigate('/admin')
-                            }} 
-                            className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
-                          >
-                            <span className="text-base font-medium text-gray-900">Ir a Dashboard</span>
-                          </button>
-                        )}
-                        {userRole === 'user' && (
-                          <button 
-                            onClick={() => {
-                              setIsMenuOpen(false)
-                              navigate('/user')
-                            }} 
-                            className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
-                          >
-                            <span className="text-base font-medium text-gray-900">Ir a Dashboard</span>
-                          </button>
-                        )}
-                        <div className="flex justify-end">
-                          <button
-                            onClick={() => {
-                              handleLogout()
-                              setIsMenuOpen(false)
-                            }}
-                            className="py-4 px-3 flex items-center rounded-md hover:bg-gray-50 text-base font-medium text-gray-900"
-                          >
-                            Cerrar sesión
-                          </button>
-                        </div>
+                        <button 
+                          onClick={() => {
+                            setIsMenuOpen(false)
+                            navigate(userRole === 'admin' ? '/admin' : '/user')
+                          }} 
+                          className={buttonStyles}
+                        >
+                          Ir a Dashboard
+                        </button>
+                        <button
+                          onClick={() => {
+                            handleLogout()
+                            setIsMenuOpen(false)
+                          }}
+                          className={buttonStyles}
+                        >
+                          Cerrar sesión
+                        </button>
                       </>
                     ) : (
                       <>
@@ -164,18 +151,18 @@ export default function Header() {
                             setIsMenuOpen(false)
                             navigate('/login')
                           }}
-                          className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
+                          className={buttonStyles}
                         >
-                          <span className="text-base font-medium text-gray-900">Iniciar sesión</span>
+                        Iniciar sesión
                         </button>
                         <button
                           onClick={() => {
                             setIsMenuOpen(false)
                             navigate('/register')
                           }}
-                          className="py-4 px-3 flex justify-end items-center rounded-md hover:bg-gray-50"
+                          className={buttonStyles}
                         >
-                          <span className="text-base font-medium text-gray-900">Registrarse</span>
+                          Registrarse
                         </button>
                       </>
                     )}
