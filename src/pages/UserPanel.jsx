@@ -5,14 +5,12 @@ import { useUserContext } from "../context/UserContext"
 import Dots from "../components/Dots"
 import axiosInstance from "../services/axiosConfig"
 import Calculator from "../components/Calculator"
-import WhatAforeAmI from "../components/WhatAforeAmI"
-import ExcelAforeUploader from "../components/ExcelAforeUploader"
 import MyAccount from "../components/MyAccount"
 import SubscriptionPayment from "../components/SubscriptionPayment"
 import SubscriptionBar from "../components/SubscriptionBar"
 import UpdatePayment from "../components/UpdatePayment"
-import InviteToUnlimited from "../components/InviteToUnlimited"
 import ComponentTransition from "../components/ComponentTransition"
+import Afore from "../components/Afore"
 import { AnimatePresence } from "framer-motion"
 
 const UserPanel = () => {
@@ -65,38 +63,29 @@ const UserPanel = () => {
 
             <nav className="flex justify-center">
                 <button
-                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'calculadora' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
                     onClick={() => setActiveSection('calculadora')}
                 >
                     Calculadora
                 </button>
                 <button
-                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                    className={`px-4 py-2 mr-4 rounded-full ${activeSection === 'afore' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
                     onClick={() => setActiveSection('afore')}
                 >
                     Afore
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-full ${activeSection === 'perfil' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700' }`}
+                    className={`px-4 py-2 rounded-full ${activeSection === 'perfil' ? 'bg-sky-950 text-white font-semibold' : 'bg-gray-100 text-gray-700 shadow-md' }`}
                     onClick={() => setActiveSection('perfil')}
                 >
-                    Perfil
+                    Mi cuenta
                 </button>
             </nav>
             
             <AnimatePresence mode="wait">
                 <ComponentTransition key={activeSection}>
                     {activeSection === 'calculadora' && <Calculator subscription={user.subscription} />}
-                    {activeSection === 'afore' && (
-                        <>
-                            <WhatAforeAmI subscription={user.subscription} initialCount={counter} onConsult={setCounter} />
-                            {user.subscription === 'unlimited' ? (
-                                <ExcelAforeUploader />
-                            ) : user.subscription === 'free' ? (
-                                <InviteToUnlimited onSelection={setActiveSection} />
-                            ) : null}
-                        </>
-                    )}
+                    {activeSection === 'afore' && <Afore subscription={user.subscription} initialCount={counter} onConsult={setCounter} onSelection={setActiveSection}/>}
                     {activeSection === 'perfil' && <MyAccount subscription={user.subscription} />}
                     {activeSection === 'subscription' && (
                         <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
