@@ -8,7 +8,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center pt-4">
+      <div className="flex flex-col items-center pt-2">
         <img 
           src={profileImage || '/placeholder.svg'} 
           alt="Profile" 
