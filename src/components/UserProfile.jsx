@@ -21,8 +21,8 @@ const UserProfile = () => {
           <p className="text-gray-500 font-semibold text-md mt-2 mb-3">No tienes una suscripción activa</p>
         ) : (
           <>
-            <p className="text-gray-500 font-semibold text-md mt-2 mb-1">Plan: {subscriptionNormalize(subscription)}</p>
-            <p className="text-gray-500 text-sm mb-3">Vence: <strong>{formatDate(expiration)}</strong></p>
+            <p className="text-gray-500 font-semibold text-md mt-4 mb-1">Plan: {subscriptionNormalize(subscription)}</p>
+            <p className="text-gray-500 text-sm mb-4">Vence: <strong>{formatDate(expiration)}</strong></p>
           </>
         )}
       </div>
@@ -30,25 +30,25 @@ const UserProfile = () => {
       <div className="text-center grid grid-cols-2 gap-3">
         <div>
           <h3 className="text-sm font-semibold mb-1">Semanas analizadas</h3>
-          <div className={`bg-gray-200 h-16 rounded flex items-center justify-center`}>
+          <div className={`bg-yellow-50 h-14 rounded flex items-center justify-center shadow-sm`}>
             <span className="text-xl font-bold">{pdfAnalizados || 0}</span>
           </div>
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-1">Cálculos</h3>
-          <div className={`bg-gray-200 h-16 rounded flex items-center justify-center`}>
+          <h3 className="text-sm font-semibold mb-1">Cálculos de pensión</h3>
+          <div className={`bg-yellow-50 h-14 rounded flex items-center justify-center shadow-sm`}>
             <span className="text-xl font-bold">{calculosRealizados || 0}</span>
           </div>
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-1">Reportes</h3>
-          <div className={`bg-gray-200 h-16 rounded flex items-center justify-center`}>
+          <h3 className="text-sm font-semibold mb-1">Detalles en PDF</h3>
+          <div className={`bg-yellow-50 h-14 rounded flex items-center justify-center shadow-sm`}>
             <span className="text-xl font-bold">{reportesGenerados || 0}</span>
           </div>
         </div>
         <div>
-          <h3 className="text-sm font-semibold mb-1">Afore consultadas</h3>
-          <div className={`bg-gray-200 h-16 rounded flex items-center justify-center`}>
+          <h3 className="text-sm font-semibold mb-1">Consultas de Afore</h3>
+          <div className={`bg-yellow-50 h-14 rounded flex items-center justify-center shadow-sm`}>
             <span className="text-xl font-bold">{aforesConsultadas || 0}</span>
           </div>
         </div>
