@@ -51,7 +51,7 @@ const addFooter = (doc) => {
   doc.text('Pensiona-T', width / 2, doc.internal.pageSize.height - 4, { align: 'center' })
 }
 
-const generateFirstPage = (doc, results) => {
+const generateProjectionPage = (doc, results) => {
   addHeader(doc, 'Proyección de pensión')
 
   doc.text(`Semanas cotizadas actuales: ${results.weeksContributed}`, 15, height + 20)
@@ -162,7 +162,7 @@ const generateFirstPage = (doc, results) => {
   addFooter(doc)
 }
 
-const generateModalidad40Page = (doc, results) => {
+const generateMod40Page = (doc, results) => {
   doc.addPage()
   addHeader(doc, 'Modalidad 40')
 
@@ -426,10 +426,10 @@ const generateDiagnosticTablePage = (doc) => {
   )
 
   const personalDataTable = [
-    ['Datos Personales', 'AFORE', '   IFE   ', 'Infonavit', 'Renapo', ' IMSS* '],
+    ['Datos Personales', 'AFORE', '   INE   ', 'Infonavit', ' CURP ', ' IMSS* '],
     ['Nombre\ncomo aparece en acta de nacimiento.', 'X', 'X', 'X', 'X', 'X'],
     ['Fecha de nacimiento\ncomo aparece en acta de nacimiento.', '', '', 'X', 'X', 'X'],
-    ['Número de Seguro Social\ncomo aparece en hoja rosa, Afil-02 o credencial ADIMSS.', 'X', '', '', 'X', 'X'],
+    ['Número de Seguro Social\ncomo aparece en hoja rosa, Afil-02 o credencial ADIMSS.', 'X', '', '', '', 'X'],
     ['CURP\n18 posiciones como aparece en la cédula.', 'X', 'X', '', '', 'X'],
     ['RFC\n13 posiciones con homoclave, como aparece en la cédula fiscal.', 'X', '', 'X', '', 'X'],
     ['Semanas cotizadas\nun año equivale a 52 semanas.', '', '', '', '', 'X'],
@@ -630,12 +630,11 @@ const generateFamilyAllowancesPage = (doc) => {
 
 const generatePDF = (results) => {
   if (!results) return
-
   const doc = initializePDF()
-  generateFirstPage(doc, results)
+  generateProjectionPage(doc, results)
 
   if (results.salaryModalidad40) {
-    generateModalidad40Page(doc, results)
+    generateMod40Page(doc, results)
   }
 
   generateSocialRightsPage(doc)
