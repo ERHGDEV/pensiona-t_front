@@ -128,7 +128,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                   id="queryType"
                   value={queryType}
                   onChange={handleQueryTypeChange}
-                  className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent"
+                  className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 focus:outline-none"
                 >
                   <option value="nss">Número de Seguridad Social</option>
                   <option value="curp">CURP</option>
@@ -146,7 +146,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                   onChange={handleInputChange}
                   className={`mt-2 w-full px-3 py-2 border rounded-md ${
                     inputValue.length > 0 ? (isValidInput ? 'border-green-500' : 'border-red-500') : 'border-sky-300'
-                  } text-sky-900 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-transparent`}
+                  } text-sky-900 focus:outline-none`}
                   required
                   autoComplete="off"
                   disabled={isLoading || queryCount >= queryLimit}
