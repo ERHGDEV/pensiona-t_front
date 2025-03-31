@@ -168,7 +168,7 @@ export default function Header() {
         {isMenuOpen && (
           <motion.div
             ref={menuRef}
-            className="absolute top-full right-0 mt-2 w-64 transition-transform origin-top-right md:hidden overflow-hidden"
+            className="absolute top-full right-0 mt-2 w-64 transition-transform origin-top-right md:hidden overflow-hidden shadow-lg"
             initial="closed"
             animate="open"
             exit="closed"
