@@ -101,7 +101,6 @@ const ForgotPassword = () => {
                     </div>
                 )}
             </main>
-            <Footer variant="fixed"/>
         </>
     )
 }
