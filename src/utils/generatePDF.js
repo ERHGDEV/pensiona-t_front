@@ -47,7 +47,9 @@ const addFooter = (doc) => {
   doc.setFillColor('082f49')
   doc.rect(0, y, width, height, "F")
 
+  doc.setFont("helvetica", "normal")
   doc.setTextColor(255, 255, 255)
+  doc.setFontSize(10)
   doc.text('Pensiona-T', width / 2, doc.internal.pageSize.height - 4, { align: 'center' })
 }
 
