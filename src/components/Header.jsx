@@ -174,7 +174,7 @@ export default function Header() {
             exit="closed"
             variants={menuVariants}
           >
-            <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+            <div className="rounded-b-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
               <div className="py-4 px-5">
                 <nav className="grid text-right">
                   {isLoggedIn ? (
