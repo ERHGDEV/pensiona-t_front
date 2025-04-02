@@ -140,7 +140,7 @@ export default function Header() {
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
               {isLoggedIn ? (
-                <nav>
+                <nav className="flex flex-col mb-3">
                   <Link
                     to={userRole === "admin" ? "/admin" : "/user"}
                     className="text-white hover:bg-sky-700 hover:font-semibold active:bg-sky-950 py-3 transition"
