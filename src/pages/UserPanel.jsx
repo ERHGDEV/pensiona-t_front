@@ -12,7 +12,11 @@ import UpdatePayment from "../components/UpdatePayment"
 import ComponentTransition from "../components/ComponentTransition"
 import Afore from "../components/Afore"
 import { AnimatePresence } from "framer-motion"
+import NavButton from "../components/NavButton"
 import UserPill from "../components/UserPill"
+import CalculatorIcon from "../components/icons/CalculatorIcon"
+import PinIcon from "../components/icons/PinIcon"
+import UserCircleIcon from "../components/icons/UserCircleIcon"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
@@ -50,24 +54,24 @@ const UserPanel = () => {
 
     if (loading) {
         return(
-            <>
-                <div className="flex flex-col justify-center items-center h-[calc(100vh-80px)]" >
-                    <p className="mb-8">Cargando</p>
-                    <Dots />
-                </div>
-            </>
+            <div className="flex flex-col justify-center items-center h-[calc(100vh-80px)]">
+                <p className="mb-8">Cargando</p>
+                <Dots />
+            </div>
         )
     }
+
     return (
-        <main className="max-w-md mx-auto px-4 py-4">
+        <>
+        <main className="max-w-md mx-auto px-4 py-4 pb-20">
             <SubscriptionBar onSelection={setActiveSection} />
 
-            <nav className="flex justify-center space-x-4">
+            <nav className="hidden md:flex justify-center space-x-4">
                 <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="calculator" text="Calculadora" />
                 <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="afore" text="Afore" />
                 <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="myAccount" text="Mi cuenta" />
             </nav>
-            
+
             <AnimatePresence mode="wait">
                 <ComponentTransition key={activeSection}>
                     {activeSection === 'calculator' && <Calculator subscription={user.subscription} />}
@@ -86,6 +90,28 @@ const UserPanel = () => {
                 </ComponentTransition>
             </AnimatePresence>
         </main>
+
+        <nav className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t border-white grid grid-cols-3 px-4 py-2 md:hidden">
+            <NavButton
+                label="Calculadora"
+                icon={<CalculatorIcon />}
+                isActive={activeSection === "calculator"}
+                onClick={() => setActiveSection("calculator")}
+            />
+            <NavButton
+                label="Afore"
+                icon={<PinIcon />}
+                isActive={activeSection === "afore"}
+                onClick={() => setActiveSection("afore")}
+            />
+            <NavButton
+                label="Mi cuenta"
+                icon={<UserCircleIcon />}
+                isActive={activeSection === "myAccount"}
+                onClick={() => setActiveSection("myAccount")}
+            />
+        </nav>
+        </>
     )
 }
 
