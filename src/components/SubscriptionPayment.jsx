@@ -103,7 +103,7 @@ const SubscriptionPayment = () => {
                 </div>
             </>
         ) : (
-        <div className="h-[380px] border border-sky-300 rounded-lg p-6 bg-gray-50 w-full">
+        <div className="min-h-[380px] border border-sky-300 rounded-lg p-6 bg-gray-50 w-full">
             <h2 className="text-sky-700 text-xl font-semibold">{selectedPlan.title}</h2>
             <p className="text-2xl font-bold">${selectedPlan.price} MXN/mes</p>
             <p className="mt-4">Incluye:</p>
