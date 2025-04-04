@@ -91,7 +91,7 @@ const UserPanel = () => {
             </AnimatePresence>
         </main>
 
-        <nav className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t border-white grid grid-cols-3 px-4 py-2 md:hidden">
+        <nav className="fixed bottom-0 left-0 w-full bg-sky-900 shadow-md border-t-2 border-sky-950 grid grid-cols-3 px-4 py-2 md:hidden">
             <NavButton
                 label="Calculadora"
                 icon={<CalculatorIcon />}
