@@ -68,6 +68,7 @@ const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
 
     return (
         <div>
+            <p className='text-sm font-medium text-gray-700 mb-4'>Ingresa los siguientes datos:</p>
             <form 
                 className="max-w-md mx-auto"
             >
@@ -143,7 +144,7 @@ const CalculatorForm = ({ onCalculatorBack, onCalculate, data }) => {
                         Estado Civil
                     </label>
                 </div>
-                <div className="relative z-0 w-full mb-3">
+                <div className="relative z-0 w-full mb-4">
                     <select
                         name="children"
                         id="children"

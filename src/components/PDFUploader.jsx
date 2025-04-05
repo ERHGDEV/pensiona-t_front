@@ -76,7 +76,9 @@ const PDFUploader = ({ onDataExtracted, onPDFBack }) => {
   }
 
   return (
-    <div className="max-w-md h-[140px] mx-auto">
+    <div className="max-w-md h-[185px] mx-auto">
+      <p className='text-sm font-medium text-gray-700'>Carga tu reporte detallado de</p>
+      <p className='text-sm font-medium text-gray-700'>semanas cotizadas:</p>
       <div className="relative z-0 w-full mt-2 mb-5 group">
         <input
           type="file"
