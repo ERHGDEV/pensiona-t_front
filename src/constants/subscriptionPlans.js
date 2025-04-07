@@ -12,7 +12,6 @@ const PLANS = [
       title: 'Pro',
       price: 149,
       features: [
-        '🧮 Análisis de semanas cotizadas: Ilimitado',
         '📊 Proyección de pensión: Ilimitado',
         '📄 Detalle de proyección: Ilimitado',
         '🔍 Consulta individual de Afore: 10/día',
@@ -22,7 +21,6 @@ const PLANS = [
       title: 'Unlimited',
       price: 199,
       features: [
-        '🧮 Análisis de semanas cotizadas: Ilimitado',
         '📊 Proyección de pensión: Ilimitado',
         '📄 Detalle de proyección: Ilimitado',
         '🔍 Consulta individual de Afore: Ilimitado',
