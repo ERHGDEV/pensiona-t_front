@@ -167,7 +167,7 @@ const ExcelAforeUploader = () => {
 
         {results.length > 0 && !isLoading && (
           <ComponentTransition key="results">
-            <p className="text-sky-950 text-center mt-8">Resultados obtenidos para {getSuccessfulResultsCount()} NSS</p>
+            <p className="text-sky-950 text-center font-semibold mt-8">Resultados obtenidos para {getSuccessfulResultsCount()} NSS</p>
             <div className="mt-8 flex gap-4 max-w-fit mx-auto">
               <Button order="primary" onClick={handleReset}>
                 Volver
