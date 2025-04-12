@@ -3,11 +3,19 @@ import { Link, useNavigate } from "react-router-dom"
 import axiosInstance from "../services/axiosConfig"
 import AuthService from "../services/authService"
 import { motion, AnimatePresence } from "framer-motion"
+import DashboardIcon from "./icons/DashboardIcon"
+import LogoutIcon from "./icons/LogoutIcon"
+import LoginIcon from "./icons/LoginIcon"
+import RegisterIcon from "./icons/RegisterIcon"
+import CloseIcon from "./icons/CloseIcon"
+import MenuIcon from "./icons/MenuIcon"
 
 const menuVariants = {
   open: { height: "auto", transition: { duration: 0.3, ease: "easeOut" } },
   closed: { height: "4rem", transition: { duration: 0.3, ease: "easeOut" } },
 }
+
+const menuitemsStyles = "flex text-white text-left hover:bg-sky-700 hover:font-semibold active:bg-sky-950 py-4 transition"
 
 export default function Header() {
   const navigate = useNavigate()
@@ -97,35 +105,9 @@ export default function Header() {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <CloseIcon className="h-6 w-6" />
             ) : (
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+              <MenuIcon className="h-6 w-6" />
             )}
           </button>
         </div>
@@ -143,9 +125,10 @@ export default function Header() {
                 <nav className="flex flex-col mb-3">
                   <Link
                     to={userRole === "admin" ? "/admin" : "/user"}
-                    className="text-white hover:bg-sky-700 hover:font-semibold active:bg-sky-950 py-3 transition"
+                    className={menuitemsStyles}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   >
+                    <DashboardIcon className="w-6 h-6 inline-block mr-2" />
                     Dashboard
                   </Link>
                   <button
@@ -153,26 +136,29 @@ export default function Header() {
                       setIsMenuOpen(!isMenuOpen)
                       handleLogout()
                     }}
-                    className="text-white hover:bg-sky-700 hover:font-semibold active:bg-sky-950 py-3 transition"
+                    className={menuitemsStyles}
                   >
-                    Salir
+                    <LogoutIcon className="w-6 h-6 inline-block mr-2" />
+                    Cerrar sesión
                   </button>
                 </nav>
               ) : (
                 <nav className="flex flex-col mb-3">
                   <Link
                     to="/login"
-                    className="text-white hover:bg-sky-700 hover:font-semibold active:bg-sky-950 py-3 transition"
+                    className={menuitemsStyles}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   >
+                    <LoginIcon className="w-6 h-6 inline-block mr-2" />
                     Iniciar sesión
                   </Link>
                   <Link
                     to="/register"
-                    className="text-white hover:bg-sky-700 hover:font-semibold active:bg-sky-950 py-3 transition"
+                    className={menuitemsStyles}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   >
-                    Registrarse
+                    <RegisterIcon className="w-6 h-6 inline-block mr-2" />
+                    Registrarme
                   </Link>
                 </nav>
               )}
