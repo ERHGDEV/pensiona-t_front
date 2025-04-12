@@ -26,7 +26,8 @@ const Notification = () => {
           transition={{ duration: 0.4, ease: 'easeInOut' }}
           className={`fixed z-50 bottom-4 right-4 flex flex-row place-items-center
             px-3 py-3 rounded shadow-lg font-semibold text-base text-right
-            max-w-xs
+            max-w-xs 
+            md:py-6 md:px-6 md:max-w-sm 
             ${typeStyles[type] || 'bg-gray-100 text-gray-700 border border-gray-400'}`}
         >
           {type === 'error' ? (
