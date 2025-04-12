@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNotificationContext } from "../context/NotificationContext"
 import { Link, useNavigate } from "react-router-dom"
 import axiosInstance from "../services/axiosConfig"
 import AuthService from "../services/authService"
@@ -23,6 +24,8 @@ export default function Header() {
   const userRole = AuthService.getUserRole()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  const { showNotification } = useNotificationContext()
+
   const handleLogout = async () => {
     try {
       const response = await axiosInstance.post("/logout", {
@@ -32,6 +35,7 @@ export default function Header() {
       if (response.data.success) {
         AuthService.logout()
         navigate("/login")
+        showNotification(`Sesión finalizada`, 'success')
       } else {
         alert("Error al cerrar sesión, intenta de nuevo")
       }
