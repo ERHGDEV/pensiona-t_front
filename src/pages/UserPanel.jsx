@@ -33,7 +33,7 @@ const UserPanel = () => {
             if (!response.data.name) {
                 throw new Error('No se pudo verificar tu sesión')
             }
-            showNotification(`Hola, ${response.data.name}`, 'info')
+            showNotification(`Bienvenid@`, 'success')
             setUser(response.data)
             setCounter(response.data.aforesConsultadasHoy)
         } catch (error) {
