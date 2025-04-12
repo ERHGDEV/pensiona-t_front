@@ -1,6 +1,5 @@
 import { useState } from "react"
 import axios from "axios"
-import Notification from "../components/Notification"
 import { useNotificationContext } from "../context/NotificationContext"
 import Button from "../components/Button"
 import Dots from "../components/Dots"
