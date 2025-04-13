@@ -129,7 +129,12 @@ const ExcelAforeUploader = () => {
 
   const getSuccessfulResultsCount = () => {
     if (!results) return 0
-    return results.filter(result => result.afore !== 'Intenta de nuevo mañana' && result.afore !== 'Formato inválido').length
+    return results.filter(result => 
+      result.afore !== 'Intenta de nuevo mañana' 
+      && result.afore !== 'Formato inválido'
+      && result.afore !== 'No está registrado en una Afore'
+      && result.afore !== 'No se encontró información'
+    ).length
   }
 
   return (
