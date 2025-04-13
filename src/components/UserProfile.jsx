@@ -1,24 +1,23 @@
 import { useUserContext } from "../context/UserContext"
 import { formatDate } from "../utils/formatDate"
 import { subscriptionNormalize } from "../utils/subscriptionNormalize"
+import UserIcon from "./icons/UserIcon"
 
 const UserProfile = () => {
   const { user } = useUserContext()
-  const { name, email, created, subscription, expiration, profileImage, pdfAnalizados, calculosRealizados, reportesGenerados, aforesConsultadas } = user
+  const { name, email, created, subscription, expiration, pdfAnalizados, calculosRealizados, reportesGenerados, aforesConsultadas } = user
 
   return (
     <>
       <div className="flex flex-col items-center pt-2">
-        <img 
-          src={profileImage || '/placeholder.svg'} 
-          alt="Profile" 
-          className="w-16 h-16 rounded-full mb-3 bg-gray-200"
+        <UserIcon 
+          className="w-16 h-16 rounded-full mb-3 text-sky-700"
         />
-        <h2 className="text-lg font-bold mb-1">{name}</h2>
+        <h2 className="text-lg text-center font-bold mb-1">{name}</h2>
         <p className="text-gray-600 mb-1">{email}</p>
         <p className="text-gray-500 text-sm mb-1">Miembro desde: {formatDate(created)}</p>
         {subscription === 'free' ? (
-          <p className="text-gray-500 font-semibold text-md mt-2 mb-3">No tienes una suscripción activa</p>
+          <p className="text-gray-500 font-semibold text-md mt-2 mb-3">No tienes un plan activo</p>
         ) : (
           <>
             <p className="text-gray-500 font-semibold text-md mt-4 mb-1">Plan: {subscriptionNormalize(subscription)}</p>

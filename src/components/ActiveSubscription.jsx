@@ -10,8 +10,8 @@ const ActiveSubscription = () => {
 
     return (
         <div className="bg-white pt-4 max-w-md w-full mx-auto">
-            <h1 className="text-xl font-bold text-sky-950">
-                {isFreePlan ? "Actualmente no tienes una suscripción activa" : "Tienes una suscripción activa"}
+            <h1 className="text-xl text-center font-bold text-sky-950">
+                {isFreePlan ? "Actualmente no tienes un plan activo" : "Tienes un plan activo"}
             </h1>
                 <div className="mt-4">
                     <p className="text-gray-700"><span className="font-semibold">Plan:</span> {subscriptionNormalize(subscription)}</p>
