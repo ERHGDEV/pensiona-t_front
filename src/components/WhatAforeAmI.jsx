@@ -106,7 +106,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
   }
 
   return (
-    <div className={`max-w-md min-h-[260px] mx-auto mt-4 overflow-y-auto
+    <div className={`max-w-md min-h-[270px] mx-auto mt-4 overflow-y-auto
       ${inputValue.length > 0 && !isValidInput || showForm && errorMessage ? 'pb-2' : 'pb-6'}
       bg-white rounded-lg`}>
       <AnimatePresence mode="wait">
@@ -154,7 +154,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                 />
               </div>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+              <div className="pt-3 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
                 <Button variant="primary" type="submit" disabled={isLoading || !isValidInput}>
                   {isLoading ? (
                     <span>
