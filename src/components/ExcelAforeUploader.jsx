@@ -8,6 +8,7 @@ import { AFORE_INFO } from '../constants/infoAfore'
 import ExcelUploaderHelp from './ExcelUploaderHelp'
 import ComponentTransition from './ComponentTransition'
 import { AnimatePresence } from 'framer-motion'
+import FileTypeXlsIcon from './icons/FileTypeXlsIcon'
 
 const ExcelAforeUploader = () => {
   const [file, setFile] = useState(null)
@@ -17,6 +18,7 @@ const ExcelAforeUploader = () => {
   const [showForm, setShowForm] = useState(true)
   const [progress, setProgress] = useState(0)
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false)
+  const [queryType, setQueryType] = useState('nss') 
 
   const { showNotification } = useNotificationContext()
 
@@ -38,7 +40,7 @@ const ExcelAforeUploader = () => {
     try {
       const data = await readExcel(file)
       if (data.length > 100) {
-        throw new Error('El límite son 100 números de seguridad social')
+        throw new Error(`El límite son 100 ${queryType === "nss" ? "NSS" : "CURP"}`)
       }
 
       const batches = []
@@ -47,9 +49,13 @@ const ExcelAforeUploader = () => {
       }
 
       const allResults = []
+      const endpoint = queryType === 'nss' ? '/batch-afore-info' : '/batch-afore-info-curp'
+
       for (let i = 0; i < batches.length; i++) {
         const batch = batches[i]
-        const response = await axiosInstance.post('/batch-afore-info', { nssArray: batch })
+        const response = await axiosInstance.post(endpoint, { 
+          [queryType + 'Array']: batch 
+        })
         allResults.push(...response.data)
 
         setProgress(((i + 1) / batches.length) * 100)
@@ -89,18 +95,20 @@ const ExcelAforeUploader = () => {
 
   const handleDownload = () => {
     if (!results) return
+
+    const idHeader = queryType === 'curp' ? 'CURP' : 'NSS'
   
     const workbook = XLSX.utils.book_new()
     const worksheet = XLSX.utils.aoa_to_sheet([
-      ['NSS', 'AFORE'],
-      ...results.map(({ nss, afore }) => [
-        nss,
-        AFORE_INFO[afore] ? AFORE_INFO[afore].name : afore
+      [idHeader, 'AFORE'],
+      ...results.map(( item ) => [
+        item[queryType],
+        AFORE_INFO[item.afore] ? AFORE_INFO[item.afore].name : item.afore
       ])
     ])
   
     // Ancho de columnas (ajustado para mejor visibilidad)
-    worksheet['!cols'] = [{ wch: 15 }, { wch: 15 }]
+    worksheet['!cols'] = [{ wch: 20 }, { wch: 20 }]
   
     // Agregar la hoja de cálculo al libro
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Resultados AFORE')
@@ -125,24 +133,44 @@ const ExcelAforeUploader = () => {
   }
 
   return (
-    <div className="mt-4 mb-6 pb-6 h-[205px] rounded-lg bg-white relative">
-      <p className='text-sm font-medium text-gray-700'>Carga tu archivo de Excel</p>
-      <p className='text-sm font-medium text-gray-700'>con hasta 100 nss:</p>
-      <button
-        className="absolute top-1 right-0 font-bold bg-yellow-300 text-sky-900 py-1 rounded-full hover:bg-yellow-500 hover:text-white px-3 transition-all"
-        onClick={() => setIsHelpModalOpen(true)}
-      >
-        ?
-      </button>
+    <div className="mt-4 h-[270px] rounded-lg bg-white relative">
 
       <AnimatePresence mode="wait">
         {showForm && (
           <ComponentTransition key="form">
+
+            <div className="mb-4">
+              <div className="flex justify-between">
+                <label htmlFor="queryType" className="block text-sm font-medium text-gray-700">
+                  Consultar por
+                </label>
+              </div>
+              <select
+                id="queryType"
+                value={queryType}
+                onChange={(e) => setQueryType(e.target.value)}
+                className="mt-2 w-full px-3 py-2 border rounded-md text-sky-900 font-semibold focus:outline-none"
+              >
+                <option value="nss">NSS</option>
+                <option value="curp">CURP</option>
+              </select>
+            </div>
+
+            <p className='flex place-items-center text-sm font-medium text-gray-700 mt-6'>
+              Carga tu <FileTypeXlsIcon className='mx-1 text-green-700' />Excel con hasta 100 {queryType.toUpperCase()}:
+            </p>
+            <button
+              className="absolute top-[88px] right-0 font-bold bg-yellow-300 text-sky-900 py-1 rounded-full hover:bg-yellow-500 hover:text-white px-3 transition-all"
+              onClick={() => setIsHelpModalOpen(true)}
+            >
+              ?
+            </button>
+
             <input
               type="file"
               accept=".xlsx, .xls"
               onChange={handleFileChange}
-              className="mt-4 w-full py-2 text-sky-900"
+              className="mt-2 w-full py-2 text-sky-900"
             />
             <div className="mt-4 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
               <Button
@@ -158,7 +186,7 @@ const ExcelAforeUploader = () => {
 
         {isLoading && (
           <ComponentTransition key="loading">
-            <div className="text-center mt-8">
+            <div className="text-center pt-20">
               <p className="text-sky-950 mb-4">Procesando ({Math.round(progress)}%)</p>
               <Dots color={true} />
             </div>
@@ -167,8 +195,13 @@ const ExcelAforeUploader = () => {
 
         {results.length > 0 && !isLoading && (
           <ComponentTransition key="results">
-            <p className="text-sky-950 text-center font-semibold mt-8">Resultados obtenidos para {getSuccessfulResultsCount()} NSS</p>
-            <div className="mt-8 flex gap-4 max-w-fit mx-auto">
+            <div className="pt-8">
+              <FileTypeXlsIcon className="w-20 h-20 mx-auto text-green-800" />
+              <p className="text-sky-950 text-center pt-4">
+                Resultados obtenidos para <span className='font-semibold'>{getSuccessfulResultsCount()} {queryType === "nss" ? "NSS" : "CURP"}</span>
+              </p>
+            </div>
+            <div className="mt-12 flex gap-4 max-w-fit mx-auto">
               <Button order="primary" onClick={handleReset}>
                 Volver
               </Button>
@@ -185,7 +218,7 @@ const ExcelAforeUploader = () => {
       <AnimatePresence >
         {isHelpModalOpen && (
           <ComponentTransition key="help-modal">
-            <ExcelUploaderHelp onClose={() => setIsHelpModalOpen(false)} />
+            <ExcelUploaderHelp onClose={() => setIsHelpModalOpen(false)} type={queryType} />
           </ComponentTransition>
         )}
       </AnimatePresence>
