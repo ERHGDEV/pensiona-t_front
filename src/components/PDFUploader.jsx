@@ -4,6 +4,7 @@ import Button from './Button'
 import extractDataFromPDF from '../utils/extractDataFromPDF'
 import axiosInstance from '../services/axiosConfig'
 import Dots from './Dots'
+import FileTypePdfIcon from './icons/FileTypePdfIcon'
 
 const PDFUploader = ({ onDataExtracted, onPDFBack }) => {
   const [file, setFile] = useState(null)
@@ -77,7 +78,9 @@ const PDFUploader = ({ onDataExtracted, onPDFBack }) => {
 
   return (
     <div className="max-w-md h-[185px] mx-auto">
-      <p className='text-sm font-medium text-gray-700'>Carga tu reporte detallado de</p>
+      <p className='place-items-center text-sm font-medium text-gray-700'>
+        Carga tu <FileTypePdfIcon className="inline-block text-red-700" /> de reporte detallado de
+      </p>
       <p className='text-sm font-medium text-gray-700'>semanas cotizadas:</p>
       <div className="relative z-0 w-full mt-2 mb-5 group">
         <input
