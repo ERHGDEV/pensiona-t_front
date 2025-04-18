@@ -3,6 +3,8 @@ import { formatDate } from "../utils/formatDate"
 import { subscriptionNormalize } from "../utils/subscriptionNormalize"
 import { differenceInDays, subDays } from "date-fns"
 import DeviceMobileUpIcon from "./icons/DeviceMobileUpIcon"
+import DeviceMobileStarIcon from "./icons/DeviceMobileStarIcon"
+import DeviceMobileIcon from "./icons/DeviceMobileIcon"
 
 const SuscriptionBar = ({ onSelection }) => {
     const { user } = useUserContext()
@@ -15,12 +17,13 @@ const SuscriptionBar = ({ onSelection }) => {
         <>
         {subscription === 'free' ? (
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 rounded-lg flex justify-between items-center text-md">
-                <p className="text-sky-800">
-                    Plan <span className="font-semibold">{subscriptionNormalize(subscription)}</span>
+                <p className="flex items-center justify-center text-sky-800">
+                    <DeviceMobileIcon className="h-5 w-5 inline-block mr-1" />
+                    Plan <span className="ml-1 font-semibold">{subscriptionNormalize(subscription)}</span>
                 </p>
                 <button 
                         onClick={() => onSelection('subscription')} 
-                        className="text-sky-800 font-semibold underline hover:text-yellow-900 transition-all"
+                        className="flex items-center justify-center text-sky-800 font-semibold underline hover:text-yellow-900 transition-all"
                     >
                         <DeviceMobileUpIcon className="h-5 w-5 inline-block mr-1" />
                         Mejora tu plan
@@ -28,8 +31,9 @@ const SuscriptionBar = ({ onSelection }) => {
             </div>
         ) : (
             <div className="px-4 mb-4 rounded-lg text-sm">
-                <p className="text-sky-50 text-center">
-                    Plan <span className="font-semibold">{subscriptionNormalize(subscription)}</span> | Vence {formatDate(expiration)}
+                <p className="flex items-center justify-center text-sky-50 text-center">
+                    <DeviceMobileStarIcon className="h-5 w-5 inline-block mr-1" />
+                    Plan <span className="mx-1 font-semibold">{subscriptionNormalize(subscription)}</span> | Vence {formatDate(expiration)}
                 </p>
                 {subscription === 'pro' && daysToExpire > 26 && (
                     <div className="flex flex-col justify-center">
@@ -37,9 +41,9 @@ const SuscriptionBar = ({ onSelection }) => {
                             onClick={() => onSelection('update')} 
                             className="text-yellow-100 text-center mt-1 font-semibold underline hover:text-sky-100"
                         >
-                            Actualiza a plan Unlimited por $50.00 MXN
+                            Mejora a plan Unlimited por $50.00 MXN
                         </button>
-                        <p className="mt-1 text-center">hasta el {formatDate(availableUntil)}</p>
+                        <p className="mt-1 text-center">disponible hasta el {formatDate(availableUntil)}</p>
                     </div>
                 )}
             </div>
