@@ -9,6 +9,17 @@ const UpdatePayment = () => {
   const [preferenceId, setPreferenceId] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  const customization = {
+    theme: 'default',
+    texts: {
+      action: 'pay',
+      valueProp: 'security_safety',
+    },
+    customStyle: {
+      hideValueProp: true,
+    },
+  }
+
   initMercadoPago(import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY, { locale: "es-MX" })
 
   useEffect(() => {
@@ -49,7 +60,7 @@ const UpdatePayment = () => {
   }
 
   return (
-    <div className="h-[310px] border border-sky-300 rounded-lg p-6 bg-gray-50 w-full">
+    <div className="h-[350px] border border-sky-300 rounded-lg p-6 bg-gray-50 w-full">
       <h2 className="text-sky-700 text-xl font-semibold">{selectedPlan.title}</h2>
       <p className="text-2xl font-bold">${selectedPlan.price} MXN</p>
       <p className="mt-4">Incluye:</p>
@@ -58,16 +69,16 @@ const UpdatePayment = () => {
           <li key={i} dangerouslySetInnerHTML={{ __html: formatFeature(feature, selectedPlan.title) }}></li>
         ))}
       </ul>
-      <div className="mt-2">
-        {isLoading ? (
-          <div className="flex justify-center items-center mt-16">
-            <Dots color="true" />
-          </div>
-        ) : preferenceId ? (
-          <Wallet initialization={{ preferenceId }} />
-        ) : (
-          <p className="text-red-500 text-center mt-4">Error al cargar el pago</p>
-        )}
+      <div className="mt-4">
+        <p className='text-sm font-semibold text-center'>Pagar con</p>
+        {preferenceId 
+          ? <Wallet 
+              initialization={{ preferenceId }}
+              customization={ customization }
+            /> 
+          : <div className="flex justify-center items-center mt-8">
+              <Dots color='true'/>
+            </div>}
       </div>
     </div>
   )
