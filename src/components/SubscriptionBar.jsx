@@ -2,6 +2,7 @@ import { useUserContext } from "../context/UserContext"
 import { formatDate } from "../utils/formatDate"
 import { subscriptionNormalize } from "../utils/subscriptionNormalize"
 import { differenceInDays, subDays } from "date-fns"
+import DeviceMobileUpIcon from "./icons/DeviceMobileUpIcon"
 
 const SuscriptionBar = ({ onSelection }) => {
     const { user } = useUserContext()
@@ -21,7 +22,8 @@ const SuscriptionBar = ({ onSelection }) => {
                         onClick={() => onSelection('subscription')} 
                         className="text-sky-800 font-semibold underline hover:text-yellow-900 transition-all"
                     >
-                        Quiero suscribirme
+                        <DeviceMobileUpIcon className="h-5 w-5 inline-block mr-1" />
+                        Mejora tu plan
                 </button>
             </div>
         ) : (

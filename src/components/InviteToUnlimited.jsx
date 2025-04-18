@@ -7,9 +7,9 @@ const InviteToUnlimited = ({ onSelection }) => {
                     onClick={() => onSelection('subscription')} 
                     className="text-sky-800 font-semibold underline hover:text-yellow-900 transition-all"
                 >
-                    suscríbete
+                    mejora tu plan 
                 </button> 
-                {" "}en el plan <span className="font-semibold">Unlimited</span>
+                {" "}a <span className="font-semibold">Unlimited</span>
             </p>
         </div>
     )
