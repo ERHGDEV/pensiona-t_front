@@ -21,7 +21,7 @@ const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
                 <nav className="flex justify-center space-x-4 mb-6">
                     <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="individual" text="Individual" icon={<MapPinIcon className="h-5 w-5 inline-block mr-1" />} />
                     <button
-                        className={`flex items-center justify-center px-4 py-2 rounded-full hover:scale-110 transition duration-300 ease-in-out ${activeSection === 'bulk' ? 'bg-sky-950 text-white font-semibold' : 'bg-yellow-200 text-sky-900 shadow-md' }`}
+                        className={`flex items-center justify-center px-4 py-2 rounded-full hover:scale-110 transition duration-300 ease-in-out ${activeSection === 'bulk' ? 'bg-sky-950 text-white' : 'bg-yellow-200 text-sky-900 shadow-md' }`}
                         onClick={() => setActiveSection('bulk')}
                     >
                         <MapPinsIcon className="h-5 w-5 inline-block mr-1" />
