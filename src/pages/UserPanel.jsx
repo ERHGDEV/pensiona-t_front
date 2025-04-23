@@ -67,9 +67,9 @@ const UserPanel = () => {
             <SubscriptionBar onSelection={setActiveSection} />
 
             <nav className="hidden md:flex justify-center space-x-4">
-                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="calculator" text="Calculadora" />
-                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="afore" text="Afore" />
-                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="myAccount" text="Mi cuenta" />
+                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="calculator" text="Calculadora" icon={<CalculatorIcon className="mr-1"/>} />
+                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="afore" text="Afore" icon={<PinIcon className="mr-1" />} />
+                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="myAccount" text="Mi cuenta" icon={<UserCircleIcon className="mr-1"/>} />
             </nav>
 
             <AnimatePresence mode="wait">

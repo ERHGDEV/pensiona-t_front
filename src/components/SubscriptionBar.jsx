@@ -30,7 +30,7 @@ const SuscriptionBar = ({ onSelection }) => {
                 </button>
             </div>
         ) : (
-            <div className="px-4 mb-4 rounded-lg text-sm">
+            <div className="px-4 mb-4 rounded-lg text-sm md:text-base">
                 <p className="flex items-center justify-center text-sky-50 text-center">
                     <DeviceMobileStarIcon className="h-5 w-5 inline-block mr-1" />
                     Plan <span className="mx-1 font-semibold">{subscriptionNormalize(subscription)}</span> | Vence {formatDate(expiration)}
