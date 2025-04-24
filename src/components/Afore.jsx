@@ -7,10 +7,12 @@ import { AnimatePresence } from 'framer-motion'
 import UserPill from './UserPill'
 import MapPinIcon from './icons/MapPinIcon'
 import MapPinsIcon from './icons/MapPinsIcon'
-
+import UpgradeNotice from './UpgradeNotice'
 
 const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
     const [activeSection, setActiveSection] = useState('individual')
+
+    const queryLimit = subscription === 'free' ? 1 : subscription === 'pro' ? 10 : Infinity
 
     return(
         <>
@@ -49,8 +51,14 @@ const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
                     </>
                 )}
         </div>
+        
         {subscription === 'free' &&
+        <>
+            {(queryLimit - initialCount <= 0) && (
+                <UpgradeNotice onSelection={onSelection} />         
+            )}
             <InviteToUnlimited onSelection={onSelection} />
+        </>
         }        
         </>
     )

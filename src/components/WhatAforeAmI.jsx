@@ -120,7 +120,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                   </label>
                   {subscription !== 'unlimited' && (
                     <p className="text-sm text-gray-700">
-                      Restantes: <strong>{queryLimit - queryCount <= 0 ? "0" : queryLimit - queryCount}</strong>
+                      Consultas restantes: <strong>{queryLimit - queryCount <= 0 ? "0" : queryLimit - queryCount}</strong>
                     </p>
                   )}
                 </div>
@@ -154,7 +154,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                 />
               </div>
 
-              <div className="pt-3 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
+              <div className="pt-2 flex flex-col sm:flex-row gap-4 max-w-fit mx-auto">
                 <Button variant="primary" type="submit" disabled={isLoading || !isValidInput}>
                   {isLoading ? (
                     <span>
