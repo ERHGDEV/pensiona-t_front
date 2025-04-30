@@ -1,18 +1,21 @@
-const InviteToUnlimited = ({ onSelection }) => {
-    return (
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4 rounded-lg">
-            <p className="text-sky-900">
-                Para acceder a la <span className="font-semibold">Consulta Masiva de Afore{" "}</span> 
-                <button 
-                    onClick={() => onSelection('subscription')} 
-                    className="text-sky-800 font-semibold underline hover:text-yellow-900 transition-all"
-                >
-                    mejora tu plan 
-                </button> 
-                {" "}a <span className="font-semibold">Unlimited</span>
-            </p>
-        </div>
-    )
-}
+import InfoSquareRoundedIcon from "./icons/InfoSquareRoundedIcon"
 
-export default InviteToUnlimited
+const InviteToUnlimited = ({ onSelection }) => {
+  return (
+    <div className="bg-white border-l-4 border-yellow-500 p-4 mt-4 rounded-xl shadow-md flex items-start gap-2">
+      <InfoSquareRoundedIcon className="text-sky-600 w-12 my-auto" />
+      <p className="text-sky-900 text-base leading-relaxed">
+        Para acceder a la <span className="text-yellow-700 font-semibold">Consulta Masiva de Afore</span>,{" "}
+        <button
+          onClick={() => onSelection("subscription")}
+          className="text-yellow-700 font-semibold underline hover:text-yellow-900 transition-all focus:outline-none"
+        >
+          mejora tu plan
+        </button>{" "}
+        a <span className="font-semibold text-yellow-700">Unlimited</span>.
+      </p>
+    </div>
+  );
+};
+
+export default InviteToUnlimited;
