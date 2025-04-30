@@ -1,7 +1,7 @@
 export default function NavButton({ label, icon, isActive, onClick }) {
     return (
         <button 
-            className={`flex flex-col py-1 w-full border-[1px] 
+            className={`flex flex-col pt-2 w-full border-[1px] 
                 border-sky-900 items-center text-sm transition 
                 ${isActive ? 'text-white border-t-white' : 'text-gray-400'}`} 
             onClick={onClick}
