@@ -9,11 +9,11 @@ const PaymentHistory = () => {
 
     return (
         <>
-            <h2 className="mt-4 text-lg font-semibold text-sky-950">Historial de Pagos</h2>
-            <div className="mt-2 space-y-2 overflow-y-auto">
+            <h2 className="text-xl font-bold text-sky-950 mb-4 text-center mt-4">Historial de Pagos</h2>
+            <div className="space-y-4 overflow-y-auto max-h-96">
                 {sortedPayments.length > 0 ? (
                     sortedPayments.map((payment, index) => (
-                        <div key={index} className="border-b pb-2">
+                        <div key={index} className="border-b border-gray-300 pb-2">
                             <p className="text-gray-700"><span className="font-semibold">Fecha:</span> {formatDate(payment.date)}</p>
                             <p className="text-gray-700"><span className="font-semibold">Descripción:</span> {payment.description}</p>
                             <p className="text-gray-700"><span className="font-semibold">Monto:</span> ${payment.amount}</p>
@@ -29,7 +29,7 @@ const PaymentHistory = () => {
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500">No hay pagos registrados.</p>
+                    <p className="text-gray-500 text-center">No hay pagos registrados.</p>
                 )}
             </div>
         </>
