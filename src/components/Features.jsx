@@ -1,7 +1,12 @@
 import FeatureCard from "./FeatureCard"
+import CalculatorIcon from "./icons/CalculatorIcon"
+import UserCogIcon from "./icons/UserCogIcon"
+import LockIcon from "./icons/LockIcon"
+import ChartColumnIcon from "./icons/ChartColumnIcon"
+import MapPinIcon from "./icons/MapPinIcon"
+import CalendarIcon from "./icons/CalendarIcon"
 
 export default function Features() {
-
   return (
     <section className="py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,34 +23,34 @@ export default function Features() {
         <div className="mt-10">
           <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
             <FeatureCard
-              icon="🧮"
+              icon={<CalculatorIcon className="h-12 w-12 text-white" />}
               title="Cálculos Precisos"
               description="Algoritmos actualizados según las últimas normativas del IMSS."
             />
             <FeatureCard
-              icon="👥"
+              icon={<UserCogIcon className="h-12 w-12 text-white" />}
               title="Modalidad 40"
               description="Compara la proyección de pensión con y sin Modalidad 40."
             />
             <FeatureCard
-              icon="🔒"
+              icon={<LockIcon className="h-12 w-12 text-white" />}
               title="Seguridad Garantizada"
               description="No solicitamos datos sensibles. Tu información está segura con nosotros."
             />
             <FeatureCard
-              icon="📊"
+              icon={<ChartColumnIcon className="h-12 w-12 text-white" />}
               title="Reportes Detallados"
               description="Obtén informes completos y fáciles de entender sobre tu futura pensión."
             />
             <FeatureCard
-              icon="📍"
+              icon={<MapPinIcon className="h-12 w-12 text-white" />}
               title="Localización de Afore"
               description="Consulta en qué afore te encuentras actualmente. Consulta masiva disponible en plan Unlimited."
             />
             <FeatureCard
-              icon="📅"
+              icon={<CalendarIcon className="h-12 w-12 text-white" />}
               title="Análisis de semanas cotizadas"
-              description="Obten automáticamente el salario promedio de los últimos 5 años. Disponible en el plan Pro y Unlimited"
+              description="Obten automáticamente el salario promedio de los últimos 5 años. Disponible en el plan Pro y Unlimited."
             />
           </div>
         </div>
