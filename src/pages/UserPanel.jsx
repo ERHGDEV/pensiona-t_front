@@ -15,6 +15,7 @@ import Afore from "../components/Afore"
 import { AnimatePresence } from "framer-motion"
 import NavButton from "../components/NavButton"
 import UserPill from "../components/UserPill"
+import DesktopNavBar from "../components/DesktopNavBar"
 import CalculatorIcon from "../components/icons/CalculatorIcon"
 import PinIcon from "../components/icons/PinIcon"
 import UserCircleIcon from "../components/icons/UserCircleIcon"
@@ -66,30 +67,7 @@ const UserPanel = () => {
         <>
             <main className="max-w-md mx-auto px-4 py-4 pb-20">
                 <SubscriptionBar />
-
-                <nav className="hidden md:flex justify-center space-x-4">
-                    <UserPill 
-                        activeSection={activeSection} 
-                        setActiveSection={setActiveSection} 
-                        section="calculator" 
-                        text="Calculadora" 
-                        icon={<CalculatorIcon className="mr-1"/>} 
-                    />
-                    <UserPill 
-                        activeSection={activeSection} 
-                        setActiveSection={setActiveSection} 
-                        section="afore" 
-                        text="Afore" 
-                        icon={<PinIcon className="mr-1" />} 
-                    />
-                    <UserPill 
-                        activeSection={activeSection} 
-                        setActiveSection={setActiveSection} 
-                        section="myAccount" 
-                        text="Mi cuenta" 
-                        icon={<UserCircleIcon className="mr-1"/>} 
-                    />
-                </nav>
+                <DesktopNavBar />
 
                 <AnimatePresence mode="wait">
                     <ComponentTransition key={activeSection}>
