@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useNotificationContext } from "../context/NotificationContext"
 import { useUserContext } from "../context/UserContext"
+import { useActiveSection } from "../context/ActiveSectionContext"
 import Dots from "../components/Dots"
 import axiosInstance from "../services/axiosConfig"
 import Calculator from "../components/Calculator"
@@ -20,9 +21,9 @@ import UserCircleIcon from "../components/icons/UserCircleIcon"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
-    const [activeSection, setActiveSection] = useState('calculator')
     const [counter, setCounter] = useState(0)
     
+    const { activeSection, setActiveSection } = useActiveSection()
     const { user, setUser } = useUserContext()
     const { showNotification } = useNotificationContext()
     const navigate = useNavigate()
@@ -63,54 +64,54 @@ const UserPanel = () => {
 
     return (
         <>
-        <main className="max-w-md mx-auto px-4 py-4 pb-20">
-            <SubscriptionBar onSelection={setActiveSection} />
+            <main className="max-w-md mx-auto px-4 py-4 pb-20">
+                <SubscriptionBar />
 
-            <nav className="hidden md:flex justify-center space-x-4">
-                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="calculator" text="Calculadora" icon={<CalculatorIcon className="mr-1"/>} />
-                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="afore" text="Afore" icon={<PinIcon className="mr-1" />} />
-                <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="myAccount" text="Mi cuenta" icon={<UserCircleIcon className="mr-1"/>} />
+                <nav className="hidden md:flex justify-center space-x-4">
+                    <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="calculator" text="Calculadora" icon={<CalculatorIcon className="mr-1"/>} />
+                    <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="afore" text="Afore" icon={<PinIcon className="mr-1" />} />
+                    <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="myAccount" text="Mi cuenta" icon={<UserCircleIcon className="mr-1"/>} />
+                </nav>
+
+                <AnimatePresence mode="wait">
+                    <ComponentTransition key={activeSection}>
+                        {activeSection === 'calculator' && <Calculator subscription={user.subscription} />}
+                        {activeSection === 'afore' && <Afore subscription={user.subscription} initialCount={counter} onConsult={setCounter} onSelection={setActiveSection}/>}
+                        {activeSection === 'myAccount' && <MyAccount subscription={user.subscription} />}
+                        {activeSection === 'subscription' && (
+                            <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                                <SubscriptionPayment />
+                            </div>
+                        )}
+                        {activeSection === 'update' && (
+                            <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
+                                <UpdatePayment />
+                            </div>
+                        )}
+                    </ComponentTransition>
+                </AnimatePresence>
+            </main>
+
+            <nav className="fixed bottom-0 left-0 w-full bg-sky-900 shadow-md border-t border-sky-950 grid grid-cols-3 px-4 py-2 md:hidden">
+                <NavButton
+                    label="Calculadora"
+                    icon={<CalculatorIcon />}
+                    isActive={activeSection === "calculator"}
+                    onClick={() => setActiveSection("calculator")}
+                />
+                <NavButton
+                    label="Afore"
+                    icon={<PinIcon />}
+                    isActive={activeSection === "afore"}
+                    onClick={() => setActiveSection("afore")}
+                />
+                <NavButton
+                    label="Mi cuenta"
+                    icon={<UserCircleIcon />}
+                    isActive={activeSection === "myAccount"}
+                    onClick={() => setActiveSection("myAccount")}
+                />
             </nav>
-
-            <AnimatePresence mode="wait">
-                <ComponentTransition key={activeSection}>
-                    {activeSection === 'calculator' && <Calculator subscription={user.subscription} />}
-                    {activeSection === 'afore' && <Afore subscription={user.subscription} initialCount={counter} onConsult={setCounter} onSelection={setActiveSection}/>}
-                    {activeSection === 'myAccount' && <MyAccount subscription={user.subscription} />}
-                    {activeSection === 'subscription' && (
-                        <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
-                            <SubscriptionPayment />
-                        </div>
-                    )}
-                    {activeSection === 'update' && (
-                        <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
-                            <UpdatePayment />
-                        </div>
-                    )}
-                </ComponentTransition>
-            </AnimatePresence>
-        </main>
-
-        <nav className="fixed bottom-0 left-0 w-full bg-sky-900 shadow-md border-t border-sky-950 grid grid-cols-3 px-4 py-2 md:hidden">
-            <NavButton
-                label="Calculadora"
-                icon={<CalculatorIcon />}
-                isActive={activeSection === "calculator"}
-                onClick={() => setActiveSection("calculator")}
-            />
-            <NavButton
-                label="Afore"
-                icon={<PinIcon />}
-                isActive={activeSection === "afore"}
-                onClick={() => setActiveSection("afore")}
-            />
-            <NavButton
-                label="Mi cuenta"
-                icon={<UserCircleIcon />}
-                isActive={activeSection === "myAccount"}
-                onClick={() => setActiveSection("myAccount")}
-            />
-        </nav>
         </>
     )
 }
