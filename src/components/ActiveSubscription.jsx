@@ -14,9 +14,12 @@ const ActiveSubscription = () => {
                 {isFreePlan ? "Actualmente no tienes un plan activo" : "Tienes un plan activo"}
             </h1>
                 <div className="mt-4">
-                    <p className="text-gray-700"><span className="font-semibold">Plan:</span> {subscriptionNormalize(subscription)}</p>
+                    
                     {!isFreePlan && (
-                    <p className="text-gray-700"><span className="font-semibold">Vence:</span> {formatDate(expiration)}</p>
+                        <>
+                            <p className="text-gray-700"><span className="font-semibold">Plan:</span> {subscriptionNormalize(subscription)}</p>
+                            <p className="text-gray-700"><span className="font-semibold">Vence:</span> {formatDate(expiration)}</p>
+                        </>
                     )}
                 </div>
             <PaymentHistory />
