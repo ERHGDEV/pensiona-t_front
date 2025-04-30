@@ -12,8 +12,6 @@ import UpgradeNotice from './UpgradeNotice'
 const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
     const [activeSection, setActiveSection] = useState('individual')
 
-    const queryLimit = subscription === 'free' ? 1 : subscription === 'pro' ? 10 : Infinity
-
     return(
         <>
         <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 pb-0 mt-4 max-w-md w-full mx-auto'>
@@ -54,9 +52,7 @@ const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
         
         {subscription === 'free' &&
         <>
-            {(queryLimit - initialCount <= 0) && (
-                <UpgradeNotice onSelection={onSelection} />         
-            )}
+            <UpgradeNotice onSelection={onSelection} />         
             <InviteToUnlimited onSelection={onSelection} />
         </>
         }        
