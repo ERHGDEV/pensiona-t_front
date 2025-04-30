@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useUserContext } from '../context/UserContext'
 import { AnimatePresence } from 'framer-motion'
 import FlowSelection from './FlowSelection'
 import CalculatorForm from './CalculatorForm'
@@ -7,7 +8,10 @@ import ResultsTable from './ResultsTable'
 import PDFUploader from './PDFUploader'
 import ComponentTransition from './ComponentTransition'
 
-const Calculator = ({ subscription }) => {
+const Calculator = () => {
+    const { user } = useUserContext()
+    const subscription = user.subscription
+
     const [activeSection, setActiveSection] = useState(
         subscription === 'free' ? 'calculatorForm' : 'flowSelection'
     )

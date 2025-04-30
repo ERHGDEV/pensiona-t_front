@@ -68,14 +68,32 @@ const UserPanel = () => {
                 <SubscriptionBar />
 
                 <nav className="hidden md:flex justify-center space-x-4">
-                    <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="calculator" text="Calculadora" icon={<CalculatorIcon className="mr-1"/>} />
-                    <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="afore" text="Afore" icon={<PinIcon className="mr-1" />} />
-                    <UserPill activeSection={activeSection} setActiveSection={setActiveSection} section="myAccount" text="Mi cuenta" icon={<UserCircleIcon className="mr-1"/>} />
+                    <UserPill 
+                        activeSection={activeSection} 
+                        setActiveSection={setActiveSection} 
+                        section="calculator" 
+                        text="Calculadora" 
+                        icon={<CalculatorIcon className="mr-1"/>} 
+                    />
+                    <UserPill 
+                        activeSection={activeSection} 
+                        setActiveSection={setActiveSection} 
+                        section="afore" 
+                        text="Afore" 
+                        icon={<PinIcon className="mr-1" />} 
+                    />
+                    <UserPill 
+                        activeSection={activeSection} 
+                        setActiveSection={setActiveSection} 
+                        section="myAccount" 
+                        text="Mi cuenta" 
+                        icon={<UserCircleIcon className="mr-1"/>} 
+                    />
                 </nav>
 
                 <AnimatePresence mode="wait">
                     <ComponentTransition key={activeSection}>
-                        {activeSection === 'calculator' && <Calculator subscription={user.subscription} />}
+                        {activeSection === 'calculator' && <Calculator />}
                         {activeSection === 'afore' && <Afore subscription={user.subscription} initialCount={counter} onConsult={setCounter} onSelection={setActiveSection}/>}
                         {activeSection === 'myAccount' && <MyAccount subscription={user.subscription} />}
                         {activeSection === 'subscription' && (
