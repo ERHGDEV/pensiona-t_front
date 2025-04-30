@@ -37,10 +37,10 @@ export default function Header() {
         navigate("/login")
         showNotification(`Sesión finalizada`, 'success')
       } else {
-        alert("Error al cerrar sesión, intenta de nuevo")
+        showNotification("Error al cerrar sesión, intenta de nuevo", 'error')
       }
     } catch (error) {
-      alert("Error al cerrar sesión, intenta de nuevo")
+      showNotification("Error al cerrar sesión, intenta de nuevo", 'error')
     }
   }
 
