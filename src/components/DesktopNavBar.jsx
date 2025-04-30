@@ -1,4 +1,4 @@
-import { useActiveSection } from "../context/useActiveSection"
+import { useActiveSection } from "../context/ActiveSectionContext"
 import UserPill from "./UserPill"
 import CalculatorIcon from "./icons/CalculatorIcon"
 import PinIcon from "./icons/PinIcon"

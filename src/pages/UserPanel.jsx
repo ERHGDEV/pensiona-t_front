@@ -13,12 +13,8 @@ import UpdatePayment from "../components/UpdatePayment"
 import ComponentTransition from "../components/ComponentTransition"
 import Afore from "../components/Afore"
 import { AnimatePresence } from "framer-motion"
-import NavButton from "../components/NavButton"
-import UserPill from "../components/UserPill"
 import DesktopNavBar from "../components/DesktopNavBar"
-import CalculatorIcon from "../components/icons/CalculatorIcon"
-import PinIcon from "../components/icons/PinIcon"
-import UserCircleIcon from "../components/icons/UserCircleIcon"
+import MobileNavBar from "../components/MobileNavBar"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
@@ -88,26 +84,7 @@ const UserPanel = () => {
                 </AnimatePresence>
             </main>
 
-            <nav className="fixed bottom-0 left-0 w-full bg-sky-900 shadow-md border-t border-sky-950 grid grid-cols-3 px-4 py-2 md:hidden">
-                <NavButton
-                    label="Calculadora"
-                    icon={<CalculatorIcon />}
-                    isActive={activeSection === "calculator"}
-                    onClick={() => setActiveSection("calculator")}
-                />
-                <NavButton
-                    label="Afore"
-                    icon={<PinIcon />}
-                    isActive={activeSection === "afore"}
-                    onClick={() => setActiveSection("afore")}
-                />
-                <NavButton
-                    label="Mi cuenta"
-                    icon={<UserCircleIcon />}
-                    isActive={activeSection === "myAccount"}
-                    onClick={() => setActiveSection("myAccount")}
-                />
-            </nav>
+            <MobileNavBar />
         </>
     )
 }
