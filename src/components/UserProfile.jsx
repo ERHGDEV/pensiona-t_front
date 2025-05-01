@@ -48,7 +48,7 @@ const UserProfile = () => {
 }
 
 const StatCard = ({ title, value }) => (
-  <div className="bg-sky-50 rounded-lg shadow-md p-4 text-center">
+  <div className="bg-sky-50 rounded-lg shadow-md p-4 text-center hover:animate-pop">
     <h4 className="text-sm font-medium text-gray-600 mb-2">{title}</h4>
     <p className="text-2xl font-bold text-sky-700">{value}</p>
   </div>
