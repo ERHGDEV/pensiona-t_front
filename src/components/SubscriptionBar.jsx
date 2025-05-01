@@ -25,7 +25,7 @@ const SuscriptionBar = () => {
                 </p>
                 <button 
                         onClick={() => setActiveSection('subscription')} 
-                        className="flex items-center justify-center text-sky-800 font-semibold underline hover:text-yellow-900 transition-all"
+                        className="flex items-center justify-center text-sky-800 font-semibold underline hover:text-yellow-900 transition-all animate-iteration-count-infinite animate-pulsing"
                     >
                         <DeviceMobileUpIcon className="h-5 w-5 inline-block mr-1" />
                         Mejora tu plan
