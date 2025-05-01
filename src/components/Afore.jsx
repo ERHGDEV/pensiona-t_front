@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useUserContext } from '../context/UserContext'
 import WhatAforeAmI from './WhatAforeAmI'
 import InviteToUnlimited from './InviteToUnlimited'
 import ExcelAforeUploader from './ExcelAforeUploader'
@@ -9,7 +10,9 @@ import MapPinIcon from './icons/MapPinIcon'
 import MapPinsIcon from './icons/MapPinsIcon'
 import UpgradeNotice from './UpgradeNotice'
 
-const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
+const Afore = () => {
+    const { user } = useUserContext()
+    const subscription = user.subscription
     const [activeSection, setActiveSection] = useState('individual')
 
     return(
@@ -31,7 +34,7 @@ const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
                 <AnimatePresence mode="wait">
                 {activeSection === 'individual' && (
                     <ComponentTransition key="individual">
-                        <WhatAforeAmI subscription={subscription} initialCount={initialCount} onConsult={onConsult} />
+                        <WhatAforeAmI />
                     </ComponentTransition>
                 )}
                 {activeSection === 'bulk' && (
@@ -44,7 +47,7 @@ const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
                 ) : (
                     <>
                         <h2 className="text-2xl font-bold mb-6 text-center text-sky-900">¿Cuál es mi AFORE?</h2>   
-                        <WhatAforeAmI subscription={subscription} initialCount={initialCount} onConsult={onConsult} />
+                        <WhatAforeAmI />
                         
                     </>
                 )}
@@ -52,8 +55,8 @@ const Afore = ({ subscription, initialCount, onConsult, onSelection }) => {
         
         {subscription === 'free' &&
         <>
-            <UpgradeNotice onSelection={onSelection} />         
-            <InviteToUnlimited onSelection={onSelection} />
+            <UpgradeNotice  />         
+            <InviteToUnlimited />
         </>
         }        
         </>

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useUserContext } from '../context/UserContext'
+import { useCounterContext } from '../context/CounterContext'
 import { AnimatePresence } from 'framer-motion'
 import ComponentTransition from './ComponentTransition'
 import axiosInstance from '../services/axiosConfig'
@@ -6,7 +8,7 @@ import Dots from "./Dots"
 import Button from "./Button"
 import { AFORE_INFO } from '../constants/infoAfore'
 
-const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
+const WhatAforeAmI = () => {
   const [queryType, setQueryType] = useState('nss')
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -15,7 +17,10 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isValidInput, setIsValidInput] = useState(false)
 
-  const [queryCount, setQueryCount] = useState(initialCount)
+  const { user } = useUserContext()
+  const subscription = user.subscription
+
+  const { counter, setCounter } = useCounterContext()
 
   const queryLimit = subscription === 'free' ? 1 : subscription === 'pro' ? 10 : Infinity
 
@@ -28,12 +33,12 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
   }, [inputValue, queryType])
 
   useEffect(() => {
-    if (queryLimit - queryCount <= 0) {
+    if (queryLimit - counter <= 0) {
       setTimeout(() => {
         setErrorMessage("Acabaste las consultas disponibles de hoy")
       }, 2000)
     }
-  }, [queryCount, queryLimit, queryType])  
+  }, [counter, queryLimit, queryType])  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -52,8 +57,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
         if (AFORE_INFO[response.data.claveAfore]) {
           setAfore(AFORE_INFO[response.data.claveAfore])
           setShowForm(false)
-          setQueryCount(prevCount => prevCount + 1)
-          onConsult(counter => counter + 1)
+          setCounter(counter => counter + 1)
         } else if (response.data.diagnostico === 'Recuerda que sólamente puedes realizar una consulta por día.') {
           setErrorMessage('Intenta consultar de nuevo mañana')
         } else if (response.data.diagnostico === 'Lo sentimos, tu consulta generó un error, el NSS o CURP no se encuentra registrado.Si tienes alguna duda sobre el proceso denominado Localiza tu AFORE, llama al 55 1328 5000  (sin costo desde todo el país).”') {
@@ -83,7 +87,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
     setShowForm(true)
     setErrorMessage('')
     
-    if (queryLimit - queryCount <= 0) {
+    if (queryLimit - counter <= 0) {
       setTimeout(() => {
         setErrorMessage("Acabaste las consultas disponibles de hoy")
       }, 2000)
@@ -120,7 +124,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                   </label>
                   {subscription !== 'unlimited' && (
                     <p className="text-sm text-gray-700">
-                      Consultas restantes: <strong>{queryLimit - queryCount <= 0 ? "0" : queryLimit - queryCount}</strong>
+                      Consultas restantes: <strong>{queryLimit - counter <= 0 ? "0" : queryLimit - counter}</strong>
                     </p>
                   )}
                 </div>
@@ -149,7 +153,7 @@ const WhatAforeAmI = ({ subscription, initialCount, onConsult }) => {
                   } text-sky-900 focus:outline-none`}
                   required
                   autoComplete="off"
-                  disabled={isLoading || queryCount >= queryLimit}
+                  disabled={isLoading || counter >= queryLimit}
                   placeholder={queryType === 'nss' ? '11 dígitos' : '18 caracteres'}
                 />
               </div>

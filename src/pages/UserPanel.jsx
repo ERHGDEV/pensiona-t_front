@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useNotificationContext } from "../context/NotificationContext"
 import { useUserContext } from "../context/UserContext"
 import { useActiveSection } from "../context/ActiveSectionContext"
+import { useCounterContext } from "../context/CounterContext"
 import Dots from "../components/Dots"
 import axiosInstance from "../services/axiosConfig"
 import Calculator from "../components/Calculator"
@@ -18,10 +19,10 @@ import MobileNavBar from "../components/MobileNavBar"
 
 const UserPanel = () => {
     const [loading, setLoading] = useState(true)
-    const [counter, setCounter] = useState(0)
     
-    const { activeSection, setActiveSection } = useActiveSection()
-    const { user, setUser } = useUserContext()
+    const { activeSection } = useActiveSection()
+    const { setCounter } = useCounterContext()
+    const { setUser } = useUserContext()
     const { showNotification } = useNotificationContext()
     const navigate = useNavigate()
 
@@ -68,8 +69,8 @@ const UserPanel = () => {
                 <AnimatePresence mode="wait">
                     <ComponentTransition key={activeSection}>
                         {activeSection === 'calculator' && <Calculator />}
-                        {activeSection === 'afore' && <Afore subscription={user.subscription} initialCount={counter} onConsult={setCounter} onSelection={setActiveSection}/>}
-                        {activeSection === 'myAccount' && <MyAccount subscription={user.subscription} />}
+                        {activeSection === 'afore' && <Afore />}
+                        {activeSection === 'myAccount' && <MyAccount />}
                         {activeSection === 'subscription' && (
                             <div className='text-sky-950 bg-white rounded-lg shadow-xl p-6 mt-4 max-w-md w-full mx-auto'>
                                 <SubscriptionPayment />
