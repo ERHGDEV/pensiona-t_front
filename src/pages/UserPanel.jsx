@@ -62,7 +62,7 @@ const UserPanel = () => {
 
     return (
         <>
-            <main className="max-w-md mx-auto px-4 py-4 pb-20">
+            <main className="max-w-md mx-auto px-4 py-4 pb-24 md:pb-4">
                 <SubscriptionBar />
                 <DesktopNavBar />
 
