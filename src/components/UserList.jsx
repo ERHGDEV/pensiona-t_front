@@ -8,7 +8,7 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
     const [search, setSearch] = useState('')
     const [selectedUser, setSelectedUser] = useState(null)
     const [isFormOpen, setIsFormOpen] = useState(false)
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
+    const [sortConfig, setSortConfig] = useState({ key: 'lastLogin', direction: 'desc' })
 
     const filteredUsers = users.filter((user) =>
         user.name.toLowerCase().includes(search.toLowerCase()) ||
