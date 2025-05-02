@@ -31,7 +31,7 @@ export default function Hero() {
       </div>
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
-          className="h-64 mx-auto rounded object-cover sm:h-72 md:h-96 lg:h-full"
+          className="h-64 mx-auto rounded object-cover sm:h-72 md:h-96 lg:h-full animate-fade-in-left"
           src="/calculator.webp"
           alt="Planificación de pensiones"
         />
