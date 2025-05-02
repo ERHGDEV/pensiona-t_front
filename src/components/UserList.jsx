@@ -113,6 +113,13 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                                 Último
                             </th>
                             <th 
+                                className='py-3 px-4 text-left cursor-pointer'  
+                                style={{ width: '5%' }}
+                                onClick={() => handleSort('city')}
+                            >
+                                Ciudad
+                            </th>
+                            <th 
                                 className="py-3 px-4 text-left cursor-pointer" 
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('subscription')}
@@ -171,6 +178,7 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{user.email}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.created)}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.lastLogin)}</td>
+                                <td className="py-3 px-4 text-left whitespace-nowrap">{user.city}</td>
                                 <td className='py-3 px-4 text-left whitespace-nowrap'>{subscriptionNormalize(user.subscription)}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
                                 <td className="py-3 px-4 text-center">{user.verified ? '✅' : ''}</td>
