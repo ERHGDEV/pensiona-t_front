@@ -26,27 +26,32 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        
+
+        if (!newUser.email.endsWith("@gmail.com")) {
+            showNotification("Favor de utilizar un correo de gmail", "error")
+            return
+        }
+
         if (newUser.password !== newUser.confirmPassword) {
             showNotification("Las contraseñas no coinciden", "error")
             return
         }
-    
+
         if (newUser.password.length < 8) {
             showNotification("La contraseña debe tener al menos 8 caracteres", "error")
             return
         }
-    
+
         setIsSubmitting(true)
         setStatusMessage("Registrando usuario")
-    
+
         try {
             const response = await axios.post(`${import.meta.env.VITE_URL}/register`, {
                 name: newUser.name,
                 email: (newUser.email).toLowerCase(),
                 password: newUser.password
             })
-    
+
             setTimeout(() => {
                 if (response.data.success) {
                     setStatusMessage("Usuario registrado exitosamente, revisa tu bandeja de entrada")
