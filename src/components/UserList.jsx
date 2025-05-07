@@ -122,14 +122,14 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('city')}
                             >
-                                Ciudad {getSortIndicator('city')}
+                                Ubicación {getSortIndicator('city')}
                             </th>
                             <th 
                                 className="py-3 px-4 text-left cursor-pointer whitespace-nowrap" 
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('subscription')}
                             >
-                                Subscrip {getSortIndicator('subscription')}
+                                Plan {getSortIndicator('subscription')}
                             </th>
                             <th
                                 className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
@@ -179,8 +179,18 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                     <tbody className="text-sky-950 text-sm font-light">
                         {sortedUsers.map((user) => (
                             <tr key={user.email} className="border-b border-gray-500 hover:bg-gray-300">
-                                <td className="py-3 px-4 text-left whitespace-nowrap">{user.name}</td>
-                                <td className="py-3 px-4 text-left whitespace-nowrap">{user.email}</td>
+                                <td 
+                                    className="py-3 px-4 text-left whitespace-nowrap overflow-hidden text-ellipsis max-w-48"
+                                    title={user.name}
+                                >
+                                    {user.name}
+                                </td>
+                                <td 
+                                    className="py-3 px-4 text-left whitespace-nowrap overflow-hidden text-ellipsis max-w-48"
+                                    title={user.email}
+                                >
+                                    {user.email}
+                                </td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.created)}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.lastLogin)}</td>
                                 <td
