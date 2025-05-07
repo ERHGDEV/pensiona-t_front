@@ -10,6 +10,11 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
     const [isFormOpen, setIsFormOpen] = useState(false)
     const [sortConfig, setSortConfig] = useState({ key: 'lastLogin', direction: 'desc' })
 
+    const getSortIndicator = (key) => {
+        if (sortConfig.key !== key) return null
+        return sortConfig.direction === 'asc' ? '▲' : '▼'
+    }
+
     const filteredUsers = users.filter((user) =>
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.email.toLowerCase().includes(search.toLowerCase())
@@ -20,11 +25,11 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
 
         const aValue = sortConfig.key === 'created' || sortConfig.key === 'expiration' || sortConfig.key === 'lastLogin'
             ? new Date(a[sortConfig.key])
-            : a[sortConfig.key]
+            : (a[sortConfig.key] || '')
 
         const bValue = sortConfig.key === 'created' || sortConfig.key === 'expiration' || sortConfig.key === 'lastLogin'
             ? new Date(b[sortConfig.key])
-            : b[sortConfig.key]
+            : (b[sortConfig.key] || '')
 
         if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1
         if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1
@@ -96,77 +101,77 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                 <table className="min-w-full">
                     <thead className="bg-sky-700 text-gray-100 uppercase text-sm leading-normal sticky top-0">
                         <tr>
-                            <th className="py-3 px-4 text-left" style={{ width: '25%' }}>Nombre</th>
-                            <th className="py-3 px-4 text-left" style={{ width: '20%' }}>Email</th>
+                            <th className="py-3 px-4 text-left whitespace-nowrap" style={{ width: '25%' }}>Nombre</th>
+                            <th className="py-3 px-4 text-left whitespace-nowrap" style={{ width: '20%' }}>Email</th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('created')}
                             >
-                                Creado
+                                Creado {getSortIndicator('created')}
                             </th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('lastLogin')}
                             >
-                                Último
+                                Último {getSortIndicator('lastLogin')}
                             </th>
                             <th 
-                                className='py-3 px-4 text-left cursor-pointer'  
+                                className='py-3 px-4 text-left cursor-pointer whitespace-nowrap'  
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('city')}
                             >
-                                Ciudad
+                                Ciudad {getSortIndicator('city')}
                             </th>
                             <th 
-                                className="py-3 px-4 text-left cursor-pointer" 
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap" 
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('subscription')}
                             >
-                                Subscrip
+                                Subscrip {getSortIndicator('subscription')}
                             </th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('expiration')}
                             >
-                                Vigenc
+                                Vigenc {getSortIndicator('expiration')}
                             </th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('verified')}
                             >
-                                ST
+                                ST {getSortIndicator('verified')}
                             </th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('pdfAnalizados')}
                             >
-                                S
+                                S {getSortIndicator('pdfAnalizados')}
                             </th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('calculosRealizados')}
                             >
-                                C
+                                C {getSortIndicator('calculosRealizados')}
                             </th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('reportesGenerados')}
                             >
-                                R
+                                R {getSortIndicator('reportesGenerados')}
                             </th>
                             <th
-                                className="py-3 px-4 text-left cursor-pointer"
+                                className="py-3 px-4 text-left cursor-pointer whitespace-nowrap"
                                 style={{ width: '5%' }}
                                 onClick={() => handleSort('aforesConsultadas')}
                             >
-                                A
+                                A {getSortIndicator('aforesConsultadas')}
                             </th>
                             <th className="py-3 px-4 text-left" style={{ width: '5%' }}>Acción</th>
                         </tr>
@@ -178,7 +183,12 @@ const UserList = ({ users, onUserUpdated, onUserAdded, handleNotification }) => 
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{user.email}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.created)}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.lastLogin)}</td>
-                                <td className="py-3 px-4 text-left whitespace-nowrap">{user.city}</td>
+                                <td
+                                    className="py-3 px-4 text-left whitespace-nowrap overflow-hidden text-ellipsis max-w-40"
+                                    title={user.city}
+                                >
+                                    {user.city}
+                                </td>
                                 <td className='py-3 px-4 text-left whitespace-nowrap'>{subscriptionNormalize(user.subscription)}</td>
                                 <td className="py-3 px-4 text-left whitespace-nowrap">{formatDate(user.expiration)}</td>
                                 <td className="py-3 px-4 text-center">{user.verified ? '✅' : ''}</td>

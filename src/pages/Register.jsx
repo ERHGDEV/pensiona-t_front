@@ -55,23 +55,22 @@ const Register = () => {
             setTimeout(() => {
                 if (response.data.success) {
                     setStatusMessage("Usuario registrado exitosamente, revisa tu bandeja de entrada")
+                    setShowForm(false)
                 } else {
-                    setStatusMessage(response.data.message || "Error al registrar usuario")
+                    showNotification(response.data.message || "Error al registrar usuario", "error")
                 }
                 setIsSubmitting(false)
-                setShowForm(false)
             }, 3000)
         } catch (error) {
             setTimeout(() => {
                 if (error.response && error.response.status === 400) {
-                    setStatusMessage(error.response.data.message || "Error al registrar usuario")
+                    showNotification(error.response.data.message || "Error al registrar usuario", "error")
                 } else if (error.response && error.response.status === 429) {
-                    setStatusMessage('Demasiados intentos, regresa más tarde')
+                    showNotification('Demasiados intentos, regresa más tarde', "error")
                 } else {
-                    setStatusMessage("Error en el servidor")
+                    showNotification("Error en el servidor", "error")
                 }
                 setIsSubmitting(false)
-                setShowForm(false)
             }, 3000)
         }
     }
