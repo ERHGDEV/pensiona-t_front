@@ -95,7 +95,6 @@ const Verify = () => {
           </div>
         </motion.div>
       </main>
-      <Footer variant="fixed"/>
     </div>
   )
 }
