@@ -12,7 +12,8 @@ const UserForm = ({ user, onClose, onUserAdded, onUserUpdated, handleNotificatio
         password: '',
         expiration: format(new Date(), 'yyyy-MM-dd'),
         role: 'user',
-        status: 'active'
+        status: 'active',
+        subscription: 'free'
     })
 
     useEffect(() => {
@@ -22,7 +23,8 @@ const UserForm = ({ user, onClose, onUserAdded, onUserUpdated, handleNotificatio
                 email: user.email,
                 expiration: format(parseISO(user.expiration), 'yyyy-MM-dd'),
                 role: user.role,
-                status: user.status
+                status: user.status,
+                subscription: user.subscription
             })
         }
     }, [user])
@@ -178,6 +180,23 @@ const UserForm = ({ user, onClose, onUserAdded, onUserUpdated, handleNotificatio
                             <option value="admin">Administrador</option>
                         </select>
                     </div>
+
+                    {isEditing && (
+                        <div>
+                            <label htmlFor="subscription" className="block text-sm font-medium text-gray-700">Plan</label>
+                            <select
+                                id="subscription"
+                                name="subscription"
+                                value={formData.subscription}
+                                onChange={handleChange}
+                                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md text-gray-800"
+                            >
+                                <option value="free">Free</option>
+                                <option value="pro">Pro</option>
+                                <option value="unlimited">Unlimited</option>
+                            </select>
+                        </div>
+                    )}
 
                     {isEditing && (
                         <div>
